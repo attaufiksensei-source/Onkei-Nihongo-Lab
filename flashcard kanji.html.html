@@ -1,0 +1,3898 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flashcard Kanji Minna no Nihongo (Bab 1–50)</title>
+  <style>
+    :root {
+      --bg-paper: #f6f5f0;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-light: #64748b;
+      --border-color: #e2e8f0;
+      --indigo: #4f46e5;
+      --indigo-dark: #3730a3;
+      --indigo-soft: #eef2ff;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --crimson: #e11d48;
+      --crimson-soft: #ffe4e6;
+      --emerald: #059669;
+      --emerald-soft: #d1fae5;
+      --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 12px 28px -6px rgba(15, 23, 42, 0.1), 0 4px 10px -4px rgba(15, 23, 42, 0.05);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-jp: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-paper);
+      background-image: radial-gradient(#dcd9ce 0.8px, transparent 0.8px);
+      background-size: 22px 22px;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, select, input {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      transition: transform 0.12s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(246, 245, 240, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--text-main);
+      color: #fff;
+      font-family: var(--font-jp);
+      font-weight: 800;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-title span {
+      color: var(--indigo);
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .mastery-box {
+      min-width: 200px;
+      flex: 1;
+      max-width: 280px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 8px 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mastery-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .mastery-track {
+      width: 100%;
+      height: 7px;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .mastery-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--emerald);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    /* Main Layout */
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Chapter Nav Row */
+    .chapter-nav {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-nav-bab {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .btn-nav-bab:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+
+    .chapter-select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1.5px solid #cbd5e1;
+      background: #fff;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .chapter-select:focus {
+      border-color: var(--indigo);
+    }
+
+    /* Auto Session & Settings Row */
+    .auto-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .toggle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .toggle-pill.active-emerald {
+      background: var(--emerald-soft);
+      border-color: #6ee7b7;
+      color: #065f46;
+    }
+
+    .toggle-pill.active-indigo {
+      background: var(--indigo-soft);
+      border-color: #c7d2fe;
+      color: var(--indigo-dark);
+    }
+
+    .toggle-pill input {
+      accent-color: var(--emerald);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .setting-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .setting-item label {
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .setting-item select {
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    /* Filter & Utility Row */
+    .utility-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .filter-group {
+      display: inline-flex;
+      background: var(--bg-subtle);
+      padding: 3px;
+      border-radius: 11px;
+      border: 1px solid var(--border-color);
+    }
+
+    .filter-btn {
+      padding: 6px 11px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .filter-btn.active {
+      background: #fff;
+      color: var(--indigo);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .action-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .chip-btn {
+      padding: 6px 11px;
+      border-radius: 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .chip-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .phase-pill {
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: var(--indigo-soft);
+      color: var(--indigo-dark);
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    /* Card Status Bar */
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 0 2px;
+    }
+
+    .badges-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge {
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge-dark {
+      background: var(--text-main);
+      color: #fff;
+    }
+
+    .badge-white {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+    }
+
+    .badge-mastered {
+      background: var(--emerald-soft);
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* 3D Flashcard Stage */
+    .stage-wrapper {
+      perspective: 1400px;
+      width: 100%;
+      height: 390px;
+      user-select: none;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flashcard-inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 31px,
+        #f8fafc 32px
+      );
+    }
+
+    .timer-track {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-subtle);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .timer-fill {
+      height: 100%;
+      width: 100%;
+      background: var(--indigo);
+      transition: background-color 0.25s ease;
+    }
+
+    .timer-fill.amber {
+      background: var(--amber);
+    }
+
+    .timer-fill.crimson {
+      background: var(--crimson);
+    }
+
+    .timer-fill.emerald {
+      background: var(--emerald);
+    }
+
+    .card-top-row {
+      padding: 14px 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .face-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .face-label.back-lbl {
+      color: var(--indigo);
+    }
+
+    .countdown-pill {
+      padding: 5px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      background: var(--indigo-soft);
+      color: var(--indigo-dark);
+      border: 1px solid #c7d2fe;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .countdown-pill.amber {
+      background: var(--amber-soft);
+      color: #92400e;
+      border-color: #fcd34d;
+    }
+
+    .countdown-pill.crimson {
+      background: var(--crimson-soft);
+      color: #9f1239;
+      border-color: #fda4af;
+      animation: pulseUrgent 0.75s infinite;
+    }
+
+    .countdown-pill.emerald {
+      background: var(--emerald-soft);
+      color: #065f46;
+      border-color: #6ee7b7;
+    }
+
+    @keyframes pulseUrgent {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .card-center {
+      flex: 1;
+      padding: 12px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow-y: auto;
+    }
+
+    .kanji-front-text {
+      font-family: var(--font-jp);
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      word-break: keep-all;
+    }
+
+    .size-xl { font-size: clamp(54px, 11vw, 88px); }
+    .size-lg { font-size: clamp(42px, 9vw, 68px); }
+    .size-md { font-size: clamp(32px, 7vw, 50px); }
+    .size-sm { font-size: clamp(24px, 5.5vw, 38px); }
+    .size-xs { font-size: clamp(20px, 4.5vw, 30px); }
+
+    .back-hiragana {
+      font-family: var(--font-jp);
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 700;
+      color: var(--indigo);
+    }
+
+    .back-romaji {
+      font-size: 14px;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+
+    .back-kanji {
+      font-family: var(--font-jp);
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .divider {
+      width: 56px;
+      height: 3px;
+      border-radius: 999px;
+      background: var(--border-color);
+      margin-bottom: 12px;
+    }
+
+    .back-arti {
+      font-size: clamp(16px, 3.6vw, 21px);
+      font-weight: 700;
+      color: #1e293b;
+      max-width: 560px;
+    }
+
+    .card-bottom-row {
+      padding: 12px 20px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .card-back-footer {
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.95);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .mastery-actions {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .btn-mark {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-mastered {
+      background: var(--emerald-soft);
+      color: #065f46;
+      border: 1px solid #6ee7b7;
+    }
+
+    .btn-mastered.selected, .btn-mastered:hover {
+      background: var(--emerald);
+      color: #fff;
+      border-color: var(--emerald);
+    }
+
+    .btn-unmastered {
+      background: var(--crimson-soft);
+      color: #9f1239;
+      border: 1px solid #fda4af;
+    }
+
+    .btn-unmastered:hover {
+      background: var(--crimson);
+      color: #fff;
+      border-color: var(--crimson);
+    }
+
+    /* Overlay Cards (Transition, Stop Summary, Empty Filter) */
+    .overlay-card {
+      width: 100%;
+      min-height: 390px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 24px;
+      box-shadow: var(--shadow-md);
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .overlay-card.emerald-border {
+      border-color: #6ee7b7;
+    }
+
+    .overlay-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: var(--indigo-soft);
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .overlay-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .overlay-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 440px;
+    }
+
+    .overlay-progress {
+      width: 100%;
+      max-width: 280px;
+      height: 9px;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 4px 0;
+    }
+
+    .overlay-progress-fill {
+      height: 100%;
+      width: 100%;
+      background: var(--emerald);
+    }
+
+    .overlay-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    .btn-primary {
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: var(--indigo);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: var(--indigo-dark);
+    }
+
+    .btn-emerald {
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: var(--emerald);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .btn-secondary {
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    /* Main Study Controls Grid */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .ctrl-btn {
+      padding: 12px 10px;
+      border-radius: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .ctrl-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .ctrl-btn.dark {
+      background: var(--text-main);
+      color: #fff;
+      border-color: var(--text-main);
+    }
+
+    .ctrl-btn.indigo {
+      background: var(--indigo);
+      color: #fff;
+      border-color: var(--indigo);
+    }
+
+    .ctrl-btn.paused-state {
+      background: var(--amber-soft);
+      border-color: #fcd34d;
+      color: #92400e;
+    }
+
+    /* Vocabulary List Section */
+    .vocab-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .vocab-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-color);
+      background: #fafaf9;
+    }
+
+    .vocab-header-left h2 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .vocab-header-left p {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .vocab-list {
+      max-height: 440px;
+      overflow-y: auto;
+    }
+
+    .vocab-item {
+      width: 100%;
+      padding: 11px 18px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .vocab-item:last-child {
+      border-bottom: none;
+    }
+
+    .vocab-item:hover {
+      background: #f8fafc;
+    }
+
+    .vocab-item.active-card {
+      background: var(--indigo-soft);
+    }
+
+    .vocab-item-left {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .vocab-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-light);
+      min-width: 24px;
+    }
+
+    .vocab-details {
+      min-width: 0;
+    }
+
+    .vocab-jp-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .vocab-kanji {
+      font-family: var(--font-jp);
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .vocab-hira {
+      font-family: var(--font-jp);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--indigo);
+    }
+
+    .vocab-romaji {
+      font-size: 12px;
+      font-style: italic;
+      color: var(--text-light);
+    }
+
+    .vocab-bab-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+    }
+
+    .vocab-arti {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .vocab-status-tag {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      color: var(--text-light);
+    }
+
+    .vocab-status-tag.done {
+      background: var(--emerald-soft);
+      color: #065f46;
+    }
+
+    /* Toast & Fatal Error Banner */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-main);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 60;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .error-banner {
+      background: #fee2e2;
+      border: 1px solid #f87171;
+      color: #991b1b;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+      .controls-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .btn-nav-bab span.hide-sm {
+        display: none;
+      }
+      .stage-wrapper {
+        height: 360px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">漢</div>
+        <div>
+          <h1 class="brand-title">Flashcard Kanji <span>Minna no Nihongo</span></h1>
+          <p class="brand-sub">Bab 1 – 50 • Buka Otomatis 15d &amp; Lanjut Sesi Otomatis</p>
+        </div>
+      </div>
+
+      <div class="mastery-box">
+        <div class="mastery-top">
+          <span id="masteredSummaryText">Hafal Bab 1: 0 / 0 (0%)</span>
+          <span id="totalGlobalText">Total: 0 Kanji</span>
+        </div>
+        <div class="mastery-track">
+          <div id="masteredSummaryBar" class="mastery-fill"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div id="fatalErrorBox" class="error-banner hidden"></div>
+
+    <!-- Control & Settings Panel -->
+    <section class="panel" aria-label="Pengaturan Bab dan Sesi Otomatis">
+      <!-- Row 1: Chapter Selector -->
+      <div class="chapter-nav">
+        <button id="prevBabBtn" type="button" class="btn-nav-bab">◀ <span class="hide-sm">Bab Sebelumnya</span></button>
+        <select id="chapterSelect" class="chapter-select" aria-label="Pilih Bab Minna no Nihongo"></select>
+        <button id="nextBabBtn" type="button" class="btn-nav-bab"><span class="hide-sm">Bab Berikutnya</span> ▶</button>
+      </div>
+
+      <!-- Row 2: Auto-Continue & Auto-Speech Toggles -->
+      <div class="auto-row">
+        <label id="autoContinuePill" class="toggle-pill active-emerald">
+          <input id="autoContinueToggle" type="checkbox" checked />
+          <span id="autoContinueLabel">🔄 Lanjutkan Sesi Otomatis: AKTIF</span>
+        </label>
+
+        <label id="autoSpeakPill" class="toggle-pill active-indigo">
+          <input id="autoSpeakToggle" type="checkbox" checked />
+          <span id="autoSpeakLabel">🔊 Auto-Suara Jepang: AKTIF</span>
+        </label>
+      </div>
+
+      <!-- Row 3: Duration & End-of-Chapter Selectors -->
+      <div class="settings-grid">
+        <div class="setting-item">
+          <label for="frontDurationSelect">⏱ Buka Kartu:</label>
+          <select id="frontDurationSelect">
+            <option value="5">5 detik</option>
+            <option value="10">10 detik</option>
+            <option value="15" selected>15 detik</option>
+            <option value="20">20 detik</option>
+            <option value="30">30 detik</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="backDurationSelect">📖 Baca Jawaban:</label>
+          <select id="backDurationSelect">
+            <option value="3">3 detik</option>
+            <option value="5" selected>5 detik</option>
+            <option value="8">8 detik</option>
+            <option value="10">10 detik</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="endChapterModeSelect">🏁 Akhir Bab:</label>
+          <select id="endChapterModeSelect">
+            <option value="next_chapter" selected>Lanjut Bab Berikutnya</option>
+            <option value="repeat_chapter">Ulangi Bab Ini</option>
+            <option value="stop_chapter">Berhenti</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 4: Filter & Shuffle -->
+      <div class="utility-row">
+        <div class="filter-group" role="group" aria-label="Filter Status Hafalan">
+          <button id="filterAllBtn" type="button" class="filter-btn active">Semua Kartu</button>
+          <button id="filterUnmasteredBtn" type="button" class="filter-btn">Belum Hafal Saja</button>
+        </div>
+
+        <div class="action-chips">
+          <button id="shuffleBtn" type="button" class="chip-btn">🔀 Acak Kartu</button>
+          <button id="resetOrderBtn" type="button" class="chip-btn">↺ Urutkan Awal</button>
+          <span id="sessionPhasePill" class="phase-pill">Fase 1: Tebak Kanji (15d)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Card Status Bar -->
+    <div class="status-bar">
+      <div class="badges-left">
+        <span id="cardCounterBadge" class="badge badge-dark">Kartu 1 / 28</span>
+        <span id="cardBabBadge" class="badge badge-white">Bab 1</span>
+        <span id="cardMasteredBadge" class="badge badge-mastered hidden">✅ Sudah Hafal</span>
+      </div>
+      <button id="resetBabMasteryBtn" type="button" class="chip-btn">Reset Hafalan Bab</button>
+    </div>
+
+    <!-- Flashcard Stage Area -->
+    <section aria-label="Area Kartu Flashcard">
+      <!-- Overlay: Phase 3 End-of-Chapter Transition -->
+      <div id="chapterTransitionCard" class="overlay-card emerald-border hidden">
+        <div class="overlay-icon">🚀</div>
+        <h2 id="transitionTitle" class="overlay-title">Selesai Bab 1!</h2>
+        <p id="transitionDesc" class="overlay-desc">Melanjutkan otomatis ke Bab 2 dalam 3.0 detik...</p>
+        <div class="overlay-progress">
+          <div id="transitionProgressBar" class="overlay-progress-fill"></div>
+        </div>
+        <div class="overlay-btns">
+          <button id="jumpNextNowBtn" type="button" class="btn-emerald">Lanjut Sekarang ▶</button>
+          <button id="stayChapterBtn" type="button" class="btn-secondary">Ulangi Bab Ini</button>
+        </div>
+      </div>
+
+      <!-- Overlay: Stop at End of Chapter Summary -->
+      <div id="chapterStopCard" class="overlay-card hidden">
+        <div class="overlay-icon">🏁</div>
+        <h2 id="stopSummaryTitle" class="overlay-title">Sesi Bab 1 Selesai!</h2>
+        <p id="stopSummaryDesc" class="overlay-desc">Anda telah menyelesaikan seluruh kartu pada bab ini.</p>
+        <div class="overlay-btns">
+          <button id="stopRepeatBtn" type="button" class="btn-secondary">🔁 Ulangi Bab Ini</button>
+          <button id="stopNextBtn" type="button" class="btn-primary">Lanjut Bab Berikutnya ▶</button>
+        </div>
+      </div>
+
+      <!-- Overlay: Empty Unmastered Filter -->
+      <div id="emptyFilterCard" class="overlay-card hidden">
+        <div class="overlay-icon">🎉</div>
+        <h2 class="overlay-title">Semua Kanji di Pilihan Ini Sudah Hafal!</h2>
+        <p class="overlay-desc">Selamat! Tidak ada kartu yang tersisa pada filter "Belum Hafal Saja".</p>
+        <div class="overlay-btns">
+          <button id="showAllCardsBtn" type="button" class="btn-primary">Tampilkan Semua Kartu</button>
+          <button id="resetFromEmptyBtn" type="button" class="btn-secondary">Reset Hafalan Bab Ini</button>
+        </div>
+      </div>
+
+      <!-- Active 3D Flashcard -->
+      <div id="cardStageWrapper" class="stage-wrapper">
+        <div id="flashcardInner" class="flashcard-inner" role="button" tabindex="0" aria-label="Klik untuk membalik kartu">
+          <!-- FRONT FACE -->
+          <div class="card-face card-front">
+            <div class="timer-track">
+              <div id="frontProgressBar" class="timer-fill"></div>
+            </div>
+
+            <div class="card-top-row">
+              <span class="face-label">Depan • Tebak Bacaan &amp; Arti</span>
+              <div id="frontCountdownBadge" class="countdown-pill">15.0d</div>
+            </div>
+
+            <div class="card-center">
+              <div id="frontKanji" class="kanji-front-text size-xl">私</div>
+            </div>
+
+            <div class="card-bottom-row">
+              <span id="frontHintText">Terbuka otomatis dalam 15.0 detik...</span>
+              <span style="color: var(--indigo);">Klik kartu untuk balik ↻</span>
+            </div>
+          </div>
+
+          <!-- BACK FACE -->
+          <div class="card-face card-back">
+            <div class="timer-track">
+              <div id="backProgressBar" class="timer-fill emerald"></div>
+            </div>
+
+            <div class="card-top-row">
+              <span class="face-label back-lbl">Jawaban • Hiragana, Romaji &amp; Arti</span>
+              <div id="backCountdownBadge" class="countdown-pill emerald">Lanjut 5.0d...</div>
+            </div>
+
+            <div class="card-center">
+              <div id="backHiragana" class="back-hiragana">わたし</div>
+              <div id="backRomaji" class="back-romaji">watashi</div>
+              <div id="backKanji" class="back-kanji">私</div>
+              <div class="divider"></div>
+              <div id="backArti" class="back-arti">Saya</div>
+            </div>
+
+            <div class="card-back-footer">
+              <div class="mastery-actions">
+                <button id="markMasteredBtn" type="button" class="btn-mark btn-mastered">✅ Sudah Hafal</button>
+                <button id="markUnmasteredBtn" type="button" class="btn-mark btn-unmastered">🔁 Belum Hafal</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Primary Study Control Buttons -->
+    <section class="controls-grid" aria-label="Kontrol Navigasi Kartu">
+      <button id="prevCardBtn" type="button" class="ctrl-btn">⏮ Kartu Sebelumnya</button>
+      <button id="pauseResumeBtn" type="button" class="ctrl-btn">⏸ Jeda</button>
+      <button id="restart15Btn" type="button" class="ctrl-btn">🔄 Ulangi 15d</button>
+      <button id="speakBtn" type="button" class="ctrl-btn">🔊 Suara Jepang</button>
+      <button id="flipManualBtn" type="button" class="ctrl-btn dark">↻ Balik Kartu</button>
+      <button id="nextCardBtn" type="button" class="ctrl-btn indigo">⏭ Kartu Berikutnya</button>
+    </section>
+
+    <!-- Bottom Full Chapter Kanji Vocabulary List -->
+    <section class="vocab-section" aria-label="Daftar Kosakata Kanji Bab Aktif">
+      <div class="vocab-header">
+        <div class="vocab-header-left">
+          <h2 id="vocabSectionTitle">Daftar Kosakata Kanji Bab 1</h2>
+          <p>Klik kosakata mana saja untuk langsung melompat ke kartu tersebut</p>
+        </div>
+        <span id="vocabCountPill" class="badge badge-white">28 kata</span>
+      </div>
+      <div id="vocabListContainer" class="vocab-list"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // =========================================================================
+      // 1. SAFE STORAGE HELPER (Anti-SecurityError in Sandboxed Iframes)
+      // =========================================================================
+      const memoryStore = {};
+      const safeStorage = {
+        getItem: function (key) {
+          try {
+            if (typeof window !== "undefined" && window.localStorage) {
+              return window.localStorage.getItem(key);
+            }
+          } catch (err) {
+            // Fallback to in-memory storage
+          }
+          return Object.prototype.hasOwnProperty.call(memoryStore, key) ? memoryStore[key] : null;
+        },
+        setItem: function (key, value) {
+          memoryStore[key] = String(value);
+          try {
+            if (typeof window !== "undefined" && window.localStorage) {
+              window.localStorage.setItem(key, String(value));
+            }
+          } catch (err) {
+            // Ignore storage quota/security errors in sandboxed iframes
+          }
+        }
+      };
+
+      // =========================================================================
+      // 2. COMPLETE KANJI VOCABULARY DATASET (BAB 1 - BAB 50)
+      // Format per line: Kanji|Hiragana|Romaji|Arti
+      // =========================================================================
+      const CHAPTER_DATA = {
+        1: `私|わたし|watashi|Saya
+私たち|わたしたち|watashitachi|Kami, kita
+あの人|あのひと|ano hito|Orang itu
+あの方|あのかた|ano kata|Beliau (sopan dari あの人)
+皆さん|みなさん|minasan|Saudara-saudara, Anda sekalian
+～君|～くん|~kun|Panggilan akrab untuk anak laki-laki
+～人|～じん|~jin|Orang ~ (kewarganegaraan)
+先生|せんせい|sensei|Guru, dosen
+教師|きょうし|kyōshi|Guru, pengajar (profesi)
+学生|がくせい|gakusei|Mahasiswa, pelajar
+会社員|かいしゃいん|kaishain|Pegawai perusahaan
+社員|しゃいん|shain|Karyawan perusahaan ~
+銀行員|ぎんこういん|ginkōin|Pegawai bank
+医者|いしゃ|isha|Dokter
+研究者|けんきゅうしゃ|kenkyūsha|Peneliti
+大学|だいがく|daigaku|Universitas
+病院|びょういん|byōin|Rumah sakit
+電気|でんき|denki|Listrik, lampu
+～歳|～さい|~sai|Umur ~ tahun
+何歳|なんさい|nansai|Umur berapa
+失礼ですが|しつれいですが|shitsurei desu ga|Permisi, maaf (saat bertanya hal pribadi)
+お名前は？|おなまえは？|onamae wa?|Siapa nama Anda?
+初めまして|はじめまして|hajimemashite|Perkenalkan (salam pertama bertemu)
+お願いします|おねがいします|onegaishimasu|Mohon bantuannya / silakan
+～から来ました|～からきました|~kara kimashita|Datang/berasal dari ~
+韓国|かんこく|Kankoku|Korea Selatan
+中国|ちゅうごく|Chūgoku|Tiongkok
+日本|にほん|Nihon|Jepang`,
+
+        2: `本|ほん|hon|Buku
+辞書|じしょ|jisho|Kamus
+雑誌|ざっし|zasshi|Majalah
+新聞|しんぶん|shinbun|Koran, surat kabar
+手帳|てちょう|techō|Buku agenda/catatan saku
+名刺|めいし|meishi|Kartu nama
+鉛筆|えんぴつ|enpitsu|Pensil
+時計|とけい|tokei|Jam, arloji
+傘|かさ|kasa|Payung
+自動車|じどうしゃ|jidōsha|Mobil
+机|つくえ|tsukue|Meja tulis
+英語|えいご|eigo|Bahasa Inggris
+日本語|にほんご|nihongo|Bahasa Jepang
+～語|～ご|~go|Bahasa ~
+何|なん|nan|Apa
+違います|ちがいます|chigaimasu|Bukan, salah, berbeda
+ほんの気持ちです|ほんのきもちです|hon no kimochi desu|Ini hanya tanda mata/sedikit dari saya
+これからお世話になります|これからおせわになります|kore kara osewa ni narimasu|Mulai sekarang saya mohon bantuannya`,
+
+        3: `教室|きょうしつ|kyōshitsu|Ruang kelas
+食堂|しょくどう|shokudō|Kantin, ruang makan
+事務所|じむしょ|jimusho|Kantor
+会議室|かいぎしつ|kaigishitsu|Ruang rapat
+受付|うけつけ|uketsuke|Meja resepsionis
+部屋|へや|heya|Kamar
+お手洗い|おてあらい|otearai|Toilet, kamar kecil
+階段|かいだん|kaidan|Tangga
+［お］国|［お］くに|[o]kuni|Negara
+会社|かいしゃ|kaisha|Perusahaan
+電話|でんわ|denwa|Telepon
+靴|くつ|kutsu|Sepatu
+売り場|うりば|uriba|Tempat penjualan, konter
+地下|ちか|chika|Bawah tanah, basement
+～階|～かい / ～がい|~kai / ~gai|Lantai ~
+何階|なんがい|nangai|Lantai berapa
+～円|～えん|~en|~ yen
+百|ひゃく|hyaku|Seratus
+千|せん|sen|Seribu
+万|まん|man|Sepuluh ribu
+［～を］見せてください|［～を］みせてください|[~o] misete kudasai|Tolong perlihatkan [~]`,
+
+        4: `起きます|おきます|okimasu|Bangun tidur
+寝ます|ねます|nemasu|Tidur
+働きます|はたらきます|hatarakimasu|Bekerja
+休みます|やすみます|yasumimasu|Beristirahat, libur
+勉強します|べんきょうします|benkyō shimasu|Belajar
+終わります|おわります|owarimasu|Selesai
+銀行|ぎんこう|ginkō|Bank
+郵便局|ゆうびんきょく|yūbinkyoku|Kantor pos
+図書館|としょかん|toshokan|Perpustakaan
+美術館|びじゅつかん|bijutsukan|Gedung kesenian, museum seni
+今|いま|ima|Sekarang
+～時|～じ|~ji|Jam ~, pukul ~
+～分|～ふん / ～ぷん|~fun / ~pun|~ menit
+半|はん|han|Setengah (30 menit)
+何時|なんじ|nanji|Jam berapa
+何分|なんぷん|nanpun|Berapa menit
+午前|ごぜん|gozen|Pagi (AM, 00.00–12.00)
+午後|ごご|gogo|Siang/sore/malam (PM, 12.00–24.00)
+朝|あさ|asa|Pagi
+昼|ひる|hiru|Siang
+晩・夜|ばん・よる|ban / yoru|Malam
+今晩|こんばん|konban|Malam ini
+休み|やすみ|yasumi|Istirahat, libur, cuti
+昼休み|ひるやすみ|hiruyasumi|Istirahat siang
+毎朝|まいあさ|maiasa|Setiap pagi
+毎晩|まいばん|maiban|Setiap malam
+毎日|まいにち|mainichi|Setiap hari
+月曜日|げつようび|getsuyōbi|Hari Senin
+火曜日|かようび|kayōbi|Hari Selasa
+水曜日|すいようび|suiyōbi|Hari Rabu
+木曜日|もくようび|mokuyōbi|Hari Kamis
+金曜日|きんようび|kin'yōbi|Hari Jumat
+土曜日|どようび|doyōbi|Hari Sabtu
+日曜日|にちようび|nichiyōbi|Hari Minggu
+何曜日|なんようび|nan'yōbi|Hari apa
+番号|ばんごう|bangō|Nomor
+何番|なんばん|nanban|Nomor berapa
+大変ですね|たいへんですね|taihen desu ne|Berat ya / repot ya
+お願いします|おねがいします|onegaishimasu|Minta tolong
+お問い合わせの番号|おといあわせのばんごう|otoiawase no bangō|Nomor yang Anda tanyakan`,
+
+        5: `行きます|いきます|ikimasu|Pergi
+来ます|きます|kimasu|Datang
+帰ります|かえります|kaerimasu|Pulang
+学校|がっこう|gakkō|Sekolah
+駅|えき|eki|Stasiun
+飛行機|ひこうき|hikōki|Pesawat terbang
+船|ふね|fune|Kapal laut
+電車|でんしゃ|densha|Kereta listrik
+地下鉄|ちかてつ|chikatetsu|Kereta bawah tanah (subway)
+新幹線|しんかんせん|shinkansen|Kereta peluru (Shinkansen)
+自転車|じてんしゃ|jitensha|Sepeda
+歩いて|あるいて|aruite|Jalan kaki
+人|ひと|hito|Orang
+友達|ともだち|tomodachi|Teman
+彼|かれ|kare|Dia (laki-laki), pacar (laki-laki)
+彼女|かのじょ|kanojo|Dia (perempuan), pacar (perempuan)
+家族|かぞく|kazoku|Keluarga
+一人で|ひとりで|hitori de|Sendirian
+先週|せんしゅう|senshū|Minggu lalu
+今週|こんしゅう|konshū|Minggu ini
+来週|らいしゅう|raishū|Minggu depan
+先月|せんげつ|sengetsu|Bulan lalu
+今月|こんげつ|kongetsu|Bulan ini
+来月|らいげつ|raigetsu|Bulan depan
+去年|きょねん|kyonen|Tahun lalu
+今年|ことし|kotoshi|Tahun ini
+来年|らいねん|rainen|Tahun depan
+～月|～がつ|~gatsu|Bulan ~
+何月|なんがつ|nangatsu|Bulan apa
+一日|ついたち|tsuitachi|Tanggal 1
+二日|ふつか|futsuka|Tanggal 2 / 2 hari
+三日|みっか|mikka|Tanggal 3 / 3 hari
+四日|よっか|yokka|Tanggal 4 / 4 hari
+五日|いつか|itsuka|Tanggal 5 / 5 hari
+六日|むいか|muika|Tanggal 6 / 6 hari
+七日|なのか|nanoka|Tanggal 7 / 7 hari
+八日|ようか|yōka|Tanggal 8 / 8 hari
+九日|ここのか|kokonoka|Tanggal 9 / 9 hari
+十日|とおか|tōka|Tanggal 10 / 10 hari
+十四日|じゅうよっか|jūyokka|Tanggal 14 / 14 hari
+二十日|はつか|hatsuka|Tanggal 20 / 20 hari
+二十四日|にじゅうよっか|nijūyokka|Tanggal 24 / 24 hari
+～日|～にち|~nichi|Tanggal ~ / ~ hari
+何日|なんにち|nannichi|Tanggal berapa / berapa hari
+誕生日|たんじょうび|tanjōbi|Hari ulang tahun
+普通|ふつう|futsū|Kereta biasa
+急行|きゅうこう|kyūkō|Kereta ekspres
+特急|とっきゅう|tokkyū|Kereta ekspres terbatas
+次の|つぎの|tsugi no|Berikutnya, selanjutnya
+～番線|～ばんせん|~bansen|Peron nomor ~`,
+
+        6: `食べます|たべます|tabemasu|Makan
+飲みます|のみます|nomimasu|Minum
+吸います|すいます|suimasu|Menghisap [merokok]
+見ます|みます|mimasu|Melihat, menonton
+聞きます|ききます|kikimasu|Mendengar, mendengarkan
+読みます|よみます|yomimasu|Membaca
+書きます|かきます|kakimasu|Menulis, menggambar
+買います|かいます|kaimasu|Membeli
+撮ります［写真を～］|とります［しゃしんを～］|torimasu [shashin o ~]|Mengambil [memotret]
+会います［友達に～］|あいます［ともだちに～］|aimasu [tomodachi ni ~]|Bertemu [dengan teman]
+朝ごはん|あさごはん|asagohan|Sarapan, makan pagi
+昼ごはん|ひるごはん|hirugohan|Makan siang
+晩ごはん|ばんごはん|bangohan|Makan malam
+卵|たまご|tamago|Telur
+肉|にく|niku|Daging
+魚|さかな|sakana|Ikan
+野菜|やさい|yasai|Sayuran
+果物|くだもの|kudamono|Buah-buahan
+水|みず|mizu|Air
+お茶|おちゃ|ocha|Teh, teh hijau
+紅茶|こうちゃ|kōcha|Teh hitam
+牛乳|ぎゅうにゅう|gyūnyū|Susu sapi
+［お］酒|［お］さけ|[o]sake|Minuman keras, sake
+映画|えいが|eiga|Film
+手紙|てがみ|tegami|Surat
+写真|しゃしん|shashin|Foto
+店|みせ|mise|Toko, kedai
+庭|にわ|niwa|Halaman, kebun
+宿題|しゅくだい|shukudai|Pekerjaan rumah (PR)
+［お］花見|［お］はなみ|[o]hanami|Melihat bunga sakura (hanami)
+何|なに|nani|Apa
+一緒に|いっしょに|issho ni|Bersama-sama
+時々|ときどき|tokidoki|Kadang-kadang
+分かりました|わかりました|wakarimashita|Mengerti, baiklah
+何ですか|なんですか|nan desu ka|Ada apa?, ya?`,
+
+        7: `切ります|きります|kirimasu|Memotong, menggunting
+送ります|おくります|okurimasu|Mengirim
+貸します|かします|kashimasu|Meminjamkan, menyewakan
+借ります|かります|karimasu|Meminjam, menyewa
+教えます|おしえます|oshiemasu|Mengajar, memberi tahu
+習います|ならいます|naraimasu|Belajar (dari seseorang)
+かけます［電話を～］|かけます［でんわを～］|kakemasu [denwa o ~]|Menelepon
+手|て|te|Tangan
+消しゴム|けしゴム|keshigomu|Penghapus karet
+紙|かみ|kami|Kertas
+花|はな|hana|Bunga
+荷物|にもつ|nimotsu|Barang bawaan, paket
+お金|おかね|okane|Uang
+切符|きっぷ|kippu|Karcis, tiket
+父|ちち|chichi|Ayah (saya)
+母|はは|haha|Ibu (saya)
+お父さん|おとうさん|otōsan|Ayah (orang lain / panggilan)
+お母さん|おかあさん|okāsan|Ibu (orang lain / panggilan)
+どうぞお上がりください|どうぞおあがりください|dōzo oagari kudasai|Silakan masuk
+失礼します|しつれいします|shitsurei shimasu|Permisi (saat masuk/pulang)
+旅行|りょこう|ryokō|Wisata, perjalanan
+お土産|おみやげ|omiyage|Oleh-oleh, buah tangan`,
+
+        8: `静か［な］|しずか［な］|shizuka [na]|Tenang, sunyi, sepi
+有名［な］|ゆうめい［な］|yūmei [na]|Terkenal
+親切［な］|しんせつ［な］|shinsetsu [na]|Baik hati, ramah
+元気［な］|げんき［な］|genki [na]|Sehat, bersemangat
+暇［な］|ひま［な］|hima [na]|Senggang, luang
+便利［な］|べんり［な］|benri [na]|Praktis, berguna
+大きい|おおきい|ōkii|Besar
+小さい|ちいさい|chiisai|Kecil
+新しい|あたらしい|atarashii|Baru
+古い|ふるい|furui|Lama, tua, kuno (benda)
+悪い|わるい|warui|Buruk, jelek
+暑い・熱い|あつい|atsui|Panas (cuaca / benda)
+寒い|さむい|samui|Dingin (cuaca)
+冷たい|つめたい|tsumetai|Dingin (benda / minuman)
+難しい|むずかしい|muzukashii|Sulit, susah
+易しい|やさしい|yasashii|Mudah, gampang
+高い|たかい|takai|Mahal, tinggi
+安い|やすい|yasui|Murah
+低い|ひくい|hikui|Rendah
+忙しい|いそがしい|isogashii|Sibuk
+楽しい|たのしい|tanoshii|Menyenangkan, gembira
+白い|しろい|shiroi|Putih
+黒い|くろい|kuroi|Hitam
+赤い|あかい|akai|Merah
+青い|あおい|aoi|Biru
+桜|さくら|sakura|Bunga sakura
+山|やま|yama|Gunung
+町|まち|machi|Kota
+食べ物|たべもの|tabemono|Makanan
+車|くるま|kuruma|Mobil
+所|ところ|tokoro|Tempat
+寮|りょう|ryō|Asrama
+勉強|べんきょう|benkyō|Pelajaran, belajar
+生活|せいかつ|seikatsu|Kehidupan, penghidupan
+［お］仕事|［お］しごと|[o]shigoto|Pekerjaan
+お元気ですか|おげんきですか|ogenki desu ka|Apa kabar?
+日本の生活に慣れましたか|にほんのせいかつになれましたか|nihon no seikatsu ni naremashita ka|Apakah sudah terbiasa dengan kehidupan di Jepang?
+もう一杯いかがですか|もういっぱいいかがですか|mō ippai ikaga desu ka|Bagaimana kalau tambah satu cangkir lagi?
+そろそろ失礼します|そろそろしつれいします|sorosoro shitsurei shimasu|Permisi, saya harus segera pamit`,
+
+        9: `分かります|わかります|wakarimasu|Mengerti, paham
+好き［な］|すき［な］|suki [na]|Suka, gemar
+嫌い［な］|きらい［な］|kirai [na]|Benci, tidak suka
+上手［な］|じょうず［な］|jōzu [na]|Pandai, mahir, pintar
+下手［な］|へた［な］|heta [na]|Tidak pandai, kurang mahir
+料理|りょうり|ryōri|Masakan
+飲み物|のみもの|nomimono|Minuman
+野球|やきゅう|yakyū|Bisbol (baseball)
+音楽|おんがく|ongaku|Musik
+歌|うた|uta|Lagu
+歌舞伎|かぶき|kabuki|Kabuki (drama tradisional Jepang)
+絵|え|e|Gambar, lukisan
+字|じ|ji|Huruf
+漢字|かんじ|kanji|Huruf kanji
+ローマ字|ローマじ|rōmaji|Huruf latin (romaji)
+細かいお金|こまかいおかね|komakai okane|Uang receh, uang kecil
+時間|じかん|jikan|Waktu
+用事|ようじ|yōji|Urusan, keperluan
+約束|やくそく|yakusoku|Janji
+ご主人|ごしゅじん|goshujin|Suami (orang lain)
+夫・主人|おっと・しゅじん|otto / shujin|Suami (saya)
+奥さん|おくさん|okusan|Istri (orang lain)
+妻・家内|つま・かない|tsuma / kanai|Istri (saya)
+子ども|こども|kodomo|Anak
+少し|すこし|sukoshi|Sedikit
+全然|ぜんぜん|zenzen|Sama sekali tidak (negatif)
+早く・速く|はやく|hayaku|Dengan cepat, lebih awal
+残念です［ね］|ざんねんです［ね］|zannen desu [ne]|Sayang sekali [ya]
+一緒にいかがですか|いっしょにいかがですか|issho ni ikaga desu ka|Bagaimana kalau bersama-sama?
+また今度お願いします|またこんどおねがいします|mata kondo onegaishimasu|Lain kali saja ya`,
+
+        10: `男の人|おとこのひと|otoko no hito|Orang laki-laki, pria
+女の人|おんなのひと|onna no hito|Orang perempuan, wanita
+男の子|おとこのこ|otoko no ko|Anak laki-laki
+女の子|おんなのこ|onna no ko|Anak perempuan
+犬|いぬ|inu|Anjing
+猫|ねこ|neko|Kucing
+木|き|ki|Pohon, kayu
+物|もの|mono|Barang, benda
+電池|でんち|denchi|Baterai
+箱|はこ|hako|Kotak
+冷蔵庫|れいぞうこ|reizōko|Kulkas, lemari es
+棚|たな|tana|Lemari rak, rak
+窓|まど|mado|Jendela
+公園|こうえん|kōen|Taman
+喫茶店|きっさてん|kissaten|Kedai kopi, kafe
+本屋|ほんや|hon'ya|Toko buku
+～屋|～や|~ya|Toko ~
+乗り場|のりば|noriba|Tempat naik kendaraan
+県|けん|ken|Prefektur, provinsi
+上|うえ|ue|Atas
+下|した|shita|Bawah
+前|まえ|mae|Depan
+後ろ|うしろ|ushiro|Belakang
+右|みぎ|migi|Kanan
+左|ひだり|hidari|Kiri
+中|なか|naka|Dalam
+外|そと|soto|Luar
+隣|となり|tonari|Sebelah, tetangga
+近く|ちかく|chikaku|Dekat
+間|あいだ|aida|Antara
+一番～|いちばん～|ichiban ~|Paling ~
+～段目|～だんめ|~danme|Rak/tingkat ke-~
+奥|おく|oku|Bagian dalam / belakang`,
+
+        11: `います［子どもが～］|います［こどもが～］|imasu [kodomo ga ~]|Ada / mempunyai [anak]
+います［日本に～］|います［にほんに～］|imasu [nihon ni ~]|Berada / tinggal [di Jepang]
+休みます［会社を～］|やすみます［かいしゃを～］|yasumimasu [kaisha o ~]|Tidak masuk kerja / cuti
+一つ|ひとつ|hitotsu|Satu buah (benda umum)
+二つ|ふたつ|futatsu|Dua buah
+三つ|みっつ|mittsu|Tiga buah
+四つ|よっつ|yottsu|Empat buah
+五つ|いつつ|itsutsu|Lima buah
+六つ|むっつ|muttsu|Enam buah
+七つ|ななつ|nanatsu|Tujuh buah
+八つ|やっつ|yattsu|Delapan buah
+九つ|ここのつ|kokonotsu|Sembilan buah
+十|とお|tō|Sepuluh buah
+一人|ひとり|hitori|Satu orang
+二人|ふたり|futari|Dua orang
+～人|～にん|~nin|~ orang
+～台|～だい|~dai|~ unit / buah (mesin, kendaraan)
+～枚|～まい|~mai|~ lembar / helai
+～回|～かい|~kai|~ kali
+切手|きって|kitte|Prangko
+封筒|ふうとう|fūtō|Amplop
+速達|そくたつ|sokutatsu|Pos kilat
+書留|かきとめ|kakitome|Pos tercatat
+航空便|こうくうびん|kōkūbin|Pos udara
+船便|ふなびん|funabin|Pos laut
+両親|りょうしん|ryōshin|Kedua orang tua
+兄弟|きょうだい|kyōdai|Saudara kandung
+兄|あに|ani|Kakak laki-laki (saya)
+お兄さん|おにいさん|oniisan|Kakak laki-laki (orang lain)
+姉|あね|ane|Kakak perempuan (saya)
+お姉さん|おねえさん|onēsan|Kakak perempuan (orang lain)
+弟|おとうと|otōto|Adik laki-laki (saya)
+弟さん|おとうとさん|otōtosan|Adik laki-laki (orang lain)
+妹|いもうと|imōto|Adik perempuan (saya)
+妹さん|いもうとさん|imōtosan|Adik perempuan (orang lain)
+外国|がいこく|gaikoku|Luar negeri
+～時間|～じかん|~jikan|~ jam (durasi)
+～週間|～しゅうかん|~shūkan|~ minggu (durasi)
+～か月|～かげつ|~kagetsu|~ bulan (durasi)
+～年|～ねん|~nen|~ tahun (durasi)
+全部で|ぜんぶで|zenbu de|Semuanya (total)
+いい［お］天気ですね|いい［お］てんきですね|ii [o]tenki desu ne|Cuacanya cerah/bagus ya
+お出かけですか|おでかけですか|odekake desu ka|Mau keluar / bepergian ya?
+行っていらっしゃい|いっていらっしゃい|itte irasshai|Selamat jalan / hati-hati di jalan
+行ってまいります|いってまいります|itte mairimasu|Saya berangkat`,
+
+        12: `簡単［な］|かんたん［な］|kantan [na]|Mudah, sederhana
+近い|ちかい|chikai|Dekat
+遠い|とおい|tōi|Jauh
+早い・速い|はやい|hayai|Cepat, awal
+遅い|おそい|osoi|Lambat, terlambat
+多い［人が～］|おおい［ひとが～］|ōi [hito ga ~]|Banyak [orang]
+少ない［人が～］|すくない［ひとが～］|sukunai [hito ga ~]|Sedikit [orang]
+暖かい・温かい|あたたかい|atatakai|Hangat
+涼しい|すずしい|suzushii|Sejuk
+甘い|あまい|amai|Manis
+辛い|からい|karai|Pedas
+重い|おもい|omoi|Berat
+軽い|かるい|karui|Ringan
+季節|きせつ|kisetsu|Musim
+春|はる|haru|Musim semi
+夏|なつ|natsu|Musim panas
+秋|あき|aki|Musim gugur
+冬|ふゆ|fuyu|Musim dingin
+天気|てんき|tenki|Cuaca
+雨|あめ|ame|Hujan
+雪|ゆき|yuki|Salju
+曇り|くもり|kumori|Mendung, berawan
+空港|くうこう|kūkō|Bandara
+海|うみ|umi|Laut, pantai
+世界|せかい|sekai|Dunia
+［お］祭り|［お］まつり|[o]matsuri|Festival, perayaan
+試験|しけん|shiken|Ujian
+すき焼き|すきやき|sukiyaki|Sukiyaki (masakan daging sapi rebus)
+刺身|さしみ|sashimi|Sashimi (irisan ikan mentah)
+生け花|いけばな|ikebana|Seni merangkai bunga Jepang
+紅葉|もみじ|momiji|Daun maple merah (musim gugur)
+初めて|はじめて|hajimete|Pertama kali
+お帰りなさい|おかえりなさい|okaerinasai|Selamat pulang / selamat datang kembali
+疲れました|つかれました|tsukaremashita|Capek, lelah
+祇園祭|ぎおんまつり|Gion Matsuri|Festival Gion (di Kyoto)`,
+
+        13: `遊びます|あそびます|asobimasu|Bermain, jalan-jalan
+泳ぎます|およぎます|oyogimasu|Berenang
+迎えます|むかえます|mukaemasu|Menjemput, menyambut
+疲れます|つかれます|tsukaremasu|Lelah, capek
+出します［手紙を～］|だします［てがみを～］|dashimasu [tegami o ~]|Mengirim [surat]
+入ります［喫茶店に～］|はいります［きっさてんに～］|hairimasu [kissaten ni ~]|Masuk [ke kedai kopi]
+出ます［喫茶店を～］|でます［きっさてんを～］|demasu [kissaten o ~]|Keluar [dari kedai kopi]
+結婚します|けっこんします|kekkon shimasu|Menikah
+買い物します|かいものします|kaimono shimasu|Berbelanja
+食事します|しょくじします|shokuji shimasu|Makan (bersama/di luar)
+散歩します［公園を～］|さんぽします［こうえんを～］|sanpo shimasu [kōen o ~]|Berjalan-jalan [di taman]
+大変［な］|たいへん［な］|taihen [na]|Berat, sulit, merepotkan
+欲しい|ほしい|hoshii|Ingin, mau (benda)
+寂しい|さびしい|sabishii|Kesepian, sepi
+広い|ひろい|hiroi|Luas
+狭い|せまい|semai|Sempit
+市役所|しやくしょ|shiyakusho|Kantor wali kota / balai kota
+川|かわ|kawa|Sungai
+経済|けいざい|keizai|Ekonomi
+美術|びじゅつ|bijutsu|Seni rupa
+釣り|つり|tsuri|Memancing
+会議|かいぎ|kaigi|Rapat
+登録|とうろく|tōroku|Pendaftaran, registrasi
+週末|しゅうまつ|shūmatsu|Akhir pekan
+何か|なにか|nanika|Sesuatu
+ご注文は？|ごちゅうもんは？|gochūmon wa?|Mau pesan apa?
+定食|ていしょく|teishoku|Menu paket (nasi, lauk, sup)
+牛丼|ぎゅうどん|gyūdon|Nasi mangkuk dengan daging sapi
+［少々］お待ちください|［しょうしょう］おまちください|[shōshō] omachi kudasai|Mohon tunggu [sebentar]
+別々に|べつべつに|betsubetsu ni|Masing-masing, terpisah`,
+
+        14: `消します|けします|keshimasu|Mematikan, memadamkan, menghapus
+開けます|あけます|akemasu|Membuka
+閉めます|しめます|shimemasu|Menutup
+急ぎます|いそぎます|isogimasu|Terburu-buru, bergegas
+待ちます|まちます|machimasu|Menunggu
+止めます|とめます|tomemasu|Menghentikan, memarkir
+曲がります［右へ～］|まがります［みぎへ～］|magarimasu [migi e ~]|Berbelok [ke kanan]
+持ちます|もちます|mochimasu|Membawa, memegang
+取ります|とります|torimasu|Mengambil
+手伝います|てつだいます|tetsudaimasu|Membantu
+呼びます|よびます|yobimasu|Memanggil
+話します|はなします|hanashimasu|Berbicara, bercerita
+見せます|みせます|misemasu|Memperlihatkan
+教えます［住所を～］|おしえます［じゅうしょを～］|oshiemasu [jūsho o ~]|Memberi tahu [alamat]
+始めます|はじめます|hajimemasu|Memulai
+降ります［雨が～］|ふります［あめが～］|furimasu [ame ga ~]|Turun [hujan]
+名前|なまえ|namae|Nama
+住所|じゅうしょ|jūsho|Alamat
+地図|ちず|chizu|Peta
+塩|しお|shio|Garam
+砂糖|さとう|satō|Gula
+読み方|よみかた|yomikata|Cara membaca
+～方|～かた|~kata|Cara ~
+後で|あとで|ato de|Nanti, setelah ini
+もう少し|もうすこし|mō sukoshi|Sedikit lagi
+信号を右へ曲がってください|しんごうをみぎへまがってください|shingō o migi e magatte kudasai|Tolong belok kanan di lampu lalu lintas
+これでお願いします|これでおねがいします|kore de onegaishimasu|Tolong bayar dengan ini
+お釣り|おつり|otsuri|Uang kembalian
+梅田|うめだ|Umeda|Nama tempat di Osaka`,
+
+        15: `置きます|おきます|okimasu|Meletakkan, menaruh
+作ります・造ります|つくります|tsukurimasu|Membuat, memproduksi
+売ります|うります|urimasu|Menjual
+知ります|しります|shirimasu|Mengetahui, mengenal
+住みます|すみます|sumimasu|Tinggal, menetap
+研究します|けんきゅうします|kenkyū shimasu|Meneliti
+知っています|しっています|shitte imasu|Tahu, kenal
+住んでいます［大阪に～］|すんでいます［おおさかに～］|sunde imasu [Ōsaka ni ~]|Tinggal [di Osaka]
+資料|しりょう|shiryō|Bahan, data, dokumen
+時刻表|じこくひょう|jikokuhyō|Jadwal keberangkatan (kereta/bus)
+服|ふく|fuku|Pakaian, baju
+製品|せいひん|seihin|Produk, barang jadi
+専門|せんもん|senmon|Keahlian, jurusan, spesialisasi
+歯医者|はいしゃ|haisha|Dokter gigi
+床屋|とこや|tokoya|Tukang cukur, pangkas rambut
+独身|どくしん|dokushin|Lajang, belum menikah
+特に|とくに|toku ni|Khususnya, terutama
+思い出します|おもいだします|omoidashimasu|Teringat, mengingat kembali
+ご家族|ごかぞく|gokazoku|Keluarga (orang lain)
+高校|こうこう|kōkō|SMA (Sekolah Menengah Atas)
+日本橋|にっぽんばし|Nipponbashi|Nama distrik perbelanjaan di Osaka`,
+
+        16: `乗ります［電車に～］|のります［でんしゃに～］|norimasu [densha ni ~]|Naik [kereta]
+降ります［電車を～］|おります［でんしゃを～］|orimasu [densha o ~]|Turun [dari kereta]
+乗り換えます|のりかえます|norikaemasu|Ganti kendaraan, transit
+浴びます［シャワーを～］|あびます|abimasu|Mandi [shower]
+入れます|いれます|iremasu|Memasukkan
+出します|だします|dashimasu|Mengeluarkan, menyerahkan
+入ります［大学に～］|はいります［だいがくに～］|hairimasu [daigaku ni ~]|Masuk [universitas]
+出ます［大学を～］|でます［だいがくを～］|demasu [daigaku o ~]|Lulus / keluar [dari universitas]
+やめます［会社を～］|やめます［かいしゃを～］|yamemasu [kaisha o ~]|Berhenti [dari perusahaan]
+押します|おします|oshimasu|Menekan, mendorong
+若い|わかい|wakai|Muda
+長い|ながい|nagai|Panjang
+短い|みじかい|mijikai|Pendek
+明るい|あかるい|akarui|Terang, ceria
+暗い|くらい|kurai|Gelap, suram
+背が高い|せがたかい|se ga takai|Tinggi (badan)
+頭がいい|あたまがいい|atama ga ii|Pintar, cerdas
+体|からだ|karada|Badan, tubuh
+頭|あたま|atama|Kepala
+髪|かみ|kami|Rambut
+顔|かお|kao|Wajah, muka
+目|め|me|Mata
+耳|みみ|mimi|Telinga
+口|くち|kuchi|Mulut
+歯|は|ha|Gigi
+足|あし|ashi|Kaki
+緑|みどり|midori|Hijau, tanaman hijau
+［お］寺|［お］てら|[o]tera|Kuil Buddha
+神社|じんじゃ|jinja|Kuil Shinto
+留学生|りゅうがくせい|ryūgakusei|Pelajar asing
+～番|～ばん|~ban|Nomor ~
+お引き出しですか|おひきだしですか|ohikidashi desu ka|Apakah mau menarik uang?
+暗証番号|あんしょうばんごう|anshō bangō|Nomor PIN
+次に|つぎに|tsugi ni|Berikutnya, selanjutnya
+金額|きんがく|kingaku|Jumlah uang
+確認|かくにん|kakunin|Konfirmasi, pengecekan`,
+
+        17: `覚えます|おぼえます|oboemasu|Mengingat, menghafal
+忘れます|わすれます|wasuremasu|Lupa
+出します［レポートを～］|だします［レポートを～］|dashimasu [repōto o ~]|Menyerahkan, mengumpulkan [laporan]
+払います|はらいます|haraimasu|Membayar
+返します|かえします|kaeshimasu|Mengembalikan
+出かけます|でかけます|dekakemasu|Keluar rumah, pergi keluar
+脱ぎます|ぬぎます|nugimasu|Melepas (pakaian, sepatu)
+持って行きます|もっていきます|motte ikimasu|Membawa pergi
+持って来ます|もってきます|motte kimasu|Membawa datang
+心配します|しんぱいします|shinpai shimasu|Khawatir
+残業します|ざんぎょうします|zangyō shimasu|Lembur
+出張します|しゅっちょうします|shutchō shimasu|Dinas luar kota
+飲みます［薬を～］|のみます［くすりを～］|nomimasu [kusuri o ~]|Minum [obat]
+入ります［お風呂に～］|はいります［おふろに～］|hairimasu [ofuro ni ~]|Masuk [bak mandi / berendam]
+大切［な］|たいせつ［な］|taisetsu [na]|Penting, berharga
+大丈夫［な］|だいじょうぶ［な］|daijōbu [na]|Tidak apa-apa, baik-baik saja
+危ない|あぶない|abunai|Berbahaya
+問題|もんだい|mondai|Masalah, soal
+答え|こたえ|kotae|Jawaban
+禁煙|きんえん|kin'en|Dilarang merokok
+［健康］保険証|［けんこう］ほけんしょう|[kenkō] hokenshō|Kartu asuransi [kesehatan]
+風邪|かぜ|kaze|Masuk angin, flu
+熱|ねつ|netsu|Demam
+病気|びょうき|byōki|Sakit, penyakit
+薬|くすり|kusuri|Obat
+［お］風呂|［お］ふろ|[o]furo|Kamar mandi / bak mandi Jepang
+上着|うわぎ|uwagi|Jaket, jas, pakaian luar
+下着|したぎ|shitagi|Pakaian dalam
+先生|せんせい|sensei|Dokter (panggilan untuk dokter)
+２、３日|２、３にち|ni, san-nichi|2–3 hari
+［～が］痛いです|［～が］いたいです|[~ ga] itai desu|[~] sakit / nyeri
+お大事に|おだいじに|odaiji ni|Semoga lekas sembuh`,
+
+        18: `洗います|あらいます|araimasu|Mencuci
+弾きます|ひきます|hikimasu|Bermain (piano, gitar)
+歌います|うたいます|utaimasu|Menyanyi
+集めます|あつめます|atsumemasu|Mengumpulkan
+捨てます|すてます|sutemasu|Membuang
+換えます|かえます|kaemasu|Menukar, mengganti
+運転します|うんてんします|unten shimasu|Menyetir, mengemudikan
+予約します|よやくします|yoyaku shimasu|Memesan (tempat, tiket), reservasi
+見学します|けんがくします|kengaku shimasu|Meninjau, kunjungan belajar
+国際～|こくさい～|kokusai ~|~ internasional
+現金|げんきん|genkin|Uang tunai
+趣味|しゅみ|shumi|Hobi, kegemaran
+日記|にっき|nikki|Buku harian (diary)
+［お］祈り|［お］いのり|[o]inori|Doa
+課長|かちょう|kachō|Kepala seksi, manajer bagian
+部長|ぶちょう|buchō|Kepala bagian, manajer departemen
+社長|しゃちょう|shachō|Direktur utama, presiden direktur
+動物|どうぶつ|dōbutsu|Hewan, binatang
+馬|うま|uma|Kuda
+牧場|ぼくじょう|bokujō|Peternakan
+本当ですか|ほんとうですか|hontō desu ka|Benarkah?, sungguh?`,
+
+        19: `登ります［山に～］|のぼります［やまに～］|noborimasu [yama ni ~]|Mendaki [gunung]
+泊まります［ホテルに～］|とまります［ホテルに～］|tomarimasu [hoteru ni ~]|Menginap [di hotel]
+掃除します|そうじします|sōji shimasu|Membersihkan
+洗濯します|せんたくします|sentaku shimasu|Mencuci pakaian
+練習します|れんしゅうします|renshū shimasu|Berlatih
+眠い|ねむい|nemui|Mengantuk
+強い|つよい|tsuyoi|Kuat
+弱い|よわい|yowai|Lemah
+調子がいい|ちょうしがいい|chōshi ga ii|Kondisinya baik
+調子が悪い|ちょうしがわるい|chōshi ga warui|Kondisinya kurang baik
+調子|ちょうし|chōshi|Kondisi (tubuh, mesin)
+相撲|すもう|sumō|Sumo (gulat tradisional Jepang)
+お茶|おちゃ|ocha|Upacara minum teh (sadō)
+日|ひ|hi|Hari, tanggal
+一度|いちど|ichido|Satu kali, sekali
+一度も|いちども|ichido mo|Satu kali pun tidak (negatif)
+乾杯|かんぱい|kanpai|Bersulang!
+実は|じつは|jitsu wa|Sebenarnya, sejujurnya
+何回も|なんかいも|nankai mo|Berkali-kali
+無理［な］|むり［な］|muri [na]|Memaksakan diri, berlebihan, mustahil
+体にいい|からだにいい|karada ni ii|Baik untuk kesehatan/tubuh
+葛飾北斎|かつしかほくさい|Katsushika Hokusai|Katsushika Hokusai (pelukis ukiyo-e)`,
+
+        20: `要ります［ビザが～］|いります［ビザが～］|irimasu [biza ga ~]|Memerlukan, butuh [visa]
+調べます|しらべます|shirabemasu|Memeriksa, meneliti, mencari tahu
+直します|なおします|naoshimasu|Memperbaiki, membetulkan
+修理します|しゅうりします|shūri shimasu|Memperbaiki, mereparasi
+電話します|でんわします|denwa shimasu|Menelepon
+僕|ぼく|boku|Aku (kata ganti orang pertama laki-laki)
+君|きみ|kimi|Kamu (informal)
+～君|～くん|~kun|Saudara ~ (panggilan akrab laki-laki)
+言葉|ことば|kotoba|Kata, bahasa
+物価|ぶっか|bukka|Harga barang-barang
+着物|きもの|kimono|Kimono (pakaian tradisional Jepang)
+初め|はじめ|hajime|Awal, mula-mula
+終わり|おわり|owari|Akhir
+この間|このあいだ|kono aida|Tempo hari, baru-baru ini
+国へ帰るの？|くにへかえるの？|kuni e kaeru no?|Mau pulang ke negaramu?`,
+
+        21: `思います|おもいます|omoimasu|Mengira, berpikir
+言います|いいます|iimasu|Berkata, mengatakan
+足ります|たります|tarimasu|Cukup
+勝ちます|かちます|kachimasu|Menang
+負けます|まけます|makemasu|Kalah
+あります［お祭りが～］|あります［おまつりが～］|arimasu [omatsuri ga ~]|Diadakan, berlangsung [festival]
+役に立ちます|やくにたちます|yaku ni tachimasu|Berguna, bermanfaat
+無駄［な］|むだ［な］|muda [na]|Sia-sia, percuma
+不便［な］|ふべん［な］|fuben [na]|Tidak praktis, tidak nyaman
+同じ|おなじ|onaji|Sama
+首相|しゅしょう|shushō|Perdana menteri
+大統領|だいとうりょう|daitōryō|Presiden
+政治|せいじ|seiji|Politik
+試合|しあい|shiai|Pertandingan
+意見|いけん|iken|Pendapat, opini
+［お］話|［お］はなし|[o]hanashi|Cerita, pembicaraan
+無駄|むだ|muda|Kesia-siaan, pemborosan
+交通|こうつう|kōtsū|Lalu lintas, transportasi
+最近|さいきん|saikin|Akhir-akhir ini, baru-baru ini
+本当に|ほんとうに|hontō ni|Sungguh-sungguh, benar-benar
+仕方がありません|しかたがありません|shikata ga arimasen|Apa boleh buat / tidak ada cara lain
+～でも飲みませんか|～でものみませんか|~ demo nomimasen ka|Bagaimana kalau kita minum [~] atau apa gitu?
+見ないと……|みないと……|minai to...|Saya harus menontonnya / melihatnya...`,
+
+        22: `着ます［シャツを～］|きます|kimasu|Memakai [kemeja / pakaian atas]
+はきます［靴を～］|はきます［くつを～］|hakimasu [kutsu o ~]|Memakai [sepatu / celana]
+かぶります［帽子を～］|かぶります［ぼうしを～］|kaburimasu [bōshi o ~]|Memakai [topi]
+かけます［眼鏡を～］|かけます［めがねを～］|kakemasu [megane o ~]|Memakai [kacamata]
+生まれます|うまれます|umaremasu|Lahir
+帽子|ぼうし|bōshi|Topi
+眼鏡|めがね|megane|Kacamata
+家賃|やちん|yachin|Uang sewa rumah/kamar
+和室|わしつ|washitsu|Kamar bergaya Jepang (berlantai tatami)
+押し入れ|おしいれ|oshiire|Lemari dinding bergaya Jepang
+布団|ふとん|futon|Kasur lipat Jepang (futon)
+万里の長城|ばんりのちょうじょう|Banri no Chōjō|Tembok Besar Tiongkok`,
+
+        23: `聞きます［先生に～］|ききます［せんせいに～］|kikimasu [sensei ni ~]|Bertanya [kepada guru]
+回します|まわします|mawashimasu|Memutar
+引きます|ひきます|hikimasu|Menarik
+変えます|かえます|kaemasu|Mengubah
+触ります［ドアに～］|さわります|sawarimasu|Menyentuh [pintu]
+出ます［お釣りが～］|でます［おつりが～］|demasu [otsuri ga ~]|Keluar [uang kembalian]
+動きます［時計が～］|うごきます［とけいが～］|ugokimasu [tokei ga ~]|Bergerak, berjalan [jam/mesin]
+歩きます［道を～］|あるきます［みちを～］|arukimasu [michi o ~]|Berjalan kaki [di jalan]
+渡ります［橋を～］|わたります［はしを～］|watarimasu [hashi o ~]|Menyeberang [jembatan]
+気をつけます［車に～］|きをつけます［くるまに～］|ki o tsukemasu [kuruma ni ~]|Berhati-hati [terhadap mobil]
+引っ越しします|ひっこしします|hikkoshi shimasu|Pindah rumah
+電気屋|でんきや|denkiya|Toko elektronik
+～屋|～や|~ya|Tukang ~ / orang yang bekerja di ~
+音|おと|oto|Suara, bunyi
+機械|きかい|kikai|Mesin
+故障|こしょう|koshō|Kerusakan (mesin)
+道|みち|michi|Jalan
+交差点|こうさてん|kōsaten|Perempatan jalan
+信号|しんごう|shingō|Lampu lalu lintas
+角|かど|kado|Sudut, belokan
+橋|はし|hashi|Jembatan
+駐車場|ちゅうしゃじょう|chūshajō|Tempat parkir
+-目|-め|-me|Ke-~ (menunjukkan urutan)
+［お］正月|［お］しょうがつ|[o]shōgatsu|Tahun Baru Jepang
+建物|たてもの|tatemono|Bangunan, gedung
+外国人登録証|がいこくじんとうろくしょう|gaikokujin tōrokushō|Kartu registrasi orang asing
+聖徳太子|しょうとくたいし|Shōtoku Taishi|Pangeran Shotoku
+法隆寺|ほうりゅうじ|Hōryūji|Kuil Horyuji
+元気茶|げんきちゃ|Genkicha|Teh Genki (nama merek di buku)
+本田駅|ほんだえき|Honda-eki|Stasiun Honda
+図書館前|としょかんまえ|Toshokan-mae|Depan Perpustakaan (halte bus)`,
+
+        24: `連れて行きます|つれていきます|tsurete ikimasu|Mengajak pergi, membawa pergi (orang/hewan)
+連れて来ます|つれてきます|tsurete kimasu|Mengajak datang, membawa datang (orang/hewan)
+送ります［人を～］|おくります［ひとを～］|okurimasu [hito o ~]|Mengantar [orang]
+紹介します|しょうかいします|shōkai shimasu|Memperkenalkan
+案内します|あんないします|annai shimasu|Memandu, mengantarkan melihat-lihat
+説明します|せつめいします|setsumei shimasu|Menjelaskan, menerangkan
+準備|じゅんび|junbi|Persiapan
+意味|いみ|imi|Arti, makna
+［お］菓子|［お］かし|[o]kashi|Kue, camilan, permen
+全部|ぜんぶ|zenbu|Semuanya, seluruhnya
+自分で|じぶんで|jibun de|Dengan diri sendiri
+ワゴン車|ワゴンしゃ|wagonsha|Mobil van / station wagon
+［お］弁当|［お］べんとう|[o]bentō|Bekal makanan (bento)
+母の日|ははのひ|Haha no Hi|Hari Ibu`,
+
+        25: `考えます|かんがえます|kangaemasu|Berpikir, memikirkan
+着きます［駅に～］|つきます［えきに～］|tsukimasu [eki ni ~]|Tiba, sampai [di stasiun]
+留学します|りゅうがくします|ryūgaku shimasu|Belajar di luar negeri
+取ります［年を～］|とります［としを～］|torimasu [toshi o ~]|Bertambah tua / berumur
+田舎|いなか|inaka|Kampung halaman, desa
+大使館|たいしかん|taishikan|Kedutaan besar
+億|おく|oku|Seratus juta
+転勤|てんきん|tenkin|Pindah tugas, mutasi kerja
+事|こと|koto|Hal, perkara
+一杯飲みましょう|いっぱいのみましょう|ippai nomimashō|Mari kita minum-minum sebentar
+［いろいろ］お世話になりました|［いろいろ］おせわになりました|[iroiro] osewa ni narimashita|Terima kasih atas segala bantuan Anda selama ini
+頑張ります|がんばります|ganbarimasu|Berusaha keras, berjuang
+どうぞお元気で|どうぞおげんきで|dōzo ogenki de|Semoga sehat selalu (salam perpisahan)`,
+
+        26: `見ます・診ます|みます|mimasu|Melihat, memeriksa (dokter)
+探します・捜します|さがします|sagashimasu|Mencari
+遅れます［時間に～］|おくれます［じかんに～］|okuremasu [jikan ni ~]|Terlambat [waktu]
+間に合います［時間に～］|まにあいます［じかんに～］|maniaimasu [jikan ni ~]|Sempat, tepat waktu [pada waktunya]
+参加します［パーティーに～］|さんかします|sanka shimasu|Ikut serta, berpartisipasi [dalam pesta]
+申し込みます|もうしこみます|mōshikomimasu|Mendaftar, mengajukan permohonan
+都合がいい|つごうがいい|tsugō ga ii|Waktunya cocok / tidak ada halangan
+都合が悪い|つごうがわるい|tsugō ga warui|Waktunya tidak cocok / ada halangan
+気分がいい|きぶんがいい|kibun ga ii|Merasa enak badan / nyaman
+気分が悪い|きぶんがわるい|kibun ga warui|Merasa tidak enak badan / mual
+新聞社|しんぶんしゃ|shinbunsha|Perusahaan surat kabar
+柔道|じゅうどう|jūdō|Judo
+運動会|うんどうかい|undōkai|Lomba olahraga
+場所|ばしょ|basho|Tempat
+～弁|～べん|~ben|Dialek ~, logat ~
+今度|こんど|kondo|Kali ini, lain kali
+直接|ちょくせつ|chokusetsu|Langsung
+何でも|なんでも|nandemo|Apa saja
+片づきます［荷物が～］|かたづきます［にもつが～］|katazukimasu [nimotsu ga ~]|Beres, rapi [barang-barang]
+出します［ごみを～］|だします|dashimasu|Membuang, mengeluarkan [sampah]
+燃えます［ごみが～］|もえます|moemasu|Terbakar, dapat dibakar [sampah]
+月・水・金|げつ・すい・きん|getsu, sui, kin|Senin, Rabu, Jumat
+置き場|おきば|okiba|Tempat meletakkan
+横|よこ|yoko|Samping, sebelah
+瓶|びん|bin|Botol
+缶|かん|kan|Kaleng
+［お］湯|［お］ゆ|[o]yu|Air panas
+～会社|～がいしゃ|~gaisha|Perusahaan ~
+連絡します|れんらくします|renraku shimasu|Menghubungi
+困ったなあ|こまったなあ|komatta nā|Waduh, gawat nih / repot ya
+電子メール|でんしメール|denshi mēru|Surat elektronik (e-mail)
+宇宙|うちゅう|uchū|Luar angkasa, alam semesta
+怖い|こわい|kowai|Takut, menakutkan
+宇宙船|うちゅうせん|uchūsen|Pesawat luar angkasa
+別の|べつの|betsu no|Yang lain
+宇宙飛行士|うちゅうひこうし|uchū hikōshi|Astronot`,
+
+        27: `飼います|かいます|kaimasu|Memelihara (hewan)
+建てます|たてます|tatemasu|Membangun, mendirikan
+走ります［道を～］|はしります［みちを～］|hashirimasu [michi o ~]|Berlari [di jalan]
+取ります［休みを～］|とります［やすみを～］|torimasu [yasumi o ~]|Mengambil [libur/cuti]
+見えます［山が～］|みえます［やまが～］|miemasu [yama ga ~]|Terlihat [gunung]
+聞こえます［音が～］|きこえます［おとが～］|kikoemasu [oto ga ~]|Terdengar [suara]
+できます［空港が～］|できます［くうこうが～］|dekimasu [kūkō ga ~]|Selesai dibangun, jadi [bandara]
+開きます［教室を～］|ひらきます［きょうしつを～］|hirakimasu [kyōshitsu o ~]|Membuka, mengadakan [kelas/kursus]
+鳥|とり|tori|Burung
+声|こえ|koe|Suara (makhluk hidup)
+波|なみ|nami|Ombak, gelombang
+花火|はなび|hanabi|Kembang api
+景色|けしき|keshiki|Pemandangan
+昼間|ひるま|hiruma|Siang hari
+昔|むかし|mukashi|Zaman dahulu, masa lampau
+道具|どうぐ|dōgu|Alat, perkakas
+自動販売機|じどうはんばいき|jidō hanbaiki|Mesin penjual otomatis (vending machine)
+通信販売|つうしんはんばい|tsūshin hanbai|Penjualan lewat pos/daring
+台所|だいどころ|daidokoro|Dapur
+～教室|～きょうしつ|~kyōshitsu|Kursus ~, kelas ~
+～後|～ご|~go|Setelah ~ (durasi waktu)
+関西空港|かんさいくうこう|Kansai Kūkō|Bandara Internasional Kansai
+秋葉原|あきはばら|Akihabara|Akihabara (distrik elektronik Tokyo)
+伊豆|いず|Izu|Semenanjung Izu
+日曜大工|にちようだいく|nichiyō daiku|Pertukangan akhir pekan
+本棚|ほんだな|hondana|Rak buku
+夢|ゆめ|yume|Mimpi, cita-cita
+家|いえ|ie|Rumah
+素晴らしい|すばらしい|subarashii|Luar biasa, mengagumkan
+子どもたち|こどもたち|kodomotachi|Anak-anak
+大好き［な］|だいすき［な］|daisuki [na]|Sangat suka
+漫画|まんが|manga|Komik, manga
+主人公|しゅじんこう|shujinkō|Tokoh utama
+形|かたち|katachi|Bentuk
+例えば|たとえば|tatoeba|Misalnya, contohnya
+付けます|つけます|tsukemasu|Memasang, menempelkan
+自由に|じゆうに|jiyū ni|Dengan bebas
+空|そら|sora|Langit
+飛びます|とびます|tobimasu|Terbang
+自分|じぶん|jibun|Diri sendiri
+将来|しょうらい|shōrai|Masa depan`,
+
+        28: `売れます［パンが～］|うれます|uremasu|Terjual, laku [roti]
+踊ります|おどります|odorimasu|Menari
+選びます|えらびます|erabimasu|Memilih
+違います|ちがいます|chigaimasu|Berbeda, tidak sama
+通います［大学に～］|かよいます［だいがくに～］|kayoimasu [daigaku ni ~]|Pulang-pergi rutin [ke universitas]
+熱心［な］|ねっしん［な］|nesshin [na]|Tekun, antusias, bersungguh-sungguh
+優しい|やさしい|yasashii|Baik hati, lemah lembut
+偉い|えらい|erai|Hebat, terhormat
+習慣|しゅうかん|shūkan|Kebiasaan, adat istiadat
+経験|けいけん|keiken|Pengalaman
+力|ちから|chikara|Tenaga, kekuatan, kemampuan
+人気|にんき|ninki|Popularitas, terkenal
+形|かたち|katachi|Bentuk
+色|いろ|iro|Warna
+味|あじ|aji|Rasa
+品物|しなもの|shinamono|Barang dagangan, produk
+値段|ねだん|nedan|Harga
+給料|きゅうりょう|kyūryō|Gaji
+番組|ばんぐみ|bangumi|Acara (TV/radio)
+小説|しょうせつ|shōsetsu|Novel
+小説家|しょうせつか|shōsetsuka|Novelis, pengarang novel
+歌手|かしゅ|kashu|Penyanyi
+管理人|かんりにん|kanrinin|Penjaga gedung/apartemen, pengelola
+息子|むすこ|musuko|Putra, anak laki-laki (saya)
+息子さん|むすこさん|musukosan|Putra, anak laki-laki (orang lain)
+娘|むすめ|musume|Putri, anak perempuan (saya)
+娘さん|むすめさん|musumesan|Putri, anak perempuan (orang lain)
+自分|じぶん|jibun|Diri sendiri
+将来|しょうらい|shōrai|Masa depan
+［ちょっと］お願いがあるんですが|［ちょっと］おねがいがあるんですが|[chotto] onegai ga arun desu ga|Ada sedikit permintaan/urusan yang ingin saya minta tolong...
+会話|かいわ|kaiwa|Percakapan
+お知らせ|おしらせ|oshirase|Pengumuman, pemberitahuan
+日にち|ひにち|hinichi|Tanggal
+土|ど|do|Sabtu (singkatan)
+体育館|たいいくかん|taiikukan|Gedung olahraga (GOR)
+無料|むりょう|muryō|Gratis, cuma-cuma`,
+
+        29: `開きます［ドアが～］|あきます|akimasu|Terbuka [pintu]
+閉まります［ドアが～］|しまります|shimarimasu|Tertutup [pintu]
+つきます［電気が～］|つきます［でんきが～］|tsukimasu [denki ga ~]|Menyala [lampu]
+消えます［電気が～］|きえます［でんきが～］|kiemasu [denki ga ~]|Padam, mati [lampu]
+込みます［道が～］|こみます［みちが～］|komimasu [michi ga ~]|Macet, penuh sesak [jalan]
+すきます［道が～］|すきます［みちが～］|sukimasu [michi ga ~]|Sepi, lengang [jalan]
+壊れます［いすが～］|こわれます|kowaremasu|Rusak, patah [kursi]
+割れます［コップが～］|われます|waremasu|Pecah [gelas]
+折れます［木が～］|おれます［きが～］|oremasu [ki ga ~]|Patah [pohon/dahan]
+破れます［紙が～］|やぶれます［かみが～］|yaburemasu [kami ga ~]|Sobek, robek [kertas]
+汚れます［服が～］|よごれます［ふくが～］|yogoremasu [fuku ga ~]|Kotor [pakaian]
+付きます［ポケットが～］|つきます|tsukimasu|Terpasang, ada [saku]
+外れます［ボタンが～］|はずれます|hazuremasu|Terlepas, copot [kancing]
+止まります［エレベーターが～］|とまります|tomarimasu|Berhenti [lift]
+落とします|おとします|otoshimasu|Menjatuhkan, kehilangan
+［お］皿|［お］さら|[o]sara|Piring
+［お］茶わん|［お］ちゃわん|[o]chawan|Mangkuk nasi
+袋|ふくろ|fukuro|Kantong, tas plastik/kertas
+書類|しょるい|shorui|Dokumen, berkas
+枝|えだ|eda|Dahan, ranting
+駅員|えきいん|ekiin|Petugas stasiun
+交番|こうばん|kōban|Pos polisi
+返事|へんじ|henji|Jawaban, balasan
+お先にどうぞ|おさきにどうぞ|osaki ni dōzo|Silakan duluan
+今の電車|いまのでんしゃ|ima no densha|Kereta yang barusan
+忘れ物|わすれもの|wasuremono|Barang yang tertinggal
+～側|～がわ|~gawa|Sebelah ~, sisi ~
+覚えていません|おぼえていません|oboete imasen|Tidak ingat
+網棚|あみだな|amidana|Rak bagasi di atas kursi kereta
+確か|たしか|tashika|Kalau tidak salah
+地震|じしん|jishin|Gempa bumi
+壁|かべ|kabe|Dinding, tembok
+針|はり|hari|Jarum (jam)
+指します|さします|sashimasu|Menunjuk
+駅前|えきまえ|ekimae|Depan stasiun
+倒れます|たおれます|taoremasu|Roboh, tumbang, jatuh
+西|にし|nishi|Barat
+方|ほう|hō|Arah, sebelah
+燃えます|もえます|moemasu|Terbakar`,
+
+        30: `掛けます|かけます|kakemasu|Menggantungkan
+飾ります|かざります|kazarimasu|Menghias, memajang
+並べます|ならべます|narabemasu|Menyusun, menata berjajar
+植えます|うえます|uemasu|Menanam
+戻します|もどします|modoshimasu|Mengembalikan ke tempat semula
+片づけます|かたづけます|katazukemasu|Membereskan, merapikan
+決めます|きめます|kimemasu|Memutuskan, menentukan
+知らせます|しらせます|shirasemasu|Memberi tahu, mengabarkan
+相談します|そうだんします|sōdan shimasu|Berdiskusi, berkonsultasi
+予習します|よしゅうします|yoshū shimasu|Belajar persiapan sebelum pelajaran
+復習します|ふくしゅうします|fukushū shimasu|Mengulang pelajaran
+お子さん|おこさん|okosan|Anak (orang lain)
+授業|じゅぎょう|jugyō|Pelajaran, kelas
+講義|こうぎ|kōgi|Kuliah
+予定|よてい|yotei|Rencana, jadwal
+お知らせ|おしらせ|oshirase|Pengumuman, pemberitahuan
+案内書|あんないしょ|annaisho|Buku panduan / brosur informasi
+ごみ箱|ごみばこ|gomibako|Tempat sampah
+人形|にんぎょう|ningyō|Boneka
+花瓶|かびん|kabin|Vas bunga
+鏡|かがみ|kagami|Cermin
+引き出し|ひきだし|hikidashi|Laci
+玄関|げんかん|genkan|Pintu masuk rumah (area lepas sepatu)
+廊下|ろうか|rōka|Lorong, koridor
+壁|かべ|kabe|Dinding, tembok
+池|いけ|ike|Kolam
+交番|こうばん|kōban|Pos polisi
+元の所|もとのところ|moto no tokoro|Tempat semula
+周り|まわり|mawari|Sekitar, sekeliling
+真ん中|まんなか|mannaka|Tengah-tengah
+隅|すみ|sumi|Sudut, pojok
+予定表|よていひょう|yoteihyō|Daftar jadwal / rencana kegiatan
+ご苦労さま|ごくろうさま|gokurōsama|Terima kasih atas kerja kerasnya
+希望|きぼう|kibō|Harapan, keinginan
+何かご希望がありますか|なにかごきぼうがありますか|nanika gokibō ga arimasu ka|Apakah ada permintaan/keinginan tertentu?
+丸い|まるい|marui|Bulat, bundar
+月|つき|tsuki|Bulan (di langit)
+地球|ちきゅう|chikyū|Bumi
+嫌［な］|いや［な］|iya [na]|Tidak suka, enggan, menyebalkan
+目が覚めます|めがさめます|me ga samemasu|Terbangun, tersadar dari tidur`,
+
+        31: `続けます|つづけます|tsuzukemasu|Melanjutkan
+見つけます|みつけます|mitsukemasu|Menemukan
+取ります［休みを～］|とります［やすみを～］|torimasu [yasumi o ~]|Mengambil [libur/cuti]
+受けます［試験を～］|うけます［しけんを～］|ukemasu [shiken o ~]|Mengikuti, menempuh [ujian]
+申し込みます|もうしこみます|mōshikomimasu|Mendaftar, mengajukan
+休憩します|きゅうけいします|kyūkei shimasu|Beristirahat (sebentar)
+連休|れんきゅう|renkyū|Libur berturut-turut, libur panjang
+作文|さくぶん|sakubun|Karangan
+発表|はっぴょう|happyō|Presentasi, pengumuman
+展覧会|てんらんかい|tenrankai|Pameran
+結婚式|けっこんしき|kekkonshiki|Upacara pernikahan
+［お］葬式|［お］そうしき|[o]sōshiki|Upacara pemakaman
+式|しき|shiki|Upacara
+本社|ほんしゃ|honsha|Kantor pusat
+支店|してん|shiten|Kantor cabang
+教会|きょうかい|kyōkai|Gereja
+大学院|だいがくいん|daigakuin|Pascasarjana (S2/S3)
+動物園|どうぶつえん|dōbutsuen|Kebun binatang
+温泉|おんせん|onsen|Pemandian air panas alami (onsen)
+お客［さん］|おきゃく［さん］|okyaku[san]|Tamu, pelanggan
+残ります|のこります|nokorimasu|Tersisa, tinggal
+月に|つきに|tsuki ni|Per bulan, dalam sebulan
+普通の|ふつうの|futsū no|Biasa, normal
+村|むら|mura|Desa
+映画館|えいがかん|eigakan|Bioskop
+嫌|いや|iya|Tidak suka, enggan
+空|そら|sora|Langit
+閉じます|とじます|tojimasu|Menutup (mata/buku)
+都会|とかい|tokai|Kota besar, perkotaan
+子どもたち|こどもたち|kodomotachi|Anak-anak
+自由に|じゆうに|jiyū ni|Dengan bebas`,
+
+        32: `運動します|うんどうします|undō shimasu|Berolahraga
+成功します|せいこうします|seikō shimasu|Berhasil, sukses
+失敗します［試験に～］|しっぱいします［しけんに～］|shippai shimasu [shiken ni ~]|Gagal [ujian]
+合格します［試験に～］|ごうかくします［しけんに～］|gōkaku shimasu [shiken ni ~]|Lulus [ujian]
+戻ります|もどります|modorimasu|Kembali
+やみます［雨が～］|やみます［あめが～］|yamimasu [ame ga ~]|Reda, berhenti [hujan]
+晴れます|はれます|haremasu|Cerah
+曇ります|くもります|kumorimasu|Mendung, berawan
+吹きます［風が～］|ふきます［かぜが～］|fukimasu [kaze ga ~]|Bertiup [angin]
+治ります・直ります|なおります|naorimasu|Sembuh [penyakit] / Diperbaiki [kerusakan]
+続きます［熱が～］|つづきます［ねつが～］|tsuzukimasu [netsu ga ~]|Berlanjut, terus-menerus [demam]
+冷やします|ひやします|hiyashimasu|Mendinginkan, mengompres dingin
+心配［な］|しんぱい［な］|shinpai [na]|Khawatir, cemas
+十分［な］|じゅうぶん［な］|jūbun [na]|Cukup
+せき［が出ます］|せき［がでます］|seki [ga demasu]|Batuk [batuk-batuk]
+空|そら|sora|Langit
+太陽|たいよう|taiyō|Matahari
+星|ほし|hoshi|Bintang
+月|つき|tsuki|Bulan
+風|かぜ|kaze|Angin
+北|きた|kita|Utara
+南|みなみ|minami|Selatan
+東|ひがし|higashi|Timur
+西|にし|nishi|Barat
+水道|すいどう|suidō|Saluran air ledeng / keran air
+今夜|こんや|kon'ya|Malam ini
+夕方|ゆうがた|yūgata|Sore hari, petang
+前|まえ|mae|Sebelum, dahulu
+遅く|おそく|osoku|Larut, terlambat
+元気|げんき|genki|Sehat, semangat
+胃|い|i|Lambung, perut
+働きすぎ|はたらきすぎ|hatarakisugi|Terlalu banyak bekerja
+無理をします|むりをします|muri o shimasu|Memaksakan diri
+星占い|ほしうらない|hoshiuranai|Ramalan bintang, zodiak
+おうし座|おうしざ|Oushiza|Zodiak Taurus
+困ります|こまります|komarimasu|Susah, bingung, kerepotan
+宝くじ|たからくじ|takarakuji|Lotre, undian berhadiah
+当たります［宝くじが～］|あたります［たからくじが～］|atarimasu [takarakuji ga ~]|Menang, kena [lotre]
+健康|けんこう|kenkō|Kesehatan
+恋愛|れんあい|ren'ai|Percintaan, asmara
+恋人|こいびと|koibito|Pacar, kekasih
+［お］金持ち|［お］かねもち|[o]kanemochi|Orang kaya`,
+
+        33: `逃げます|にげます|nigemasu|Melarikan diri, kabur
+騒ぎます|さわぎます|sawagimasu|Membuat keributan, berisik
+投げます|なげます|nagemasu|Melempar
+守ります|まもります|mamorimasu|Mematuhi, menaati, menjaga
+上げます|あげます|agemasu|Menaikkan, mengangkat
+下げます|さげます|sagemasu|Menurunkan
+伝えます|つたえます|tsutaemasu|Menyampaikan (pesan)
+注意します［車に～］|ちゅういします［くるまに～］|chūi shimasu [kuruma ni ~]|Memperhatikan, berhati-hati [terhadap mobil]
+外します［席を～］|はずします［せきを～］|hazushimasu [seki o ~]|Meninggalkan [tempat duduk sebentar]
+席|せき|seki|Tempat duduk, kursi
+洗濯機|せんたくき|sentakuki|Mesin cuci
+～機|～き|~ki|Mesin ~
+規則|きそく|kisoku|Peraturan, tata tertib
+使用禁止|しようきんし|shiyō kinshi|Dilarang menggunakan
+立入禁止|たちいりきんし|tachiiri kinshi|Dilarang masuk
+入口|いりぐち|iriguchi|Pintu masuk
+出口|でぐち|deguchi|Pintu keluar
+非常口|ひじょうぐち|hijōguchi|Pintu darurat
+無料|むりょう|muryō|Gratis
+本日休業|ほんじつきゅうぎょう|honjitsu kyūgyō|Hari ini tutup / libur
+営業中|えいぎょうちゅう|eigyōchū|Sedang buka / beroperasi
+使用中|しようちゅう|shiyōchū|Sedang digunakan
+～中|～ちゅう|~chū|Sedang ~
+駐車違反|ちゅうしゃいはん|chūsha ihan|Pelanggaran parkir
+～以内|～いない|~inai|Dalam waktu / jarak kurang dari ~
+警察|けいさつ|keisatsu|Polisi, kantor polisi
+罰金|ばっきん|bakkin|Denda
+電報|でんぽう|denpō|Telegram
+人々|ひとびと|hitobito|Orang-orang
+急用|きゅうよう|kyūyō|Urusan mendadak / penting
+打ちます［電報を～］|うちます［でんぽうを～］|uchimasu [denpō o ~]|Mengirim [telegram]
+電報代|でんぽうだい|denpōdai|Biaya telegram
+急に|きゅうに|kyū ni|Tiba-tiba, mendadak
+楽しみにしています|たのしみにしています|tanoshimi ni shite imasu|Menunggu dengan senang hati / menantikan
+以上です|いじょうです|ijō desu|Sekian / cukup sekian`,
+
+        34: `みがきます［歯を～］|みがきます［はを～］|migakimasu [ha o ~]|Menggosok [gigi], memoles
+組み立てます|くみたてます|kumitatemasu|Merakit, memasang
+折ります|おります|orimasu|Melipat, mematahkan
+気がつきます［忘れ物に～］|きがつきます［わすれものに～］|ki ga tsukimasu [wasuremono ni ~]|Menyadari, teringat [barang ketinggalan]
+見つかります［かぎが～］|みつかります|mitsukarimasu|Ditemukan [kunci]
+質問します|しつもんします|shitsumon shimasu|Bertanya
+細い|ほそい|hosoi|Tipis, ramping, kecil (diameter)
+太い|ふとい|futoi|Tebal, gemuk, besar (diameter)
+盆踊り|ぼんおどり|bon-odori|Tarian Bon (festival musim panas Jepang)
+家具|かぐ|kagu|Perabotan rumah tangga, furnitur
+説明書|せつめいしょ|setsumeisho|Buku petunjuk pemakaian, manual
+図|ず|zu|Gambar, diagram, bagan
+線|せん|sen|Garis
+矢印|やじるし|yajirushi|Tanda panah
+黒|くろ|kuro|Hitam (kata benda)
+白|しろ|shiro|Putih (kata benda)
+赤|あか|aka|Merah (kata benda)
+青|あお|ao|Biru (kata benda)
+紺|こん|kon|Biru tua, biru dongker
+黄色|きいろ|kiiro|Kuning (kata benda)
+茶色|ちゃいろ|chairo|Cokelat (warna)
+昨夜|ゆうべ|yūbe|Tadi malam, semalam
+茶道|さどう|sadō|Upacara minum teh tradisional Jepang
+お茶をたてます|おちゃをたてます|ocha o tatemasu|Membuat/mengocok teh hijau (matcha)
+先に|さきに|saki ni|Duluan, terlebih dahulu
+載せます|のせます|nosemasu|Meletakkan di atas, memuatkan
+苦い|にがい|nigai|Pahit
+親子丼|おやこどん|oyakodon|Nasi mangkuk dengan ayam dan telur
+材料|ざいりょう|zairyō|Bahan-bahan
+～分|～ぶん|~bun|Porsi untuk ~
+鶏肉|とりにく|toriniku|Daging ayam
+～個|～こ|~ko|~ buah (benda kecil/bulat)
+４分の１|よんぶんのいち|yonbun no ichi|Seperempat (1/4)
+調味料|ちょうみりょう|chōmiryō|Bumbu masak
+火|ひ|hi|Api
+火にかけます|ひにかけます|hi ni kakemasu|Memasak di atas api
+煮ます|にます|nimasu|Merebus, memasak dengan kuah
+煮えます|にえます|niemasu|Matang (rebusan)`,
+
+        35: `咲きます［花が～］|さきます［はなが～］|sakimasu [hana ga ~]|Mekar [bunga]
+変わります［色が～］|かわります［いろが～］|kawarimasu [iro ga ~]|Berubah [warna]
+困ります|こまります|komarimasu|Susah, bingung, kerepotan
+付けます［丸を～］|つけます［まるを～］|tsukemasu [maru o ~]|Memberi [tanda lingkaran]
+拾います|ひろいます|hiroimasu|Memungut, menemukan (di jalan)
+かかります［電話が～］|かかります［でんわが～］|kakarimasu [denwa ga ~]|Ada [telepon masuk]
+楽［な］|らく［な］|raku [na]|Nyaman, mudah, santai
+正しい|ただしい|tadashii|Benar, tepat
+珍しい|めずらしい|mezurashii|Langka, jarang ada, aneh
+方|かた|kata|Orang (bentuk sopan dari 人)
+向こう|むこう|mukō|Seberang, sebelah sana
+島|しま|shima|Pulau
+村|むら|mura|Desa
+港|みなと|minato|Pelabuhan
+近所|きんじょ|kinjo|Lingkungan sekitar, tetangga
+屋上|おくじょう|okujō|Atap gedung (rooftop)
+海外|かいがい|kaigai|Luar negeri
+山登り|やまのぼり|yamanobori|Pendakian gunung
+機会|きかい|kikai|Kesempatan
+許可|きょか|kyoka|Izin
+丸|まる|maru|Lingkaran
+操作|そうさ|sōsa|Pengoperasian
+方法|ほうほう|hōhō|Cara, metode
+設備|せつび|setsubi|Fasilitas, peralatan
+葉|は|ha|Daun
+曲|きょく|kyoku|Lagu, komposisi musik
+楽しみ|たのしみ|tanoshimi|Kesenangan, hal yang dinantikan
+初めに|はじめに|hajime ni|Pertama-tama, pada awalnya
+これで終わります|これでおわります|kore de owarimasu|Sekian / selesai sampai di sini
+夜行バス|やこうバス|yakō basu|Bus malam
+旅行社|りょこうしゃ|ryokōsha|Agen perjalanan (travel agent)
+詳しい|くわしい|kuwashii|Mendetail, rinci, paham betul
+スキー場|スキーじょう|sukī-jō|Tempat bermain ski
+朱夏|しゅか|shuka|Musim panas merah
+青春|せいしゅん|seishun|Masa muda
+白秋|はくしゅう|hakushū|Musim gugur putih
+玄冬|げんとう|gentō|Musim dingin hitam
+人生|じんせい|jinsei|Kehidupan manusia`,
+
+        36: `届きます［荷物が～］|とどきます［にもつが～］|todokimasu [nimotsu ga ~]|Tiba, sampai [paket/kiriman]
+出ます［試合に～］|でます［しあいに～］|demasu [shiai ni ~]|Ikut serta, tampil [dalam pertandingan]
+打ちます［ワープロを～］|うちます|uchimasu|Mengetik [pengolah kata]
+貯金します|ちょきんします|chokin shimasu|Menabung
+太ります|ふとります|futorimasu|Menjadi gemuk
+過ぎます［７時を～］|すぎます［しちじを～］|sugimasu [shichiji o ~]|Lewat, melewati [pukul 7]
+慣れます［習慣に～］|なれます［しゅうかんに～］|naremasu [shūkan ni ~]|Terbiasa [dengan kebiasaan]
+硬い|かたい|katai|Keras, kaku
+軟らかい|やわらかい|yawarakai|Lunak, empuk, lembut
+電子～|でんし～|denshi ~|~ elektronik
+携帯～|けいたい～|keitai ~|~ portabel / genggam
+工場|こうじょう|kōjō|Pabrik
+健康|けんこう|kenkō|Kesehatan
+剣道|けんどう|kendō|Kendo (seni bela diri pedang Jepang)
+毎週|まいしゅう|maishū|Setiap minggu
+毎月|まいつき|maitsuki|Setiap bulan
+毎年|まいとし・まいねん|maitoshi / mainen|Setiap tahun
+必ず|かならず|kanarazu|Pasti, tanpa gagal
+絶対に|ぜったいに|zettai ni|Mutlak, sama sekali (negatif)
+上手に|じょうずに|jōzu ni|Dengan pandai / mahir
+お客様|おきゃくさま|okyakusama|Tamu, pelanggan (sangat sopan)
+特別［な］|とくべつ［な］|tokubetsu [na]|Spesial, khusus
+水泳|すいえい|suiei|Renang
+気持ち|きもち|kimochi|Perasaan, suasana hati
+乗り物|のりもの|norimono|Kendaraan
+歴史|れきし|rekishi|Sejarah
+～世紀|～せいき|~seiki|Abad ke-~
+遠く|とおく|tōku|Tempat yang jauh
+汽車|きしゃ|kisha|Kereta api uap / lokomotif
+汽船|きせん|kisen|Kapal uap
+大勢の～|おおぜいの～|ōzei no ~|Banyak ~ (orang)
+運びます|はこびます|hakobimasu|Mengangkut, membawa
+飛びます|とびます|tobimasu|Terbang
+安全［な］|あんぜん［な］|anzen [na]|Aman
+宇宙|うちゅう|uchū|Luar angkasa
+地球|ちきゅう|chikyū|Bumi
+ライト兄弟|ライトきょうだい|Raito Kyōdai|Wright Bersaudara`,
+
+        37: `褒めます|ほめます|homemasu|Memuji
+誘います|さそいます|sasoimasu|Mengajak, mengundang
+起こします|おこします|okoshimasu|Membangunkan
+招待します|しょうたいします|shōtai shimasu|Mengundang (resmi/pesta)
+頼みます|たのみます|tanomimasu|Meminta tolong, memesan
+注意します|ちゅういします|chūi shimasu|Memperingatkan, menasihati
+踏みます|ふみます|fumimasu|Menginjak
+壊します|こわします|kowashimasu|Merusak, memecahkan
+汚します|よごします|yogoshimasu|Mengotori
+行います|おこないます|okonaimasu|Mengadakan, menyelenggarakan
+輸出します|ゆしゅつします|yushutsu shimasu|Mengekspor
+輸入します|ゆにゅうします|yunyū shimasu|Mengimpor
+翻訳します|ほんやくします|hon'yaku shimasu|Menerjemahkan (tulisan)
+発明します|はつめいします|hatsumei shimasu|Menemukan (menciptakan hal baru)
+発見します|はっけんします|hakken shimasu|Menemukan (hal yang sudah ada)
+設計します|せっけいします|sekkei shimasu|Merancang, mendesain
+米|こめ|kome|Beras
+麦|むぎ|mugi|Gandum
+石油|せきゆ|sekiyu|Minyak bumi
+原料|げんりょう|genryō|Bahan baku, bahan mentah
+泥棒|どろぼう|dorobō|Pencuri, maling
+警官|けいかん|keikan|Polisi
+建築家|けんちくか|kenchikuka|Arsitek
+科学者|かがくしゃ|kagakusha|Ilmuwan
+漫画|まんが|manga|Komik, manga
+世界中|せかいじゅう|sekaijū|Seluruh dunia
+～中|～じゅう|~jū|Seluruh ~
+埋め立てます|うめたてます|umetatemasu|Menguruk, mereklamasi (laut)
+技術|ぎじゅつ|gijutsu|Teknologi, teknik
+土地|とち|tochi|Tanah, lahan
+騒音|そうおん|sōon|Kebisingan, suara bising
+利用します|りようします|riyō shimasu|Memanfaatkan, menggunakan
+～世紀|～せいき|~seiki|Abad ke-~
+豪華［な］|ごうか［な］|gōka [na]|Mewah, megah
+彫刻|ちょうこく|chōkoku|Patung, seni pahat
+眠ります|ねむります|nemurimasu|Tidur
+彫ります|ほります|horimasu|Memahat, mengukir
+仲間|なかま|nakama|Rekan, teman, kawan
+一生懸命|いっしょうけんめい|isshōkenmei|Dengan sungguh-sungguh, mati-matian
+一匹もいません|いっぴきもいません|ippiki mo imasen|Tidak ada seekor pun
+東照宮|とうしょうぐう|Tōshōgū|Kuil Toshogu (di Nikko)
+眠り猫|ねむりねこ|Nemurineko|Kucing Tidur (ukiran di Kuil Toshogu)
+左甚五郎|ひだりじんごろう|Hidari Jingorō|Hidari Jingoro (pemahat legendaris)`,
+
+        38: `育てます|そだてます|sodatemasu|Memelihara, membesarkan, merawat
+運びます|はこびます|hakobimasu|Mengangkut, membawa
+亡くなります|なくなります|nakunarimasu|Meninggal dunia (sopan)
+入院します|にゅういんします|nyūin shimasu|Masuk rumah sakit, dirawat inap
+退院します|たいいんします|taiin shimasu|Keluar dari rumah sakit
+入れます［電源を～］|いれます［でんげんを～］|iremasu [dengen o ~]|Menyalakan [aliran listrik / power]
+切ります［電源を～］|きります［でんげんを～］|kirimasu [dengen o ~]|Mematikan [aliran listrik / power]
+掛けます［かぎを～］|かけます|kakemasu|Mengunci
+気持ちがいい|きもちがいい|kimochi ga ii|Nyaman, enak rasanya
+気持ちが悪い|きもちがわるい|kimochi ga warui|Tidak nyaman, jijik, mual
+大きな～|おおきな～|ōkina ~|~ yang besar
+小さな～|ちいさな～|chiisana ~|~ yang kecil
+赤ちゃん|あかちゃん|akachan|Bayi
+小学校|しょうがっこう|shōgakkō|Sekolah Dasar (SD)
+中学校|ちゅうがっこう|chūgakkō|Sekolah Menengah Pertama (SMP)
+駅前|えきまえ|ekimae|Depan stasiun
+海岸|かいがん|kaigan|Pantai, pesisir
+書類|しょるい|shorui|Dokumen, berkas
+電源|でんげん|dengen|Sumber listrik, tombol power
+～製|～せい|~sei|Buatan ~
+お先に［失礼します］|おさきに［しつれいします］|osaki ni [shitsurei shimasu]|Permisi saya pulang duluan
+原爆ドーム|げんばくドーム|Genbaku Dōmu|Kubah Bom Atom (Hiroshima)
+回覧|かいらん|kairan|Surat edaran bergilir
+研究室|けんきゅうしつ|kenkyūshitsu|Ruang penelitian / ruang dosen
+整理します|せいりします|seiri shimasu|Merapikan, membereskan, menyusun
+～という本|～というほん|~ to iu hon|Buku yang berjudul ~
+～冊|～さつ|~satsu|~ jilid / buah (kata bantu bilangan buku)
+押します［はんこを～］|おします|oshimasu|Mengecap [stempel]
+双子|ふたご|futago|Anak kembar
+姉妹|しまい|shimai|Saudara perempuan
+５年生|ごねんせい|gonensei|Siswa kelas 5 / mahasiswa tahun ke-5
+似ています|にています|nite imasu|Mirip
+性格|せいかく|seikaku|Sifat, karakter, kepribadian
+世話をします|せわをします|sewa o shimasu|Mengurus, merawat
+時間がたちます|じかんがたちます|jikan ga tachimasu|Waktu berlalu
+大好き［な］|だいすき［な］|daisuki [na]|Sangat suka
+～点|～てん|~ten|~ poin / nilai
+不思議［な］|ふしぎ［な］|fushigi [na]|Aneh, ajaib, misterius`,
+
+        39: `答えます［質問に～］|こたえます［しつもんに～］|kotaemasu [shitsumon ni ~]|Menjawab [pertanyaan]
+倒れます［ビルが～］|たおれます|taoremasu|Roboh, tumbang [gedung]
+焼けます［うちが～］|やけます|yakemasu|Terbakar [rumah], terpanggang
+通ります［道を～］|とおります［みちを～］|tōrimasu [michi o ~]|Melewati, melalui [jalan]
+死にます|しにます|shinimasu|Meninggal, mati
+安心します|あんしんします|anshin shimasu|Lega, tenang
+遅刻します|ちこくします|chikoku shimasu|Terlambat (datang ke sekolah/kerja)
+早退します|そうたいします|sōtai shimasu|Pulang lebih awal (dari sekolah/kerja)
+離婚します|りこんします|rikon shimasu|Bercerai
+複雑［な］|ふくざつ［な］|fukuzatsu [na]|Rumit, kompleks
+邪魔［な］|じゃま［な］|jama [na]|Mengganggu, menghalangi
+汚い|きたない|kitanai|Kotor
+悲しい|かなしい|kanashii|Sedih
+恥ずかしい|はずかしい|hazukashii|Malu
+地震|じしん|jishin|Gempa bumi
+台風|たいふう|taifū|Angin topan, taifun
+火事|かじ|kaji|Kebakaran
+事故|じこ|jiko|Kecelakaan
+［お］見合い|［お］みあい|[o]miai|Perjodohan (omiai)
+電話代|でんわだい|denwadai|Biaya telepon
+～代|～だい|~dai|Biaya ~, ongkos ~
+～号室|～ごうしつ|~gōshitsu|Kamar nomor ~
+汗|あせ|ase|Keringat
+汗をかきます|あせをかきます|ase o kakimasu|Berkeringat
+大勢|おおぜい|ōzei|Banyak orang
+お疲れさまでした|おつかれさまでした|otsukaresama deshita|Terima kasih atas kerja kerasnya
+伺います|うかがいます|ukagaimasu|Saya datang / pergi (merendah)
+途中で|とちゅうで|tochū de|Di tengah jalan, di tengah-tengah
+並びます|ならびます|narabimasu|Berbaris, mengantre
+大人|おとな|otona|Orang dewasa
+洋服|ようふく|yōfuku|Pakaian gaya Barat
+西洋化します|せいようかします|seiyōka shimasu|Kebarat-baratan, westernisasi
+合います|あいます|aimasu|Cocok, pas
+今では|いまでは|ima dewa|Sekarang ini
+成人式|せいじんしき|seijinshiki|Upacara kedewasaan (usia 20 tahun di Jepang)
+伝統的［な］|でんとうてき［な］|dentōteki [na]|Tradisional`,
+
+        40: `数えます|かぞえます|kazoemasu|Menghitung
+測ります・量ります|はかります|hakarimasu|Mengukur (panjang, berat, suhu)
+確かめます|たしかめます|tashikamemasu|Memastikan, mengecek kebenaran
+合います［サイズが～］|あいます|aimasu|Cocok, pas [ukurannya]
+出発します|しゅっぱつします|shuppatsu shimasu|Berangkat
+到着します|とうちゃくします|tōchaku shimasu|Tiba, sampai
+酔います|よいます|yoimasu|Mabuk (alkohol / kendaraan)
+危険［な］|きけん［な］|kiken [na]|Berbahaya
+必要［な］|ひつよう［な］|hitsuyō [na]|Perlu, dibutuhkan
+宇宙|うちゅう|uchū|Luar angkasa
+地球|ちきゅう|chikyū|Bumi
+忘年会|ぼうねんかい|bōnenkai|Pesta akhir tahun
+新年会|しんねんかい|shinnenkai|Pesta tahun baru
+二次会|にじかい|nijikai|Pesta lanjutan (ronde kedua)
+大会|たいかい|taikai|Turnamen, lomba besar, kongres
+表|おもて|omote|Bagian depan, permukaan
+裏|うら|ura|Bagian belakang, sebaliknya
+返事|へんじ|henji|Jawaban, balasan
+申し込み|もうしこみ|mōshikomi|Pendaftaran, permohonan
+本当|ほんとう|hontō|Kebenaran, sungguh
+傷|きず|kizu|Luka, goresan, cacat
+長さ|ながさ|nagasa|Panjangnya
+重さ|おもさ|omosa|Beratnya
+高さ|たかさ|takasa|Tingginya
+大きさ|おおきさ|ōkisa|Besarnya, ukurannya
+［～］便|［～］びん|[~]bin|Penerbangan nomor [~]
+～号|～ごう|~gō|Nomor ~ (kereta, topan, majalah)
+～個|～こ|~ko|~ buah (benda kecil)
+～本|～ほん / ～ぼん / ～ぽん|~hon / ~bon / ~pon|~ batang / botol (benda panjang)
+～杯|～はい / ～ばい / ～ぱい|~hai / ~bai / ~pai|~ gelas / cangkir / mangkuk
+～以上|～いじょう|~ijō|~ ke atas, lebih dari atau sama dengan ~
+～以下|～いか|~ika|~ ke bawah, kurang dari atau sama dengan ~
+成績|せいせき|seiseki|Nilai, prestasi hasil belajar
+様子|ようす|yōsu|Keadaan, situasi, gelagat
+事件|じけん|jiken|Peristiwa, kasus, insiden
+爆弾|ばくだん|bakudan|Bom
+積みます|つみます|tsumimasu|Memuat, menumpuk
+運転手|うんてんしゅ|untenshu|Sopir, pengemudi
+離れた|はなれた|hanareta|Terpisah, jauh
+急に|きゅうに|kyū ni|Tiba-tiba
+動かします|うごかします|ugokashimasu|Menggerakkan, menjalankan
+一生懸命|いっしょうけんめい|isshōkenmei|Dengan sungguh-sungguh, mati-matian
+犯人|はんにん|hannin|Pelaku kejahatan, penjahat
+手に入れます|てにいれます|te ni iremasu|Mendapatkan, memperoleh
+今でも|いまでも|ima demo|Sampai sekarang pun`,
+
+        41: `呼びます|よびます|yobimasu|Memanggil, mengundang
+取り替えます|とりかえます|torikaemasu|Menukar, mengganti
+親切にします|しんせつにします|shinsetsu ni shimasu|Berbuat baik, bersikap ramah
+お祝い|おいわい|oiwai|Ucapan selamat / hadiah perayaan
+お年玉|おとしだま|otoshidama|Uang angpao Tahun Baru Jepang
+［お］見舞い|［お］みまい|[o]mimai|Menjenguk orang sakit / buah tangan
+興味|きょうみ|kyōmi|Minat, ketertarikan
+情報|じょうほう|jōhō|Informasi
+文法|ぶんぽう|bunpō|Tata bahasa (grammar)
+発音|はつおん|hatsuon|Pelafalan, pengucapan
+猿|さる|saru|Monyet, kera
+絵本|えほん|ehon|Buku bergambar (anak-anak)
+絵はがき|えはがき|ehagaki|Kartu pos bergambar
+靴下|くつした|kutsushita|Kaus kaki
+手袋|てぶくろ|tebukuro|Sarung tangan
+指輪|ゆびわ|yubiwa|Cincin
+祖父|そふ|sofu|Kakek (saya)
+祖母|そぼ|sobo|Nenek (saya)
+孫|まご|mago|Cucu
+申し訳ありません|もうしわけありません|mōshiwake arimasen|Mohon maaf sebesar-besarnya
+預かります|あずかります|azukarimasu|Menitipkan / menerima titipan
+先日|せんじつ|senjitsu|Tempo hari, beberapa hari lalu
+助かります|たすかります|tasukarimasu|Sangat terbantu, tertolong
+昔話|むかしばなし|mukashibanashi|Cerita rakyat, dongeng zaman dahulu
+男|おとこ|otoko|Laki-laki, pria
+子どもたち|こどもたち|kodomotachi|Anak-anak
+亀|かめ|kame|Kura-kura, penyu
+助けます|たすけます|tasukemasu|Menolong, menyelamatkan
+［お］城|［お］しろ|[o]shiro|Istana, kastel
+お姫様|おひめさま|ohimesama|Tuan putri
+楽しく|たのしく|tanoshiku|Dengan gembira / menyenangkan
+暮らします|くらします|kurashimasu|Hidup, tinggal
+陸|りく|riku|Daratan
+煙|けむり|kemuri|Asap
+真っ白|まっしろ|masshiro|Putih bersih
+中身|なかみ|nakami|Isi
+浦島太郎|うらしまたろう|Urashima Tarō|Urashima Taro (tokoh dongeng Jepang)`,
+
+        42: `包みます|つつみます|tsutsumimasu|Membungkus
+沸かします|わかします|wakashimasu|Merebus, mendidihkan (air)
+混ぜます|まぜます|mazemasu|Mencampur, mengaduk
+計算します|けいさんします|keisan shimasu|Menghitung
+厚い|あつい|atsui|Tebal
+薄い|うすい|usui|Tipis
+弁護士|べんごし|bengoshi|Pengacara
+音楽家|おんがくか|ongakuka|Musisi, pemusik
+子どもたち|こどもたち|kodomotachi|Anak-anak
+二人|ふたり|futari|Berdua, dua orang
+教育|きょういく|kyōiku|Pendidikan
+歴史|れきし|rekishi|Sejarah
+文化|ぶんか|bunka|Budaya, kebudayaan
+社会|しゃかい|shakai|Masyarakat, sosial
+法律|ほうりつ|hōritsu|Hukum, undang-undang
+戦争|せんそう|sensō|Perang
+平和|へいわ|heiwa|Perdamaian
+目的|もくてき|mokuteki|Tujuan
+安全|あんぜん|anzen|Keamanan, keselamatan
+論文|ろんぶん|ronbun|Skripsi, tesis, karya ilmiah
+関係|かんけい|kankei|Hubungan, kaitan
+栓抜き|せんぬき|sennuki|Pembuka tutup botol
+缶切り|かんきり|kankiri|Pembuka kaleng
+缶詰|かんづめ|kanzume|Makanan kaleng
+体温計|たいおんけい|taionkei|Termometer badan
+材料|ざいりょう|zairyō|Bahan, material
+石|いし|ishi|Batu
+一生懸命|いっしょうけんめい|isshōkenmei|Dengan sungguh-sungguh
+国連|こくれん|Kokuren|PBB (Perserikatan Bangsa-Bangsa)
+食品|しょくひん|shokuhin|Bahan makanan, produk pangan
+調査|ちょうさ|chōsa|Survei, penyelidikan`,
+
+        43: `増えます［輸出が～］|ふえます［ゆしゅつが～］|fuemasu [yushutsu ga ~]|Bertambah, meningkat [ekspor]
+減ります［輸出が～］|へります［ゆしゅつが～］|herimasu [yushutsu ga ~]|Berkurang, menurun [ekspor]
+上がります［値段が～］|あがります［ねだんが～］|agarimasu [nedan ga ~]|Naik [harga]
+下がります［値段が～］|さがります［ねだんが～］|sagarimasu [nedan ga ~]|Turun [harga]
+切れます［ひもが～］|きれます|kiremasu|Putus [tali], habis (masa berlaku/baterai)
+落ちます［荷物が～］|おちます［にもつが～］|ochimasu [nimotsu ga ~]|Jatuh [barang]
+丈夫［な］|じょうぶ［な］|jōbu [na]|Kuat, kokoh, awet
+変［な］|へん［な］|hen [na]|Aneh, janggal
+幸せ［な］|しあわせ［な］|shiawase [na]|Bahagia
+火|ひ|hi|Api
+暖房|だんぼう|danbō|Pemanas ruangan
+冷房|れいぼう|reibō|Pendingin ruangan
+今にも|いまにも|ima ni mo|Sebentar lagi, hampir saja
+会員|かいいん|kaiin|Anggota (member)
+適当［な］|てきとう［な］|tekitō [na]|Tepat, sesuai, secukupnya
+年齢|ねんれい|nenrei|Usia, umur
+収入|しゅうにゅう|shūnyū|Penghasilan, pendapatan
+～と言います|～といいます|~ to iimasu|Bernama ~, disebut ~`,
+
+        44: `泣きます|なきます|nakimasu|Menangis
+笑います|わらいます|waraimasu|Tertawa, tersenyum
+乾きます|かわきます|kawakimasu|Menjadi kering
+滑ります|すべります|suberimasu|Terpeleset, licin
+起きます［事故が～］|おきます［じこが～］|okimasu [jiko ga ~]|Terjadi [kecelakaan]
+調節します|ちょうせつします|chōsetsu shimasu|Mengatur, menyesuaikan
+安全［な］|あんぜん［な］|anzen [na]|Aman
+丁寧［な］|ていねい［な］|teinei [na]|Sopan, teliti, hati-hati
+細かい|こまかい|komakai|Kecil-kecil, receh, rinci
+濃い|こい|koi|Kental, pekat, tua (warna), kuat (rasa)
+薄い|うすい|usui|Encer, tawar, muda (warna)
+空気|くうき|kūki|Udara, suasana
+涙|なみだ|namida|Air mata
+和食|わしょく|washoku|Masakan Jepang
+洋食|ようしょく|yōshoku|Masakan Barat
+量|りょう|ryō|Jumlah, kuantitas, porsi
+～倍|～ばい|~bai|~ kali lipat
+半分|はんぶん|hanbun|Setengah, separuh
+洗濯物|せんたくもの|sentakumono|Cucian (pakaian yang dicuci)
+理由|りゆう|riyū|Alasan
+［どうも］お疲れさまでした|［どうも］おつかれさまでした|[dōmo] otsukaresama deshita|Terima kasih banyak
+嫌がります|いやがります|iyagarimasu|Merasa tidak suka / enggan (orang ketiga)
+順序|じゅんじょ|junjo|Urutan
+表現|ひょうげん|hyōgen|Ungkapan, ekspresi
+例えば|たとえば|tatoeba|Misalnya
+別れます|わかれます|wakaremasu|Berpisah
+縁起が悪い|えんぎがわるい|engi ga warui|Pertanda buruk, membawa sial`,
+
+        45: `謝ります|あやまります|ayamarimasu|Meminta maaf
+合います［事故に～］|あいます［じこに～］|aimasu [jiko ni ~]|Mengalami, tertimpa [kecelakaan]
+信じます|しんじます|shinjimasu|Memercayai, percaya
+用意します|よういします|yōi shimasu|Menyiapkan, mempersiapkan
+保証書|ほしょうしょ|hoshōsho|Kartu garansi
+領収書|りょうしゅうしょ|ryōshūsho|Kuitansi, tanda terima pembayaran
+贈り物|おくりもの|okurimono|Hadiah, pemberian
+まちがい電話|まちがいでんわ|machigai denwa|Telepon salah sambung
+係|かかり|kakari|Petugas, bagian yang bertugas
+中止|ちゅうし|chūshi|Pembatalan, penundaan
+点|てん|ten|Poin, nilai
+［～円］札|［～えん］さつ|[~en]satsu|Uang kertas [~ yen]
+急に|きゅうに|kyū ni|Tiba-tiba, mendadak
+楽しみにしています|たのしみにしています|tanoshimi ni shite imasu|Menunggu dengan senang hati / menantikan
+以上です|いじょうです|ijō desu|Sekian / cukup sekian
+係員|かかりいん|kakariin|Petugas
+～位|～い|~i|Peringkat ke-~, juara ke-~
+優勝します|ゆうしょうします|yūshō shimasu|Menjadi juara pertama, memenangkan kejuaraan
+悩み|なやみ|nayami|Kekhawatiran, masalah, kegalauan
+目覚まし［時計］|めざまし［どけい］|mezamashi [dokei]|Jam beker / jam weker
+眠ります|ねむります|nemurimasu|Tidur
+目が覚めます|めがさめます|me ga samemasu|Terbangun
+大学生|だいがくせい|daigakusei|Mahasiswa
+回答|かいとう|kaitō|Jawaban, balasan
+鳴ります|なります|narimasu|Berbunyi (bel, alarm, telepon)`,
+
+        46: `焼きます|やきます|yakimasu|Memanggang, membakar
+渡します|わたします|watashimasu|Menyerahkan
+帰ってきます|かえってきます|kaette kimasu|Pulang kembali
+出ます［バスが～］|でます|demasu|Berangkat [bus]
+留守|るす|rusu|Tidak ada di rumah, sedang pergi
+宅配便|たくはいびん|takuhaibin|Jasa pengiriman paket ke rumah (kurir)
+原因|げんいん|gen'in|Penyebab
+注射|ちゅうしゃ|chūsha|Suntikan
+食欲|しょくよく|shokuyoku|Nafsu makan
+たった今|たったいま|tatta ima|Baru saja (detik/menit ini)
+今いいでしょうか|いまいいでしょうか|ima ii deshō ka|Apakah sekarang ada waktu sebentar?
+具合|ぐあい|guai|Kondisi, keadaan (mesin/tubuh)
+向かいます|むかいます|mukaimasu|Menuju ke sana
+お待たせしました|おまたせしました|omatase shimashita|Maaf telah membuat Anda menunggu
+知識|ちしき|chishiki|Pengetahuan
+宝庫|ほうこ|hōko|Gudang harta / sumber kekayaan
+手に入ります|てにはいります|te ni hairimasu|Didapatkan, diperoleh
+例えば|たとえば|tatoeba|Misalnya
+一部分|いちぶぶん|ichibubun|Sebagian
+入力します|にゅうりょくします|nyūryoku shimasu|Memasukkan data (input)
+秒|びょう|byō|Detik
+出ます［本が～］|でます［ほんが～］|demasu [hon ga ~]|Terbit [buku]`,
+
+        47: `集まります［人が～］|あつまります［ひとが～］|atsumarimasu [hito ga ~]|Berkumpul [orang]
+別れます［人が～］|わかれます［ひとが～］|wakaremasu [hito ga ~]|Berpisah [orang]
+長生きします|ながいきします|nagaiki shimasu|Berumur panjang
+します［音が／声が～］|します［おとが／こえが～］|shimasu [oto ga / koe ga ~]|Terdengar [suara/bunyi]
+します［味が～］|します［あじが～］|shimasu [aji ga ~]|Terasa [rasa]
+さします［傘を～］|さします［かさを～］|sashimasu [kasa o ~]|Memakai / membuka [payung]
+怖い|こわい|kowai|Takut, menakutkan
+天気予報|てんきよほう|tenkiyohō|Prakiraan cuaca
+発表|はっぴょう|happyō|Pengumuman, presentasi
+実験|じっけん|jikken|Eksperimen, percobaan
+人口|じんこう|jinkō|Jumlah penduduk, populasi
+科学|かがく|kagaku|Ilmu pengetahuan, sains
+医学|いがく|igaku|Ilmu kedokteran
+文学|ぶんがく|bungaku|Sastra
+救急車|きゅうきゅうしゃ|kyūkyūsha|Ambulans
+賛成|さんせい|sansei|Setuju
+反対|はんたい|hantai|Menentang, tidak setuju, kebalikan
+男性|だんせい|dansei|Laki-laki, pria
+女性|じょせい|josei|Perempuan, wanita
+恋人|こいびと|koibito|Pacar, kekasih
+婚約します|こんやくします|kon'yaku shimasu|Bertunangan
+相手|あいて|aite|Pasangan, lawan bicara
+知り合います|しりあいます|shiriaimasu|Berkenalan
+平均寿命|へいきんじゅみょう|heikin jumyō|Usia harapan hidup rata-rata
+比べます|くらべます|kurabemasu|Membandingkan
+博士|はかせ|hakase|Doktor (gelar akademis)
+脳|のう|nō|Otak
+化粧品|けしょうひん|keshōhin|Kosmetik
+調べ|しらべ|shirabe|Penyelidikan, survei
+化粧|けしょう|keshō|Riasan wajah (make-up)`,
+
+        48: `届けます|とどけます|todokemasu|Mengantarkan, mengirimkan, melaporkan
+世話をします|せわをします|sewa o shimasu|Mengurus, merawat
+塾|じゅく|juku|Bimbingan belajar (bimbel swasta)
+生徒|せいと|seito|Murid, siswa
+者|もの|mono|Orang (merendah, untuk diri sendiri/keluarga)
+入管|にゅうかん|nyūkan|Kantor imigrasi
+再入国ビザ|さいにゅうこくビザ|sainyūkoku biza|Visa masuk kembali (re-entry permit)
+自由に|じゆうに|jiyū ni|Dengan bebas
+～間|～かん|~kan|Selama ~ (durasi waktu)
+お忙しいですか|おいそがしいですか|oisogashii desu ka|Apakah Anda sedang sibuk?
+久々|ひさびさ|hisabisa|Sudah lama tidak (melakukan sesuatu)
+営業|えいぎょう|eigyō|Pemasaran, penjualan (sales)
+楽しみます|たのしみます|tanoshimimasu|Menikmati
+～世紀|～せいき|~seiki|Abad ke-~
+代わり|かわり|kawari|Pengganti
+競走します|きょうそうします|kyōsō shimasu|Berlomba lari/kecepatan
+芸|げい|gei|Pertunjukan seni, trik akrobatik
+美しい|うつくしい|utsukushii|Indah, cantik
+姿|すがた|sugata|Sosok, penampilan, wujud
+心|こころ|kokoro|Hati, pikiran, jiwa
+捕らえます|とらえます|toraemasu|Menangkap`,
+
+        49: `利用します|りようします|riyō shimasu|Memanfaatkan, menggunakan
+勤めます［会社に～］|つとめます［かいしゃに～］|tsutomemasu [kaisha ni ~]|Bekerja [di perusahaan]
+掛けます［いすに～］|かけます|kakemasu|Duduk [di kursi]
+過ごします|すごします|sugoshimasu|Menghabiskan (waktu)
+召し上がります|めしあがります|meshiagarimasu|Makan, minum (bentuk hormat)
+ご覧になります|ごらんになります|goran ni narimasu|Melihat (bentuk hormat)
+ご存じです|ごぞんじです|gozonji desu|Mengetahui, kenal (bentuk hormat)
+挨拶|あいさつ|aisatsu|Salam, sapaan
+灰皿|はいざら|haizara|Asbak
+旅館|りょかん|ryokan|Penginapan tradisional Jepang (ryokan)
+会場|かいじょう|kaijō|Tempat acara / pertemuan
+バス停|バスてい|basutei|Halte bus
+貿易|ぼうえき|bōeki|Perdagangan internasional (ekspor-impor)
+～様|～さま|~sama|Tuan/Nyonya/Saudara ~ (sangat sopan)
+帰りに|かえりに|kaeri ni|Saat pulang, di perjalanan pulang
+遠慮なく|えんりょなく|enryo naku|Tanpa sungkan, jangan ragu-ragu
+～年～組|～ねん～くみ|~nen ~kumi|Kelas ~ tahun ke-~
+出します［熱を～］|だします［ねつを～］|dashimasu [netsu o ~]|Mengalami [demam]
+よろしくお伝えください|よろしくおつたえください|yoroshiku otsutae kudasai|Tolong sampaikan salam saya
+失礼いたします|しつれいいたします|shitsurei itashimasu|Permisi (sangat sopan)
+講師|こうし|kōshi|Dosen, instruktur, pengajar
+多くの～|おおくの～|ōku no ~|Banyak ~
+作品|さくひん|sakuhin|Karya (seni, sastra)
+受賞します|じゅしょうします|jushō shimasu|Menerima penghargaan
+世界的に|せかいてきに|sekaiteki ni|Secara mendunia / internasional
+作家|さっか|sakka|Penulis, pengarang
+長男|ちょうなん|chōnan|Putra sulung
+障害|しょうがい|shōgai|Disabilitas, hambatan
+お持ちです|おもちです|omochi desu|Mempunyai (bentuk hormat)
+作曲|さっきょく|sakkyoku|Komposisi musik, menggubah lagu
+活動|かつどう|katsudō|Aktivitas, kegiatan`,
+
+        50: `申します|もうします|mōshimasu|Bernama, berkata (bentuk merendah)
+拝見します|はいけんします|haiken shimasu|Melihat (bentuk merendah)
+存じます|ぞんじます|zonjimasu|Mengetahui, mengenal (bentuk merendah)
+伺います|うかがいます|ukagaimasu|Bertanya, mendengar, berkunjung (merendah)
+お目にかかります|おめにかかります|ome ni kakarimasu|Bertemu (bentuk merendah)
+お宅|おたく|otaku|Rumah (orang lain, sopan)
+郊外|こうがい|kōgai|Pinggiran kota
+再来週|さらいしゅう|saraishū|Dua minggu lagi
+再来月|さらいげつ|saraigetsu|Dua bulan lagi
+再来年|さらいねん|sarainen|Dua tahun lagi
+半年|はんとし|hantoshi|Setengah tahun (6 bulan)
+最初に|さいしょに|saisho ni|Pertama-tama, mula-mula
+最後に|さいごに|saigo ni|Terakhir, pada akhirnya
+ただ今|ただいま|tadaima|Sekarang ini, baru saja
+江戸東京博物館|えどとうきょうはくぶつかん|Edo Tōkyō Hakubutsukan|Museum Edo-Tokyo
+緊張します|きんちょうします|kinchō shimasu|Gugup, tegang
+放送します|ほうそうします|hōsō shimasu|Menyiarkan
+撮ります［ビデオに～］|とります|torimasu|Merekam [ke dalam video]
+賞金|しょうきん|shōkin|Uang hadiah
+自然|しぜん|shizen|Alam
+象|ぞう|zō|Gajah
+一言よろしいでしょうか|ひとことよろしいでしょうか|hitokoto yoroshii deshō ka|Bolehkah saya menyampaikan sepatah kata?
+協力します|きょうりょくします|kyōryoku shimasu|Bekerja sama
+心から|こころから|kokoro kara|Dari lubuk hati yang terdalam
+感謝します|かんしゃします|kansha shimasu|Berterima kasih, bersyukur
+［お］礼|［お］れい|[o]rei|Ucapan terima kasih / tanda terima kasih
+拝啓|はいけい|haikei|Dengan hormat (pembuka surat resmi Jepang)
+美しい|うつくしい|utsukushii|Indah, cantik
+お元気でいらっしゃいますか|おげんきでいらっしゃいますか|ogenki de irasshaimasu ka|Apakah Anda dalam keadaan sehat? (sopan)
+迷惑をかけます|めいわくをかけます|meiwaku o kakemasu|Merepotkan, mengganggu
+生かします|いかします|ikashimasu|Memanfaatkan, menghidupkan (pengalaman/ilmu)
+［お］城|［お］しろ|[o]shiro|Istana, kastel
+敬具|けいぐ|keigu|Hormat saya (penutup surat resmi Jepang)`
+      };
+
+      // Parse CHAPTER_DATA into structured VOCAB_BY_CHAPTER
+      const VOCAB_BY_CHAPTER = {};
+      let TOTAL_GLOBAL_CARDS = 0;
+
+      for (let bab = 1; bab <= 50; bab++) {
+        const rawBlock = CHAPTER_DATA[bab] || "";
+        const lines = rawBlock.split("\n").map(function (l) { return l.trim(); }).filter(Boolean);
+        VOCAB_BY_CHAPTER[bab] = lines.map(function (line, index) {
+          const parts = line.split("|");
+          return {
+            id: bab + "-" + index,
+            bab: bab,
+            kanji: (parts[0] || "").trim(),
+            hiragana: (parts[1] || "").trim(),
+            romaji: (parts[2] || "").trim(),
+            arti: (parts[3] || "").trim()
+          };
+        });
+        TOTAL_GLOBAL_CARDS += VOCAB_BY_CHAPTER[bab].length;
+      }
+
+      // =========================================================================
+      // 3. STATE & PREFERENCES
+      // =========================================================================
+      const KEY_MASTERED = "mnn_kanji_mastered_v3";
+      const KEY_PREFS = "mnn_kanji_prefs_v3";
+
+      let masteredMap = {};
+      try {
+        const rawMastered = safeStorage.getItem(KEY_MASTERED);
+        if (rawMastered) masteredMap = JSON.parse(rawMastered) || {};
+      } catch (e) {
+        masteredMap = {};
+      }
+
+      let prefs = {
+        selectedBab: "1",
+        onlyUnmastered: false,
+        autoContinue: true,
+        autoSpeak: true,
+        frontSeconds: 15,
+        backSeconds: 5,
+        endChapterMode: "next_chapter"
+      };
+      try {
+        const rawPrefs = safeStorage.getItem(KEY_PREFS);
+        if (rawPrefs) {
+          const parsed = JSON.parse(rawPrefs);
+          if (parsed && typeof parsed === "object") {
+            prefs = Object.assign({}, prefs, parsed);
+          }
+        }
+      } catch (e) {}
+
+      function savePrefs() {
+        try {
+          safeStorage.setItem(KEY_PREFS, JSON.stringify(prefs));
+        } catch (e) {}
+      }
+
+      function saveMastered() {
+        try {
+          safeStorage.setItem(KEY_MASTERED, JSON.stringify(masteredMap));
+        } catch (e) {}
+      }
+
+      let activeDeck = [];
+      let currentIndex = 0;
+      let isFlipped = false;
+      let isShuffled = false;
+
+      // Timer engine using Date.now() delta
+      const CHAPTER_TRANSITION_MS = 3000;
+      let timerPhase = "front"; // "front" | "back" | "transition" | "idle"
+      let phaseTotalMs = prefs.frontSeconds * 1000;
+      let remainingMs = prefs.frontSeconds * 1000;
+      let isPaused = false;
+      let lastTickTimestamp = Date.now();
+      let timerInterval = null;
+      let toastTimeout = null;
+
+      // =========================================================================
+      // 4. DOM ELEMENT REFERENCES
+      // =========================================================================
+      const el = {
+        fatalErrorBox: document.getElementById("fatalErrorBox"),
+        masteredSummaryText: document.getElementById("masteredSummaryText"),
+        totalGlobalText: document.getElementById("totalGlobalText"),
+        masteredSummaryBar: document.getElementById("masteredSummaryBar"),
+
+        prevBabBtn: document.getElementById("prevBabBtn"),
+        chapterSelect: document.getElementById("chapterSelect"),
+        nextBabBtn: document.getElementById("nextBabBtn"),
+
+        autoContinuePill: document.getElementById("autoContinuePill"),
+        autoContinueToggle: document.getElementById("autoContinueToggle"),
+        autoContinueLabel: document.getElementById("autoContinueLabel"),
+
+        autoSpeakPill: document.getElementById("autoSpeakPill"),
+        autoSpeakToggle: document.getElementById("autoSpeakToggle"),
+        autoSpeakLabel: document.getElementById("autoSpeakLabel"),
+
+        frontDurationSelect: document.getElementById("frontDurationSelect"),
+        backDurationSelect: document.getElementById("backDurationSelect"),
+        endChapterModeSelect: document.getElementById("endChapterModeSelect"),
+
+        filterAllBtn: document.getElementById("filterAllBtn"),
+        filterUnmasteredBtn: document.getElementById("filterUnmasteredBtn"),
+        shuffleBtn: document.getElementById("shuffleBtn"),
+        resetOrderBtn: document.getElementById("resetOrderBtn"),
+        sessionPhasePill: document.getElementById("sessionPhasePill"),
+
+        cardCounterBadge: document.getElementById("cardCounterBadge"),
+        cardBabBadge: document.getElementById("cardBabBadge"),
+        cardMasteredBadge: document.getElementById("cardMasteredBadge"),
+        resetBabMasteryBtn: document.getElementById("resetBabMasteryBtn"),
+
+        chapterTransitionCard: document.getElementById("chapterTransitionCard"),
+        transitionTitle: document.getElementById("transitionTitle"),
+        transitionDesc: document.getElementById("transitionDesc"),
+        transitionProgressBar: document.getElementById("transitionProgressBar"),
+        jumpNextNowBtn: document.getElementById("jumpNextNowBtn"),
+        stayChapterBtn: document.getElementById("stayChapterBtn"),
+
+        chapterStopCard: document.getElementById("chapterStopCard"),
+        stopSummaryTitle: document.getElementById("stopSummaryTitle"),
+        stopSummaryDesc: document.getElementById("stopSummaryDesc"),
+        stopRepeatBtn: document.getElementById("stopRepeatBtn"),
+        stopNextBtn: document.getElementById("stopNextBtn"),
+
+        emptyFilterCard: document.getElementById("emptyFilterCard"),
+        showAllCardsBtn: document.getElementById("showAllCardsBtn"),
+        resetFromEmptyBtn: document.getElementById("resetFromEmptyBtn"),
+
+        cardStageWrapper: document.getElementById("cardStageWrapper"),
+        flashcardInner: document.getElementById("flashcardInner"),
+        frontProgressBar: document.getElementById("frontProgressBar"),
+        frontCountdownBadge: document.getElementById("frontCountdownBadge"),
+        frontKanji: document.getElementById("frontKanji"),
+        frontHintText: document.getElementById("frontHintText"),
+
+        backProgressBar: document.getElementById("backProgressBar"),
+        backCountdownBadge: document.getElementById("backCountdownBadge"),
+        backHiragana: document.getElementById("backHiragana"),
+        backRomaji: document.getElementById("backRomaji"),
+        backKanji: document.getElementById("backKanji"),
+        backArti: document.getElementById("backArti"),
+        markMasteredBtn: document.getElementById("markMasteredBtn"),
+        markUnmasteredBtn: document.getElementById("markUnmasteredBtn"),
+
+        prevCardBtn: document.getElementById("prevCardBtn"),
+        pauseResumeBtn: document.getElementById("pauseResumeBtn"),
+        restart15Btn: document.getElementById("restart15Btn"),
+        speakBtn: document.getElementById("speakBtn"),
+        flipManualBtn: document.getElementById("flipManualBtn"),
+        nextCardBtn: document.getElementById("nextCardBtn"),
+
+        vocabSectionTitle: document.getElementById("vocabSectionTitle"),
+        vocabCountPill: document.getElementById("vocabCountPill"),
+        vocabListContainer: document.getElementById("vocabListContainer"),
+        toast: document.getElementById("toast")
+      };
+
+      // =========================================================================
+      // 5. UTILITY & DECK FUNCTIONS
+      // =========================================================================
+      function showToast(msg) {
+        if (!el.toast) return;
+        el.toast.textContent = msg;
+        el.toast.classList.add("show");
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function () {
+          el.toast.classList.remove("show");
+        }, 2000);
+      }
+
+      function getListForBab(babSelection) {
+        if (babSelection === "ALL") {
+          const all = [];
+          for (let b = 1; b <= 50; b++) {
+            const list = VOCAB_BY_CHAPTER[b] || [];
+            for (let i = 0; i < list.length; i++) all.push(list[i]);
+          }
+          return all;
+        }
+        const num = parseInt(babSelection, 10) || 1;
+        return (VOCAB_BY_CHAPTER[num] || []).slice();
+      }
+
+      function shuffleArray(arr) {
+        const copy = arr.slice();
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = copy[i];
+          copy[i] = copy[j];
+          copy[j] = temp;
+        }
+        return copy;
+      }
+
+      function buildChapterSelect() {
+        const frag = document.createDocumentFragment();
+        for (let b = 1; b <= 50; b++) {
+          const count = (VOCAB_BY_CHAPTER[b] || []).length;
+          const opt = document.createElement("option");
+          opt.value = String(b);
+          opt.textContent = "Bab " + b + " (" + count + " Kanji)";
+          frag.appendChild(opt);
+        }
+        const optAll = document.createElement("option");
+        optAll.value = "ALL";
+        optAll.textContent = "Semua Bab 1–50 (" + TOTAL_GLOBAL_CARDS + " Kanji)";
+        frag.appendChild(optAll);
+
+        el.chapterSelect.innerHTML = "";
+        el.chapterSelect.appendChild(frag);
+        el.chapterSelect.value = prefs.selectedBab;
+        el.totalGlobalText.textContent = "Total: " + TOTAL_GLOBAL_CARDS + " Kanji";
+      }
+
+      function updateMasteryUI() {
+        const fullList = getListForBab(prefs.selectedBab);
+        let masteredCount = 0;
+        for (let i = 0; i < fullList.length; i++) {
+          if (masteredMap[fullList[i].id]) masteredCount++;
+        }
+        const total = fullList.length;
+        const pct = total > 0 ? Math.round((masteredCount / total) * 100) : 0;
+        const label = prefs.selectedBab === "ALL" ? "Semua Bab" : "Bab " + prefs.selectedBab;
+
+        el.masteredSummaryText.textContent = "Hafal " + label + ": " + masteredCount + " / " + total + " (" + pct + "%)";
+        el.masteredSummaryBar.style.width = pct + "%";
+      }
+
+      function updateBabNavButtons() {
+        if (prefs.selectedBab === "ALL") {
+          el.prevBabBtn.disabled = true;
+          el.nextBabBtn.disabled = true;
+        } else {
+          const b = parseInt(prefs.selectedBab, 10) || 1;
+          el.prevBabBtn.disabled = b <= 1;
+          el.nextBabBtn.disabled = b >= 50;
+        }
+      }
+
+      function updateTogglePillsUI() {
+        if (prefs.autoContinue) {
+          el.autoContinuePill.classList.add("active-emerald");
+          el.autoContinueLabel.textContent = "🔄 Lanjutkan Sesi Otomatis: AKTIF";
+        } else {
+          el.autoContinuePill.classList.remove("active-emerald");
+          el.autoContinueLabel.textContent = "🔄 Lanjutkan Sesi Otomatis: NONAKTIF";
+        }
+
+        if (prefs.autoSpeak) {
+          el.autoSpeakPill.classList.add("active-indigo");
+          el.autoSpeakLabel.textContent = "🔊 Auto-Suara Jepang: AKTIF";
+        } else {
+          el.autoSpeakPill.classList.remove("active-indigo");
+          el.autoSpeakLabel.textContent = "🔇 Auto-Suara Jepang: NONAKTIF";
+        }
+
+        if (prefs.onlyUnmastered) {
+          el.filterUnmasteredBtn.classList.add("active");
+          el.filterAllBtn.classList.remove("active");
+        } else {
+          el.filterAllBtn.classList.add("active");
+          el.filterUnmasteredBtn.classList.remove("active");
+        }
+
+        el.restart15Btn.textContent = "🔄 Ulangi " + prefs.frontSeconds + "d";
+      }
+
+      function hideAllOverlays() {
+        el.chapterTransitionCard.classList.add("hidden");
+        el.chapterStopCard.classList.add("hidden");
+        el.emptyFilterCard.classList.add("hidden");
+      }
+
+      // =========================================================================
+      // 6. JAPANESE SPEECH SYNTHESIS (Safe try...catch)
+      // =========================================================================
+      function speakJapaneseText(rawHiragana, showNotification) {
+        try {
+          if (!("speechSynthesis" in window)) {
+            if (showNotification) showToast("Perangkat tidak mendukung fitur suara Jepang.");
+            return;
+          }
+          let clean = String(rawHiragana || "").split("/")[0].split("・")[0];
+          clean = clean
+            .replace(/［[^］]*］/g, "")
+            .replace(/\[[^\]]*\]/g, "")
+            .replace(/[～〜…？?]/g, "")
+            .trim();
+          if (!clean) return;
+
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(clean);
+          utter.lang = "ja-JP";
+          utter.rate = 0.92;
+
+          const voices = window.speechSynthesis.getVoices();
+          for (let i = 0; i < voices.length; i++) {
+            if (voices[i].lang && voices[i].lang.toLowerCase().indexOf("ja") !== -1) {
+              utter.voice = voices[i];
+              break;
+            }
+          }
+          window.speechSynthesis.speak(utter);
+          if (showNotification) showToast("🔊 " + clean);
+        } catch (err) {
+          if (showNotification) showToast("Gagal memutar suara Jepang.");
+        }
+      }
+
+      // =========================================================================
+      // 7. ACCURATE Date.now() 3-PHASE TIMER ENGINE
+      // =========================================================================
+      function startTimerLoop() {
+        if (timerInterval) clearInterval(timerInterval);
+        lastTickTimestamp = Date.now();
+        timerInterval = setInterval(onTimerTick, 100);
+      }
+
+      function stopTimerLoop() {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+      }
+
+      function startFrontPhase() {
+        timerPhase = "front";
+        phaseTotalMs = prefs.frontSeconds * 1000;
+        remainingMs = phaseTotalMs;
+        isPaused = false;
+        updatePauseBtnUI();
+        el.sessionPhasePill.textContent = "Fase 1: Tebak Kanji (" + prefs.frontSeconds + "d)";
+        renderTimerVisuals();
+        startTimerLoop();
+      }
+
+      function startBackPhase() {
+        if (!prefs.autoContinue) {
+          timerPhase = "idle";
+          stopTimerLoop();
+          el.backCountdownBadge.textContent = "Mode Manual";
+          el.backProgressBar.style.width = "100%";
+          el.sessionPhasePill.textContent = "Fase 2: Baca Jawaban (Manual)";
+          return;
+        }
+        timerPhase = "back";
+        phaseTotalMs = prefs.backSeconds * 1000;
+        remainingMs = phaseTotalMs;
+        isPaused = false;
+        updatePauseBtnUI();
+        el.sessionPhasePill.textContent = "Fase 2: Baca Jawaban (" + prefs.backSeconds + "d)";
+        renderTimerVisuals();
+        startTimerLoop();
+      }
+
+      function handleAdvanceAfterBack() {
+        if (activeDeck.length === 0) return;
+
+        // Still have remaining cards in current deck
+        if (currentIndex + 1 < activeDeck.length) {
+          currentIndex++;
+          renderCard(true);
+          return;
+        }
+
+        // Reached the end of the current chapter/deck
+        const babName = prefs.selectedBab === "ALL" ? "Semua Bab 1–50" : "Bab " + prefs.selectedBab;
+
+        if (prefs.endChapterMode === "repeat_chapter") {
+          currentIndex = 0;
+          showToast("🔁 Mengulang " + babName + " dari kartu pertama...");
+          renderCard(true);
+          return;
+        }
+
+        if (prefs.endChapterMode === "stop_chapter") {
+          timerPhase = "idle";
+          stopTimerLoop();
+          el.cardStageWrapper.classList.add("hidden");
+          el.chapterStopCard.classList.remove("hidden");
+
+          const fullList = getListForBab(prefs.selectedBab);
+          let masteredCount = 0;
+          for (let i = 0; i < fullList.length; i++) {
+            if (masteredMap[fullList[i].id]) masteredCount++;
+          }
+          el.stopSummaryTitle.textContent = "Sesi " + babName + " Selesai!";
+          el.stopSummaryDesc.textContent =
+            "Anda telah menyelesaikan " + activeDeck.length + " kartu. Hafal pada bagian ini: " + masteredCount + " / " + fullList.length + " Kanji.";
+          el.sessionPhasePill.textContent = "Sesi Bab Selesai";
+          return;
+        }
+
+        // Default: "next_chapter" -> 3-second automatic transition screen
+        const nextBab =
+          prefs.selectedBab === "ALL"
+            ? "ALL"
+            : parseInt(prefs.selectedBab, 10) < 50
+              ? String(parseInt(prefs.selectedBab, 10) + 1)
+              : "1";
+        const nextBabLabel = nextBab === "ALL" ? "Semua Bab 1–50" : "Bab " + nextBab;
+
+        el.cardStageWrapper.classList.add("hidden");
+        el.chapterTransitionCard.classList.remove("hidden");
+        el.transitionTitle.textContent = "Selesai " + babName + "!";
+        el.transitionDesc.textContent = "Melanjutkan otomatis ke " + nextBabLabel + " dalam 3.0 detik...";
+
+        timerPhase = "transition";
+        phaseTotalMs = CHAPTER_TRANSITION_MS;
+        remainingMs = CHAPTER_TRANSITION_MS;
+        isPaused = false;
+        updatePauseBtnUI();
+        el.sessionPhasePill.textContent = "Transisi ke " + nextBabLabel + "...";
+        renderTimerVisuals();
+        startTimerLoop();
+      }
+
+      function jumpToNextChapter() {
+        stopTimerLoop();
+        hideAllOverlays();
+        if (prefs.selectedBab !== "ALL") {
+          const b = parseInt(prefs.selectedBab, 10) || 1;
+          prefs.selectedBab = b < 50 ? String(b + 1) : "1";
+          el.chapterSelect.value = prefs.selectedBab;
+          savePrefs();
+        }
+        loadDeck();
+      }
+
+      function onTimerTick() {
+        if (isPaused || timerPhase === "idle" || activeDeck.length === 0) {
+          lastTickTimestamp = Date.now();
+          return;
+        }
+
+        const now = Date.now();
+        const delta = now - lastTickTimestamp;
+        lastTickTimestamp = now;
+        remainingMs = Math.max(0, remainingMs - delta);
+
+        renderTimerVisuals();
+
+        if (remainingMs <= 0) {
+          stopTimerLoop();
+          if (timerPhase === "front") {
+            flipCard(true);
+          } else if (timerPhase === "back") {
+            handleAdvanceAfterBack();
+          } else if (timerPhase === "transition") {
+            jumpToNextChapter();
+          }
+        }
+      }
+
+      function renderTimerVisuals() {
+        const pct = phaseTotalMs > 0 ? Math.max(0, Math.min(100, (remainingMs / phaseTotalMs) * 100)) : 0;
+        const secStr = (remainingMs / 1000).toFixed(1);
+
+        if (timerPhase === "front") {
+          el.frontProgressBar.style.width = pct + "%";
+          el.frontCountdownBadge.textContent = secStr + "d";
+
+          el.frontProgressBar.classList.remove("amber", "crimson");
+          el.frontCountdownBadge.classList.remove("amber", "crimson");
+
+          if (remainingMs <= 3000) {
+            el.frontProgressBar.classList.add("crimson");
+            el.frontCountdownBadge.classList.add("crimson");
+          } else if (remainingMs <= 5000) {
+            el.frontProgressBar.classList.add("amber");
+            el.frontCountdownBadge.classList.add("amber");
+          }
+
+          if (isPaused) {
+            el.frontHintText.textContent = "Timer dijeda pada " + secStr + " detik";
+          } else if (remainingMs > 0) {
+            el.frontHintText.textContent = "Terbuka otomatis dalam " + secStr + " detik...";
+          } else {
+            el.frontHintText.textContent = "Membuka kartu...";
+          }
+        } else if (timerPhase === "back") {
+          el.backProgressBar.style.width = pct + "%";
+          el.backCountdownBadge.textContent = isPaused ? "Dijeda (" + secStr + "d)" : "Lanjut " + secStr + "d...";
+        } else if (timerPhase === "transition") {
+          el.transitionProgressBar.style.width = pct + "%";
+          const nextBabLabel =
+            prefs.selectedBab === "ALL"
+              ? "Semua Bab 1–50"
+              : parseInt(prefs.selectedBab, 10) < 50
+                ? "Bab " + (parseInt(prefs.selectedBab, 10) + 1)
+                : "Bab 1";
+          el.transitionDesc.textContent = isPaused
+            ? "Transisi ke " + nextBabLabel + " dijeda (" + secStr + "d)..."
+            : "Melanjutkan otomatis ke " + nextBabLabel + " dalam " + secStr + " detik...";
+        }
+      }
+
+      function updatePauseBtnUI() {
+        if (isPaused) {
+          el.pauseResumeBtn.textContent = "▶ Lanjutkan";
+          el.pauseResumeBtn.classList.add("paused-state");
+        } else {
+          el.pauseResumeBtn.textContent = "⏸ Jeda";
+          el.pauseResumeBtn.classList.remove("paused-state");
+        }
+      }
+
+      function togglePause() {
+        if (activeDeck.length === 0) return;
+        if (timerPhase === "idle") {
+          restartCurrentCard();
+          return;
+        }
+        isPaused = !isPaused;
+        lastTickTimestamp = Date.now();
+        updatePauseBtnUI();
+        renderTimerVisuals();
+        showToast(isPaused ? "⏸ Timer dijeda" : "▶ Timer dilanjutkan");
+      }
+
+      function restartCurrentCard() {
+        if (activeDeck.length === 0) return;
+        hideAllOverlays();
+        el.cardStageWrapper.classList.remove("hidden");
+        isFlipped = false;
+        el.flashcardInner.classList.remove("is-flipped");
+        startFrontPhase();
+      }
+
+      // =========================================================================
+      // 8. RENDERING CARDS & VOCABULARY LIST
+      // =========================================================================
+      function getKanjiSizeClass(kanjiStr) {
+        const len = kanjiStr.length;
+        if (len <= 2) return "size-xl";
+        if (len <= 4) return "size-lg";
+        if (len <= 7) return "size-md";
+        if (len <= 11) return "size-sm";
+        return "size-xs";
+      }
+
+      function renderCard(resetToFront) {
+        hideAllOverlays();
+
+        if (activeDeck.length === 0) {
+          stopTimerLoop();
+          el.cardStageWrapper.classList.add("hidden");
+          el.emptyFilterCard.classList.remove("hidden");
+          el.cardCounterBadge.textContent = "Kartu 0 / 0";
+          el.cardMasteredBadge.classList.add("hidden");
+          return;
+        }
+
+        el.emptyFilterCard.classList.add("hidden");
+        el.cardStageWrapper.classList.remove("hidden");
+
+        if (currentIndex < 0) currentIndex = activeDeck.length - 1;
+        if (currentIndex >= activeDeck.length) currentIndex = 0;
+
+        const card = activeDeck[currentIndex];
+        const isMastered = Boolean(masteredMap[card.id]);
+
+        el.cardCounterBadge.textContent = "Kartu " + (currentIndex + 1) + " / " + activeDeck.length;
+        el.cardBabBadge.textContent = "Bab " + card.bab;
+
+        if (isMastered) {
+          el.cardMasteredBadge.classList.remove("hidden");
+          el.markMasteredBtn.classList.add("selected");
+        } else {
+          el.cardMasteredBadge.classList.add("hidden");
+          el.markMasteredBtn.classList.remove("selected");
+        }
+
+        el.frontKanji.textContent = card.kanji;
+        el.frontKanji.className = "kanji-front-text " + getKanjiSizeClass(card.kanji);
+
+        el.backHiragana.textContent = card.hiragana;
+        el.backRomaji.textContent = card.romaji;
+        el.backKanji.textContent = card.kanji;
+        el.backArti.textContent = card.arti;
+
+        highlightVocabRow(card.id);
+
+        if (resetToFront) {
+          isFlipped = false;
+          el.flashcardInner.classList.remove("is-flipped");
+          startFrontPhase();
+        }
+      }
+
+      function flipCard(forceBack) {
+        if (activeDeck.length === 0) return;
+        const targetState = typeof forceBack === "boolean" ? forceBack : !isFlipped;
+        isFlipped = targetState;
+
+        if (isFlipped) {
+          el.flashcardInner.classList.add("is-flipped");
+          stopTimerLoop();
+          if (prefs.autoSpeak) {
+            const card = activeDeck[currentIndex];
+            speakJapaneseText(card.hiragana || card.kanji, false);
+          }
+          startBackPhase();
+        } else {
+          el.flashcardInner.classList.remove("is-flipped");
+          startFrontPhase();
+        }
+      }
+
+      function renderVocabList() {
+        const fullList = getListForBab(prefs.selectedBab);
+        el.vocabSectionTitle.textContent =
+          prefs.selectedBab === "ALL"
+            ? "Daftar Semua Kosakata Kanji (Bab 1–50)"
+            : "Daftar Kosakata Kanji Bab " + prefs.selectedBab;
+        el.vocabCountPill.textContent = fullList.length + " kata";
+
+        const frag = document.createDocumentFragment();
+        for (let i = 0; i < fullList.length; i++) {
+          const item = fullList[i];
+          const done = Boolean(masteredMap[item.id]);
+
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "vocab-item";
+          btn.setAttribute("data-id", item.id);
+
+          const left = document.createElement("div");
+          left.className = "vocab-item-left";
+
+          const numSpan = document.createElement("span");
+          numSpan.className = "vocab-num";
+          numSpan.textContent = (i + 1) + ".";
+
+          const details = document.createElement("div");
+          details.className = "vocab-details";
+
+          const jpLine = document.createElement("div");
+          jpLine.className = "vocab-jp-line";
+
+          const kanjiSpan = document.createElement("span");
+          kanjiSpan.className = "vocab-kanji";
+          kanjiSpan.textContent = item.kanji;
+
+          const hiraSpan = document.createElement("span");
+          hiraSpan.className = "vocab-hira";
+          hiraSpan.textContent = "(" + item.hiragana + ")";
+
+          const romajiSpan = document.createElement("span");
+          romajiSpan.className = "vocab-romaji";
+          romajiSpan.textContent = item.romaji;
+
+          jpLine.appendChild(kanjiSpan);
+          jpLine.appendChild(hiraSpan);
+          jpLine.appendChild(romajiSpan);
+
+          if (prefs.selectedBab === "ALL") {
+            const babTag = document.createElement("span");
+            babTag.className = "vocab-bab-tag";
+            babTag.textContent = "Bab " + item.bab;
+            jpLine.appendChild(babTag);
+          }
+
+          const artiDiv = document.createElement("div");
+          artiDiv.className = "vocab-arti";
+          artiDiv.textContent = item.arti;
+
+          details.appendChild(jpLine);
+          details.appendChild(artiDiv);
+
+          left.appendChild(numSpan);
+          left.appendChild(details);
+
+          const statusTag = document.createElement("span");
+          statusTag.className = done ? "vocab-status-tag done" : "vocab-status-tag";
+          statusTag.textContent = done ? "✅ Hafal" : "Pelajari";
+
+          btn.appendChild(left);
+          btn.appendChild(statusTag);
+
+          btn.addEventListener("click", (function (clickedItem) {
+            return function () {
+              if (prefs.onlyUnmastered && masteredMap[clickedItem.id]) {
+                prefs.onlyUnmastered = false;
+                savePrefs();
+                updateTogglePillsUI();
+              }
+              loadDeck(clickedItem.id);
+              try {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              } catch (e) {}
+            };
+          })(item));
+
+          frag.appendChild(btn);
+        }
+
+        el.vocabListContainer.innerHTML = "";
+        el.vocabListContainer.appendChild(frag);
+      }
+
+      function highlightVocabRow(activeId) {
+        const rows = el.vocabListContainer.querySelectorAll(".vocab-item");
+        for (let i = 0; i < rows.length; i++) {
+          if (rows[i].getAttribute("data-id") === activeId) {
+            rows[i].classList.add("active-card");
+          } else {
+            rows[i].classList.remove("active-card");
+          }
+        }
+      }
+
+      function loadDeck(targetId) {
+        stopTimerLoop();
+        hideAllOverlays();
+
+        let list = getListForBab(prefs.selectedBab);
+        if (prefs.onlyUnmastered) {
+          list = list.filter(function (item) {
+            return !masteredMap[item.id];
+          });
+        }
+        if (isShuffled) {
+          list = shuffleArray(list);
+        }
+        activeDeck = list;
+
+        if (targetId) {
+          let found = 0;
+          for (let i = 0; i < activeDeck.length; i++) {
+            if (activeDeck[i].id === targetId) {
+              found = i;
+              break;
+            }
+          }
+          currentIndex = found;
+        } else {
+          currentIndex = 0;
+        }
+
+        updateMasteryUI();
+        updateBabNavButtons();
+        updateTogglePillsUI();
+        renderVocabList();
+        renderCard(true);
+      }
+
+      // =========================================================================
+      // 9. EVENT LISTENERS BINDING
+      // =========================================================================
+      function bindEvents() {
+        el.chapterSelect.addEventListener("change", function (e) {
+          prefs.selectedBab = e.target.value;
+          savePrefs();
+          loadDeck();
+        });
+
+        el.prevBabBtn.addEventListener("click", function () {
+          if (prefs.selectedBab === "ALL") return;
+          const b = parseInt(prefs.selectedBab, 10) || 1;
+          if (b > 1) {
+            prefs.selectedBab = String(b - 1);
+            el.chapterSelect.value = prefs.selectedBab;
+            savePrefs();
+            loadDeck();
+          }
+        });
+
+        el.nextBabBtn.addEventListener("click", function () {
+          if (prefs.selectedBab === "ALL") return;
+          const b = parseInt(prefs.selectedBab, 10) || 1;
+          if (b < 50) {
+            prefs.selectedBab = String(b + 1);
+            el.chapterSelect.value = prefs.selectedBab;
+            savePrefs();
+            loadDeck();
+          }
+        });
+
+        el.autoContinueToggle.addEventListener("change", function (e) {
+          prefs.autoContinue = e.target.checked;
+          savePrefs();
+          updateTogglePillsUI();
+          if (isFlipped) {
+            if (prefs.autoContinue) {
+              startBackPhase();
+            } else {
+              timerPhase = "idle";
+              stopTimerLoop();
+              el.backCountdownBadge.textContent = "Mode Manual";
+              el.sessionPhasePill.textContent = "Fase 2: Baca Jawaban (Manual)";
+            }
+          }
+          showToast(prefs.autoContinue ? "🔄 Lanjut Sesi Otomatis: AKTIF" : "🔄 Lanjut Sesi Otomatis: NONAKTIF");
+        });
+
+        el.autoSpeakToggle.addEventListener("change", function (e) {
+          prefs.autoSpeak = e.target.checked;
+          savePrefs();
+          updateTogglePillsUI();
+          showToast(prefs.autoSpeak ? "🔊 Auto-Suara Jepang: AKTIF" : "🔇 Auto-Suara Jepang: NONAKTIF");
+        });
+
+        el.frontDurationSelect.addEventListener("change", function (e) {
+          prefs.frontSeconds = parseInt(e.target.value, 10) || 15;
+          savePrefs();
+          updateTogglePillsUI();
+          if (!isFlipped && timerPhase === "front") {
+            startFrontPhase();
+          }
+          showToast("⏱ Waktu buka kartu: " + prefs.frontSeconds + " detik");
+        });
+
+        el.backDurationSelect.addEventListener("change", function (e) {
+          prefs.backSeconds = parseInt(e.target.value, 10) || 5;
+          savePrefs();
+          if (isFlipped && prefs.autoContinue && timerPhase === "back") {
+            startBackPhase();
+          }
+          showToast("📖 Waktu baca jawaban: " + prefs.backSeconds + " detik");
+        });
+
+        el.endChapterModeSelect.addEventListener("change", function (e) {
+          prefs.endChapterMode = e.target.value;
+          savePrefs();
+          showToast("Mode akhir bab diperbarui");
+        });
+
+        el.filterAllBtn.addEventListener("click", function () {
+          if (!prefs.onlyUnmastered) return;
+          prefs.onlyUnmastered = false;
+          savePrefs();
+          loadDeck();
+        });
+
+        el.filterUnmasteredBtn.addEventListener("click", function () {
+          if (prefs.onlyUnmastered) return;
+          prefs.onlyUnmastered = true;
+          savePrefs();
+          loadDeck();
+        });
+
+        el.shuffleBtn.addEventListener("click", function () {
+          isShuffled = true;
+          loadDeck();
+          showToast("🔀 Kartu diacak!");
+        });
+
+        el.resetOrderBtn.addEventListener("click", function () {
+          isShuffled = false;
+          loadDeck();
+          showToast("↺ Urutan kartu dikembalikan ke awal");
+        });
+
+        el.resetBabMasteryBtn.addEventListener("click", function () {
+          const fullList = getListForBab(prefs.selectedBab);
+          for (let i = 0; i < fullList.length; i++) {
+            delete masteredMap[fullList[i].id];
+          }
+          saveMastered();
+          loadDeck();
+          showToast("Status hafalan bab ini direset");
+        });
+
+        // Card Flip & Navigation
+        el.flashcardInner.addEventListener("click", function () {
+          flipCard();
+        });
+
+        el.flipManualBtn.addEventListener("click", function () {
+          flipCard();
+        });
+
+        el.prevCardBtn.addEventListener("click", function () {
+          if (activeDeck.length === 0) return;
+          currentIndex = (currentIndex - 1 + activeDeck.length) % activeDeck.length;
+          renderCard(true);
+        });
+
+        el.nextCardBtn.addEventListener("click", function () {
+          if (activeDeck.length === 0) return;
+          currentIndex = (currentIndex + 1) % activeDeck.length;
+          renderCard(true);
+        });
+
+        el.pauseResumeBtn.addEventListener("click", function () {
+          togglePause();
+        });
+
+        el.restart15Btn.addEventListener("click", function () {
+          restartCurrentCard();
+          showToast("🔄 Mengulang timer " + prefs.frontSeconds + " detik");
+        });
+
+        el.speakBtn.addEventListener("click", function () {
+          if (activeDeck.length === 0) return;
+          const card = activeDeck[currentIndex];
+          speakJapaneseText(card.hiragana || card.kanji, true);
+        });
+
+        // Mastery buttons on back of card
+        el.markMasteredBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (activeDeck.length === 0) return;
+          const card = activeDeck[currentIndex];
+          masteredMap[card.id] = true;
+          saveMastered();
+          updateMasteryUI();
+          renderVocabList();
+          showToast("✅ \"" + card.kanji + "\" ditandai Sudah Hafal");
+
+          if (prefs.onlyUnmastered) {
+            activeDeck.splice(currentIndex, 1);
+            if (currentIndex >= activeDeck.length) currentIndex = 0;
+            renderCard(true);
+          } else {
+            renderCard(false);
+            setTimeout(handleAdvanceAfterBack, 350);
+          }
+        });
+
+        el.markUnmasteredBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (activeDeck.length === 0) return;
+          const card = activeDeck[currentIndex];
+          delete masteredMap[card.id];
+          saveMastered();
+          updateMasteryUI();
+          renderVocabList();
+          renderCard(false);
+          showToast("🔁 \"" + card.kanji + "\" ditandai Belum Hafal");
+          setTimeout(handleAdvanceAfterBack, 350);
+        });
+
+        // Overlay Buttons
+        el.jumpNextNowBtn.addEventListener("click", jumpToNextChapter);
+
+        el.stayChapterBtn.addEventListener("click", function () {
+          stopTimerLoop();
+          hideAllOverlays();
+          currentIndex = 0;
+          renderCard(true);
+        });
+
+        el.stopRepeatBtn.addEventListener("click", function () {
+          hideAllOverlays();
+          currentIndex = 0;
+          renderCard(true);
+        });
+
+        el.stopNextBtn.addEventListener("click", jumpToNextChapter);
+
+        el.showAllCardsBtn.addEventListener("click", function () {
+          prefs.onlyUnmastered = false;
+          savePrefs();
+          loadDeck();
+        });
+
+        el.resetFromEmptyBtn.addEventListener("click", function () {
+          const fullList = getListForBab(prefs.selectedBab);
+          for (let i = 0; i < fullList.length; i++) {
+            delete masteredMap[fullList[i].id];
+          }
+          saveMastered();
+          loadDeck();
+          showToast("Status hafalan bab ini direset");
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener("keydown", function (e) {
+          const tag = document.activeElement ? document.activeElement.tagName : "";
+          if (tag === "SELECT" || tag === "INPUT" || tag === "TEXTAREA") return;
+
+          if (e.code === "Space") {
+            if (tag === "BUTTON") return;
+            e.preventDefault();
+            togglePause();
+          } else if (e.code === "Enter" || e.code === "KeyF") {
+            if (tag === "BUTTON") return;
+            e.preventDefault();
+            flipCard();
+          } else if (e.code === "ArrowRight") {
+            e.preventDefault();
+            if (activeDeck.length > 0) {
+              currentIndex = (currentIndex + 1) % activeDeck.length;
+              renderCard(true);
+            }
+          } else if (e.code === "ArrowLeft") {
+            e.preventDefault();
+            if (activeDeck.length > 0) {
+              currentIndex = (currentIndex - 1 + activeDeck.length) % activeDeck.length;
+              renderCard(true);
+            }
+          } else if (e.code === "KeyR") {
+            e.preventDefault();
+            restartCurrentCard();
+          } else if (e.code === "KeyS") {
+            e.preventDefault();
+            if (activeDeck.length > 0) {
+              const card = activeDeck[currentIndex];
+              speakJapaneseText(card.hiragana || card.kanji, true);
+            }
+          }
+        });
+      }
+
+      // =========================================================================
+      // 10. SAFE INITIALIZATION ON DOMContentLoaded
+      // =========================================================================
+      document.addEventListener("DOMContentLoaded", function () {
+        try {
+          el.autoContinueToggle.checked = prefs.autoContinue;
+          el.autoSpeakToggle.checked = prefs.autoSpeak;
+          el.frontDurationSelect.value = String(prefs.frontSeconds);
+          el.backDurationSelect.value = String(prefs.backSeconds);
+          el.endChapterModeSelect.value = prefs.endChapterMode;
+
+          buildChapterSelect();
+          bindEvents();
+          loadDeck();
+        } catch (err) {
+          if (el.fatalErrorBox) {
+            el.fatalErrorBox.textContent = "Terjadi kesalahan saat memuat aplikasi: " + (err && err.message ? err.message : String(err));
+            el.fatalErrorBox.classList.remove("hidden");
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
