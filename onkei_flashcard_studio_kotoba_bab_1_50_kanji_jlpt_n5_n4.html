@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONKEI Flashcard Studio — Kotoba Bab 1–50 &amp; Kanji JLPT N5–N4</title>
+  <style>
+    /* =========================================================================
+       1. DESIGN TOKENS & ADAPTIVE THEME (100% OFFLINE / ZERO EXTERNAL CDN)
+       ========================================================================= */
+    :root {
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --bg-header: #0f172a;
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent-blue: #1d4ed8;
+      --accent-blue-hover: #1e40af;
+      --accent-emerald: #059669;
+      --accent-amber: #d97706;
+      --accent-rose: #e11d48;
+      --accent-purple: #7c3aed;
+      --shadow-card: 0 10px 28px rgba(15, 23, 42, 0.08);
+    }
+
+    html.dark {
+      --bg-page: #0b1120;
+      --bg-surface: #1e293b;
+      --bg-subtle: #0f172a;
+      --bg-header: #020617;
+      --text-main: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --border-strong: #475569;
+      --accent-blue: #3b82f6;
+      --accent-blue-hover: #2563eb;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #8b5cf6;
+      --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.42);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .jp-text {
+      font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans JP", sans-serif;
+      letter-spacing: 0.03em;
+    }
+
+    /* Strict Furigana Styling (Strictly on Kanji Only) */
+    ruby {
+      ruby-align: center;
+      ruby-position: over;
+    }
+    ruby rt {
+      font-size: 0.48em;
+      font-weight: 600;
+      color: var(--text-muted);
+      user-select: none;
+    }
+    .hide-furigana ruby rt {
+      visibility: hidden;
+      opacity: 0;
+    }
+
+    /* Header & Controls */
+    .app-header {
+      background-color: var(--bg-header);
+      color: #ffffff;
+      border-bottom: 1px solid #1e293b;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .surface-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+    }
+
+    .surface-subtle {
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 0.875rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.95rem;
+      border-radius: 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+      text-decoration: none;
+      transition: all 0.16s ease;
+      user-select: none;
+    }
+    .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background-color: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #ffffff;
+    }
+    .btn-emerald {
+      background-color: var(--accent-emerald);
+      border-color: var(--accent-emerald);
+      color: #ffffff;
+    }
+    .btn-amber {
+      background-color: var(--accent-amber);
+      border-color: var(--accent-amber);
+      color: #ffffff;
+    }
+    .btn-rose-outline {
+      border-color: var(--accent-rose);
+      color: var(--accent-rose);
+      background-color: transparent;
+    }
+    .btn-rose-outline:hover {
+      background-color: var(--accent-rose);
+      color: #ffffff;
+    }
+    .btn-header-ghost {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.22);
+      color: #f8fafc;
+    }
+    .btn-header-ghost:hover {
+      background-color: rgba(255, 255, 255, 0.18);
+    }
+    .btn-deck-active {
+      background-color: #0f172a;
+      border-color: #0f172a;
+      color: #ffffff;
+    }
+    html.dark .btn-deck-active {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+
+    select, input[type="text"] {
+      background-color: var(--bg-subtle);
+      color: var(--text-main);
+      border: 1px solid var(--border-strong);
+      border-radius: 0.8rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      outline: none;
+    }
+    select:focus, input[type="text"]:focus {
+      border-color: var(--accent-blue);
+    }
+
+    /* 3D Flashcard Flip Stage */
+    .fc-stage {
+      perspective: 1400px;
+      width: 100%;
+    }
+    .fc-card {
+      position: relative;
+      width: 100%;
+      min-height: 360px;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    .fc-card.is-flipped {
+      transform: rotateY(180deg);
+    }
+    .fc-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      min-height: 360px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-card);
+    }
+    .fc-front {
+      background-color: var(--bg-surface);
+      border: 2px solid var(--border-strong);
+    }
+    .fc-back {
+      background-color: var(--bg-surface);
+      border: 2px solid var(--accent-blue);
+      transform: rotateY(180deg);
+    }
+
+    .kanji-hero {
+      font-size: 5rem;
+      line-height: 1.1;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .kotoba-hero {
+      font-size: 2.35rem;
+      line-height: 1.5;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    @media (min-width: 640px) {
+      .fc-card, .fc-face { min-height: 390px; padding: 2rem; }
+      .kanji-hero { font-size: 6rem; }
+      .kotoba-hero { font-size: 3rem; }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.65rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+    .badge-blue { background-color: rgba(29, 78, 216, 0.14); color: var(--accent-blue); }
+    .badge-emerald { background-color: rgba(5, 150, 105, 0.15); color: var(--accent-emerald); }
+    .badge-amber { background-color: rgba(217, 119, 6, 0.16); color: var(--accent-amber); }
+    .badge-purple { background-color: rgba(124, 58, 237, 0.15); color: var(--accent-purple); }
+    .badge-neutral { background-color: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); }
+
+    .kbd {
+      display: inline-block;
+      padding: 0.12rem 0.42rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border-radius: 0.38rem;
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-strong);
+      color: var(--text-secondary);
+    }
+
+    /* Modal & Toast */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(2, 6, 23, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 60;
+    }
+    .hidden { display: none !important; }
+
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 70;
+      background-color: #0f172a;
+      color: #ffffff;
+      border: 1px solid #334155;
+      padding: 0.75rem 1.15rem;
+      border-radius: 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== STICKY HEADER ==================== -->
+  <header class="app-header">
+    <div class="container" style="padding-top: 0.85rem; padding-bottom: 0.85rem;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;">
+        <!-- Brand & Back to Main App -->
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <a href="index.html" class="btn btn-header-ghost" title="Kembali ke Aplikasi Utama ONKEI NihongoLab">
+            ← Kembali ke Aplikasi Utama (index.html)
+          </a>
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <div style="width: 2.2rem; height: 2.2rem; border-radius: 0.65rem; background: #d97706; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem;">
+              恩
+            </div>
+            <div>
+              <div style="font-size: 1rem; font-weight: 800; line-height: 1.2;">ONKEI Flashcard Studio</div>
+              <div style="font-size: 0.72rem; color: #94a3b8;">Kartu Hafalan Kotoba (Bab 1–50) &amp; Kanji (JLPT N5–N4)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Global Controls & Save Status -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <span id="save-indicator" style="font-size: 0.72rem; font-weight: 700; color: #34d399; background: rgba(16, 185, 129, 0.14); border: 1px solid rgba(16, 185, 129, 0.32); padding: 0.3rem 0.65rem; border-radius: 999px;">
+            ✓ Tersimpan otomatis
+          </span>
+          <button type="button" onclick="toggleFurigana()" id="btn-furigana" class="btn btn-header-ghost">
+            ふりがな: ON
+          </button>
+          <button type="button" onclick="toggleDarkMode()" id="btn-darkmode" class="btn btn-header-ghost">
+            🌙 Mode Gelap
+          </button>
+          <button type="button" onclick="openResetModal()" class="btn btn-header-ghost" style="border-color: rgba(244, 63, 94, 0.5); color: #fda4af;">
+            ↺ Reset Progres
+          </button>
+        </div>
+      </div>
+
+      <!-- Global Mastery & XP Summary Bar -->
+      <div style="margin-top: 0.75rem; padding-top: 0.65rem; border-top: 1px solid #1e293b; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.78rem;">
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <span>Total XP: <strong id="stat-xp" style="color: #fbbf24;">0 XP</strong></span>
+          <span>Rekor Hafal: <strong id="stat-streak" style="color: #34d399;">0</strong></span>
+          <span>Kotoba Hafal: <strong id="stat-kotoba-mastered" style="color: #60a5fa;">0 / 0</strong></span>
+          <span>Kanji Hafal: <strong id="stat-kanji-mastered" style="color: #c084fc;">0 / 0</strong></span>
+        </div>
+        <div style="flex: 1; min-width: 160px; max-width: 260px; background: #1e293b; height: 8px; border-radius: 999px; overflow: hidden;">
+          <div id="global-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981); transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN WORKSPACE ==================== -->
+  <main class="container" style="flex: 1; padding-top: 1.25rem; padding-bottom: 2.5rem;">
+    
+    <!-- Deck Switcher & Filter Control Panel -->
+    <section class="surface-card" style="padding: 1.15rem 1.25rem; margin-bottom: 1.25rem;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;">
+        <!-- Main Deck Selector -->
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+          <button type="button" id="tab-kotoba" onclick="switchDeck('kotoba')" class="btn btn-deck-active">
+            🗂️ Flashcard Kotoba (Bab 1–50)
+          </button>
+          <button type="button" id="tab-kanji" onclick="switchDeck('kanji')" class="btn">
+            🈳 Flashcard Kanji (JLPT N5 &amp; N4)
+          </button>
+        </div>
+
+        <!-- Auto-Play & Audio Controls -->
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;">
+          <button type="button" id="btn-auto-audio" onclick="toggleAutoAudio()" class="btn btn-primary">
+            🔊 Auto-Suara: ON
+          </button>
+          <div style="display: flex; align-items: center; gap: 0.35rem;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Timer:</span>
+            <select id="select-timer" onchange="setAutoTimer(this.value)">
+              <option value="0">Manual</option>
+              <option value="15">Auto 15 dtk</option>
+              <option value="10">Auto 10 dtk</option>
+              <option value="5">Auto 5 dtk</option>
+            </select>
+          </div>
+          <button type="button" onclick="shuffleCurrentDeck()" class="btn">
+            🔀 Acak Kartu
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters Bar (Dynamically switches between Kotoba filters and Kanji filters) -->
+      <div style="margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--border-color); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem;">
+        
+        <!-- Kotoba Filters -->
+        <div id="filters-kotoba" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;">
+          <select id="filter-bab" onchange="applyDeckFilters()">
+            <option value="ALL">Semua Bab (Bab 1–50)</option>
+            <option value="1-10">Bab 1–10 (N5 Dasar)</option>
+            <option value="11-20">Bab 11–20 (N5 Lanjutan)</option>
+            <option value="21-30">Bab 21–30 (N5–N4 Transisi)</option>
+            <option value="31-40">Bab 31–40 (JLPT N4)</option>
+            <option value="41-50">Bab 41–50 (JLPT N4 &amp; Keigo)</option>
+          </select>
+          <select id="filter-pos" onchange="applyDeckFilters()">
+            <option value="ALL">Semua Kelas Kata</option>
+            <option value="VERB">Kata Kerja (動詞)</option>
+            <option value="ADJ_I">Kata Sifat-い</option>
+            <option value="ADJ_NA">Kata Sifat-な</option>
+            <option value="NOUN">Kata Benda (名詞)</option>
+          </select>
+          <select id="filter-kotoba-status" onchange="applyDeckFilters()">
+            <option value="ALL">Semua Status</option>
+            <option value="UNMASTERED">Belum Hafal</option>
+            <option value="MASTERED">Sudah Hafal</option>
+          </select>
+          <input type="text" id="filter-kotoba-search" oninput="applyDeckFilters()" placeholder="Cari arti / kana / kanji..." style="min-width: 185px;" />
+        </div>
+
+        <!-- Kanji Filters -->
+        <div id="filters-kanji" class="hidden" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;">
+          <select id="filter-kanji-level" onchange="applyDeckFilters()">
+            <option value="ALL">Semua Level Kanji (N5 &amp; N4)</option>
+            <option value="N5">JLPT N5 Dasar</option>
+            <option value="N4">JLPT N4 Menengah</option>
+          </select>
+          <select id="filter-kanji-status" onchange="applyDeckFilters()">
+            <option value="ALL">Semua Status</option>
+            <option value="UNMASTERED">Belum Hafal</option>
+            <option value="MASTERED">Sudah Hafal</option>
+          </select>
+          <input type="text" id="filter-kanji-search" oninput="applyDeckFilters()" placeholder="Cari arti / bacaan / kanji..." style="min-width: 185px;" />
+        </div>
+
+        <!-- Active Deck Counter -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-left: auto;">
+          <span id="deck-counter-badge" class="badge badge-blue">Kartu 1 / 1</span>
+          <span id="deck-mastered-badge" class="badge badge-emerald">0 Hafal</span>
+        </div>
+      </div>
+
+      <!-- Auto-Play Timer Progress Bar -->
+      <div id="timer-progress-wrap" class="hidden" style="margin-top: 0.75rem; width: 100%; height: 6px; background: var(--bg-subtle); border-radius: 999px; overflow: hidden;">
+        <div id="timer-progress-bar" style="width: 100%; height: 100%; background: var(--accent-amber); transition: width 0.1s linear;"></div>
+      </div>
+    </section>
+
+    <!-- ==================== 3D FLASHCARD STAGE ==================== -->
+    <section style="max-width: 840px; margin: 0 auto;">
+      <div class="fc-stage">
+        <div id="fc-card" class="fc-card" onclick="flipCard()">
+          
+          <!-- FRONT FACE -->
+          <div class="fc-face fc-front">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+              <div id="front-badges" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;"></div>
+              <div style="display: flex; align-items: center; gap: 0.45rem;" onclick="event.stopPropagation()">
+                <button type="button" onclick="toggleHint()" class="btn" style="padding: 0.38rem 0.7rem; font-size: 0.75rem;">
+                  💡 Petunjuk (<span class="kbd">H</span>)
+                </button>
+                <button type="button" onclick="playCurrentFrontAudio()" class="btn btn-primary" style="padding: 0.38rem 0.75rem; font-size: 0.75rem;">
+                  🔊 Suara (<span class="kbd" style="color:#0f172a;">A</span>)
+                </button>
+              </div>
+            </div>
+
+            <div style="margin: auto 0; text-align: center; padding: 1rem 0;">
+              <p id="front-prompt" style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin: 0 0 0.75rem 0;">
+                Sebutkan arti dan cara baca kosakata berikut:
+              </p>
+              <div id="front-main" class="jp-text kotoba-hero"></div>
+              <div id="front-hint" class="hidden surface-subtle" style="max-width: 540px; margin: 1rem auto 0 auto; padding: 0.75rem 1rem; font-size: 0.82rem; color: var(--text-secondary);"></div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted); padding-top: 0.65rem; border-top: 1px solid var(--border-color);">
+              <span>Sisi Depan • Klik kartu atau tekan <span class="kbd">Spasi</span> untuk membalik</span>
+              <span>↻ Balik Kartu</span>
+            </div>
+          </div>
+
+          <!-- BACK FACE -->
+          <div class="fc-face fc-back">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap;">
+              <div id="back-badges" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;"></div>
+              <div style="display: flex; align-items: center; gap: 0.45rem;" onclick="event.stopPropagation()">
+                <button type="button" onclick="playCurrentBackAudio()" class="btn btn-primary" style="padding: 0.38rem 0.75rem; font-size: 0.75rem;">
+                  🔊 Ulangi Audio
+                </button>
+              </div>
+            </div>
+
+            <div id="back-content" style="margin: auto 0; text-align: center; padding: 0.75rem 0;"></div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted); padding-top: 0.65rem; border-top: 1px solid var(--border-color);">
+              <span>Sisi Belakang • Arti, Cara Baca &amp; Contoh Penggunaan</span>
+              <span>↺ Kembali ke Depan</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Navigation & Self-Assessment Controls -->
+      <div class="surface-card" style="margin-top: 1rem; padding: 1rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+          <button type="button" onclick="prevCard()" class="btn">← Sebelumnya</button>
+          <button type="button" onclick="flipCard()" class="btn">↻ Balik Kartu</button>
+          <button type="button" onclick="nextCard()" class="btn">Berikutnya →</button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-left: auto;">
+          <button type="button" onclick="markCardMastery(false)" class="btn btn-rose-outline">
+            ✗ Belum Hafal (Ulangi)
+          </button>
+          <button type="button" onclick="markCardMastery(true)" class="btn btn-emerald">
+            ✓ Sudah Hafal (+10 XP)
+          </button>
+        </div>
+      </div>
+
+      <!-- Keyboard Shortcuts Legend -->
+      <div style="margin-top: 0.85rem; text-align: center; font-size: 0.75rem; color: var(--text-muted); display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem;">
+        <span>Pintasan Keyboard:</span>
+        <span><span class="kbd">Spasi</span> Balik Kartu</span>
+        <span><span class="kbd">←</span> / <span class="kbd">→</span> Navigasi</span>
+        <span><span class="kbd">H</span> Petunjuk</span>
+        <span><span class="kbd">A</span> Audio Jepang</span>
+        <span><span class="kbd">M</span> Tandai Hafal</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL KONFIRMASI RESET ==================== -->
+  <div id="modal-reset" class="modal-backdrop hidden" onclick="closeResetModal()">
+    <div class="surface-card" style="max-width: 440px; width: 100%; padding: 1.5rem;" onclick="event.stopPropagation()">
+      <h3 style="margin: 0 0 0.4rem 0; font-size: 1.1rem; font-weight: 800;">Reset Progres Hafalan</h3>
+      <p style="margin: 0 0 1rem 0; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+        Pilih bagian progres yang ingin Anda atur ulang ke nol. Tindakan ini akan menghapus catatan kartu yang sudah ditandai hafal.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.15rem;">
+        <button type="button" onclick="resetDeckProgress('kotoba')" class="btn" style="justify-content: space-between;">
+          <span>Reset Progres Flashcard Kotoba (Bab 1–50)</span>
+          <span style="color: var(--accent-rose);">Reset →</span>
+        </button>
+        <button type="button" onclick="resetDeckProgress('kanji')" class="btn" style="justify-content: space-between;">
+          <span>Reset Progres Flashcard Kanji (N5 &amp; N4)</span>
+          <span style="color: var(--accent-rose);">Reset →</span>
+        </button>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid var(--border-color); gap: 0.5rem;">
+        <button type="button" onclick="resetAllProgress()" class="btn btn-rose-outline">
+          Reset Semua Progres &amp; XP
+        </button>
+        <button type="button" onclick="closeResetModal()" class="btn">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-box" class="toast hidden"></div>
+
+  <!-- ==================== JAVASCRIPT DATA & ENGINE ==================== -->
+  <script>
+    // =========================================================================
+    // 1. DATABASE KOTOBA MINNA NO NIHONGO BAB 1–50 (STRICT KANJI-ONLY FURIGANA)
+    // =========================================================================
+    // Format: [bab, pos, rubyHtml, plainSpeechText, meaning]
+    // pos: 'VERB' | 'ADJ_I' | 'ADJ_NA' | 'NOUN'
+    const RAW_KOTOBA = [
+      // BAB 1-5
+      [1, 'NOUN', '<ruby><rb>私</rb><rt>わたし</rt></ruby>', 'わたし', 'Saya'],
+      [1, 'NOUN', '<ruby><rb>先生</rb><rt>せんせい</rt></ruby>', 'せんせい', 'Guru, dosen'],
+      [1, 'NOUN', '<ruby><rb>学生</rb><rt>がくせい</rt></ruby>', 'がくせい', 'Siswa, mahasiswa'],
+      [1, 'NOUN', '<ruby><rb>会社員</rb><rt>かいしゃいん</rt></ruby>', 'かいしゃいん', 'Pegawai perusahaan'],
+      [1, 'NOUN', '<ruby><rb>銀行員</rb><rt>ぎんこういん</rt></ruby>', 'ぎんこういん', 'Pegawai bank'],
+      [1, 'NOUN', '<ruby><rb>医者</rb><rt>いしゃ</rt></ruby>', 'いしゃ', 'Dokter'],
+      [1, 'NOUN', '<ruby><rb>研究者</rb><rt>けんきゅうしゃ</rt></ruby>', 'けんきゅうしゃ', 'Peneliti'],
+      [1, 'NOUN', '<ruby><rb>大学</rb><rt>だいがく</rt></ruby>', 'だいがく', 'Universitas'],
+      [1, 'NOUN', '<ruby><rb>病院</rb><rt>びょういん</rt></ruby>', 'びょういん', 'Rumah sakit'],
+      [2, 'NOUN', '<ruby><rb>本</rb><rt>ほん</rt></ruby>', 'ほん', 'Buku'],
+      [2, 'NOUN', '<ruby><rb>辞書</rb><rt>じしょ</rt></ruby>', 'じしょ', 'Kamus'],
+      [2, 'NOUN', '<ruby><rb>雑誌</rb><rt>ざっし</rt></ruby>', 'ざっし', 'Majalah'],
+      [2, 'NOUN', '<ruby><rb>新聞</rb><rt>しんぶん</rt></ruby>', 'しんぶん', 'Koran'],
+      [2, 'NOUN', '<ruby><rb>手帳</rb><rt>てちょう</rt></ruby>', 'てちょう', 'Buku agenda'],
+      [2, 'NOUN', '<ruby><rb>名刺</rb><rt>めいし</rt></ruby>', 'めいし', 'Kartu nama'],
+      [2, 'NOUN', '<ruby><rb>鉛筆</rb><rt>えんぴつ</rt></ruby>', 'えんぴつ', 'Pensil'],
+      [2, 'NOUN', '<ruby><rb>時計</rb><rt>とけい</rt></ruby>', 'とけい', 'Jam, arloji'],
+      [2, 'NOUN', '<ruby><rb>傘</rb><rt>かさ</rt></ruby>', 'かさ', 'Payung'],
+      [2, 'NOUN', '<ruby><rb>自動車</rb><rt>じどうしゃ</rt></ruby>', 'じどうしゃ', 'Mobil'],
+      [2, 'NOUN', '<ruby><rb>英語</rb><rt>えいご</rt></ruby>', 'えいご', 'Bahasa Inggris'],
+      [2, 'NOUN', '<ruby><rb>日本語</rb><rt>にほんご</rt></ruby>', 'にほんご', 'Bahasa Jepang'],
+      [3, 'NOUN', '<ruby><rb>教室</rb><rt>きょうしつ</rt></ruby>', 'きょうしつ', 'Ruang kelas'],
+      [3, 'NOUN', '<ruby><rb>食堂</rb><rt>しょくどう</rt></ruby>', 'しょくどう', 'Kantin, ruang makan'],
+      [3, 'NOUN', '<ruby><rb>事務所</rb><rt>じむしょ</rt></ruby>', 'じむしょ', 'Kantor'],
+      [3, 'NOUN', '<ruby><rb>会議室</rb><rt>かいぎしつ</rt></ruby>', 'かいぎしつ', 'Ruang rapat'],
+      [3, 'NOUN', '<ruby><rb>受付</rb><rt>うけつけ</rt></ruby>', 'うけつけ', 'Resepsionis, meja informasi'],
+      [3, 'NOUN', '<ruby><rb>部屋</rb><rt>へや</rt></ruby>', 'へや', 'Kamar, ruangan'],
+      [3, 'NOUN', '<ruby><rb>階段</rb><rt>かいだん</rt></ruby>', 'かいだん', 'Tangga'],
+      [3, 'NOUN', '<ruby><rb>国</rb><rt>くに</rt></ruby>', 'くに', 'Negara'],
+      [3, 'NOUN', '<ruby><rb>会社</rb><rt>かいしゃ</rt></ruby>', 'かいしゃ', 'Perusahaan'],
+      [3, 'NOUN', '<ruby><rb>電話</rb><rt>でんわ</rt></ruby>', 'でんわ', 'Telepon'],
+      [3, 'NOUN', '<ruby><rb>靴</rb><rt>くつ</rt></ruby>', 'くつ', 'Sepatu'],
+      [4, 'VERB', '<ruby><rb>起</rb><rt>お</rt></ruby>きます', 'おきます', 'Bangun tidur'],
+      [4, 'VERB', '<ruby><rb>寝</rb><rt>ね</rt></ruby>ます', 'ねます', 'Tidur'],
+      [4, 'VERB', '<ruby><rb>働</rb><rt>はたら</rt></ruby>きます', 'はたらきます', 'Bekerja'],
+      [4, 'VERB', '<ruby><rb>休</rb><rt>やす</rt></ruby>みます', 'やすみます', 'Beristirahat, libur'],
+      [4, 'VERB', '<ruby><rb>勉強</rb><rt>べんきょう</rt></ruby>します', 'べんきょうします', 'Belajar'],
+      [4, 'VERB', '<ruby><rb>終</rb><rt>お</rt></ruby>わります', 'おわります', 'Selesai'],
+      [4, 'NOUN', '<ruby><rb>銀行</rb><rt>ぎんこう</rt></ruby>', 'ぎんこう', 'Bank'],
+      [4, 'NOUN', '<ruby><rb>郵便局</rb><rt>ゆうびんきょく</rt></ruby>', 'ゆうびんきょく', 'Kantor pos'],
+      [4, 'NOUN', '<ruby><rb>図書館</rb><rt>としょかん</rt></ruby>', 'としょかん', 'Perpustakaan'],
+      [4, 'NOUN', '<ruby><rb>美術館</rb><rt>びじゅつかん</rt></ruby>', 'びじゅつかん', 'Museum seni'],
+      [5, 'VERB', '<ruby><rb>行</rb><rt>い</rt></ruby>きます', 'いきます', 'Pergi'],
+      [5, 'VERB', '<ruby><rb>来</rb><rt>き</rt></ruby>ます', 'きます', 'Datang'],
+      [5, 'VERB', '<ruby><rb>帰</rb><rt>かえ</rt></ruby>ります', 'かえります', 'Pulang'],
+      [5, 'NOUN', '<ruby><rb>学校</rb><rt>がっこう</rt></ruby>', 'がっこう', 'Sekolah'],
+      [5, 'NOUN', '<ruby><rb>駅</rb><rt>えき</rt></ruby>', 'えき', 'Stasiun'],
+      [5, 'NOUN', '<ruby><rb>飛行機</rb><rt>ひこうき</rt></ruby>', 'ひこうき', 'Pesawat terbang'],
+      [5, 'NOUN', '<ruby><rb>船</rb><rt>ふね</rt></ruby>', 'ふね', 'Kapal laut'],
+      [5, 'NOUN', '<ruby><rb>電車</rb><rt>でんしゃ</rt></ruby>', 'でんしゃ', 'Kereta listrik'],
+      [5, 'NOUN', '<ruby><rb>地下鉄</rb><rt>ちかてつ</rt></ruby>', 'ちかてつ', 'Kereta bawah tanah'],
+      [5, 'NOUN', '<ruby><rb>新幹線</rb><rt>しんかんせん</rt></ruby>', 'しんかんせん', 'Shinkansen (kereta cepat)'],
+      [5, 'NOUN', '<ruby><rb>自転車</rb><rt>じてんしゃ</rt></ruby>', 'じてんしゃ', 'Sepeda'],
+      [5, 'NOUN', '<ruby><rb>友達</rb><rt>ともだち</rt></ruby>', 'ともだち', 'Teman'],
+      [5, 'NOUN', '<ruby><rb>家族</rb><rt>かぞく</rt></ruby>', 'かぞく', 'Keluarga'],
+      [5, 'NOUN', '<ruby><rb>誕生日</rb><rt>たんじょうび</rt></ruby>', 'たんじょうび', 'Hari ulang tahun'],
+
+      // BAB 6-10
+      [6, 'VERB', '<ruby><rb>食</rb><rt>た</rt></ruby>べます', 'たべます', 'Makan'],
+      [6, 'VERB', '<ruby><rb>飲</rb><rt>の</rt></ruby>みます', 'のみます', 'Minum'],
+      [6, 'VERB', '<ruby><rb>吸</rb><rt>す</rt></ruby>います', 'すいます', 'Menghisap (merokok)'],
+      [6, 'VERB', '<ruby><rb>見</rb><rt>み</rt></ruby>ます', 'みます', 'Melihat, menonton'],
+      [6, 'VERB', '<ruby><rb>聞</rb><rt>き</rt></ruby>きます', 'ききます', 'Mendengar, mendengarkan'],
+      [6, 'VERB', '<ruby><rb>読</rb><rt>よ</rt></ruby>みます', 'よみます', 'Membaca'],
+      [6, 'VERB', '<ruby><rb>書</rb><rt>か</rt></ruby>きます', 'かきます', 'Menulis, menggambar'],
+      [6, 'VERB', '<ruby><rb>買</rb><rt>か</rt></ruby>います', 'かいます', 'Membeli'],
+      [6, 'VERB', '<ruby><rb>撮</rb><rt>と</rt></ruby>ります', 'とります', 'Mengambil (foto)'],
+      [6, 'VERB', '<ruby><rb>会</rb><rt>あ</rt></ruby>います', 'あいます', 'Bertemu (dengan teman)'],
+      [6, 'NOUN', '<ruby><rb>野菜</rb><rt>やさい</rt></ruby>', 'やさい', 'Sayuran'],
+      [6, 'NOUN', '<ruby><rb>果物</rb><rt>くだもの</rt></ruby>', 'くだもの', 'Buah-buahan'],
+      [6, 'NOUN', '<ruby><rb>牛乳</rb><rt>ぎゅうにゅう</rt></ruby>', 'ぎゅうにゅう', 'Susu sapi'],
+      [6, 'NOUN', '<ruby><rb>映画</rb><rt>えいが</rt></ruby>', 'えいが', 'Film'],
+      [6, 'NOUN', '<ruby><rb>手紙</rb><rt>てがみ</rt></ruby>', 'てがみ', 'Surat'],
+      [6, 'NOUN', '<ruby><rb>写真</rb><rt>しゃしん</rt></ruby>', 'しゃしん', 'Foto'],
+      [6, 'NOUN', '<ruby><rb>宿題</rb><rt>しゅくだい</rt></ruby>', 'しゅくだい', 'Pekerjaan rumah (PR)'],
+      [7, 'VERB', '<ruby><rb>切</rb><rt>き</rt></ruby>ります', 'きります', 'Memotong, menggunting'],
+      [7, 'VERB', '<ruby><rb>送</rb><rt>おく</rt></ruby>ります', 'おくります', 'Mengirim'],
+      [7, 'VERB', 'あげます', 'あげます', 'Memberi'],
+      [7, 'VERB', 'もらいます', 'もらいます', 'Menerima, mendapat'],
+      [7, 'VERB', '<ruby><rb>貸</rb><rt>か</rt></ruby>します', 'かします', 'Meminjamkan, menyewakan'],
+      [7, 'VERB', '<ruby><rb>借</rb><rt>か</rt></ruby>ります', 'かります', 'Meminjam, menyewa'],
+      [7, 'VERB', '<ruby><rb>教</rb><rt>おし</rt></ruby>えます', 'おしえます', 'Mengajar, memberi tahu'],
+      [7, 'VERB', '<ruby><rb>習</rb><rt>なら</rt></ruby>います', 'ならいます', 'Belajar (dari seseorang)'],
+      [7, 'NOUN', '<ruby><rb>年賀状</rb><rt>ねんがじょう</rt></ruby>', 'ねんがじょう', 'Kartu ucapan tahun baru'],
+      [7, 'NOUN', '<ruby><rb>荷物</rb><rt>にもつ</rt></ruby>', 'にもつ', 'Barang bawaan'],
+      [7, 'NOUN', '<ruby><rb>切符</rb><rt>きっぷ</rt></ruby>', 'きっぷ', 'Karcis, tiket'],
+      [8, 'ADJ_NA', '<ruby><rb>静</rb><rt>しず</rt></ruby>か［な］', 'しずか', 'Tenang, sepi'],
+      [8, 'ADJ_NA', 'にぎやか［な］', 'にぎやか', 'Ramai'],
+      [8, 'ADJ_NA', '<ruby><rb>有名</rb><rt>ゆうめい</rt></ruby>［な］', 'ゆうめい', 'Terkenal'],
+      [8, 'ADJ_NA', '<ruby><rb>親切</rb><rt>しんせつ</rt></ruby>［な］', 'しんせつ', 'Baik hati, ramah'],
+      [8, 'ADJ_NA', '<ruby><rb>元気</rb><rt>げんき</rt></ruby>［な］', 'げんき', 'Sehat, bersemangat'],
+      [8, 'ADJ_NA', '<ruby><rb>暇</rb><rt>ひま</rt></ruby>［な］', 'ひま', 'Senggang, luang'],
+      [8, 'ADJ_NA', '<ruby><rb>便利</rb><rt>べんり</rt></ruby>［な］', 'べんり', 'Praktis'],
+      [8, 'ADJ_I', '<ruby><rb>大</rb><rt>おお</rt></ruby>きい', 'おおきい', 'Besar'],
+      [8, 'ADJ_I', '<ruby><rb>小</rb><rt>ちい</rt></ruby>さい', 'ちいさい', 'Kecil'],
+      [8, 'ADJ_I', '<ruby><rb>新</rb><rt>あたら</rt></ruby>しい', 'あたらしい', 'Baru'],
+      [8, 'ADJ_I', '<ruby><rb>古</rb><rt>ふる</rt></ruby>い', 'ふるい', 'Lama, tua (benda)'],
+      [8, 'ADJ_I', '<ruby><rb>暑</rb><rt>あつ</rt></ruby>い', 'あつい', 'Panas (cuaca)'],
+      [8, 'ADJ_I', '<ruby><rb>寒</rb><rt>さむ</rt></ruby>い', 'さむい', 'Dingin (cuaca)'],
+      [8, 'ADJ_I', '<ruby><rb>冷</rb><rt>つめ</rt></ruby>たい', 'つめたい', 'Dingin (benda)'],
+      [8, 'ADJ_I', '<ruby><rb>難</rb><rt>むずか</rt></ruby>しい', 'むずかしい', 'Sulit, susah'],
+      [8, 'ADJ_I', '<ruby><rb>易</rb><rt>やさ</rt></ruby>しい', 'やさしい', 'Mudah, gampang'],
+      [8, 'ADJ_I', '<ruby><rb>高</rb><rt>たか</rt></ruby>い', 'たかい', 'Mahal, tinggi'],
+      [8, 'ADJ_I', '<ruby><rb>安</rb><rt>やす</rt></ruby>い', 'やすい', 'Murah'],
+      [8, 'ADJ_I', '<ruby><rb>忙</rb><rt>いそが</rt></ruby>しい', 'いそがしい', 'Sibuk'],
+      [8, 'ADJ_I', '<ruby><rb>楽</rb><rt>たの</rt></ruby>しい', 'たのしい', 'Menyenangkan, gembira'],
+      [9, 'VERB', '<ruby><rb>分</rb><rt>わ</rt></ruby>かります', 'わかります', 'Mengerti, paham'],
+      [9, 'ADJ_NA', '<ruby><rb>好</rb><rt>す</rt></ruby>き［な］', 'すき', 'Suka'],
+      [9, 'ADJ_NA', '<ruby><rb>嫌</rb><rt>きら</rt></ruby>い［な］', 'きらい', 'Benci, tidak suka'],
+      [9, 'ADJ_NA', '<ruby><rb>上手</rb><rt>じょうず</rt></ruby>［な］', 'じょうず', 'Pandai, mahir'],
+      [9, 'ADJ_NA', '<ruby><rb>下手</rb><rt>へた</rt></ruby>［な］', 'へた', 'Tidak pandai, kurang mahir'],
+      [9, 'NOUN', '<ruby><rb>料理</rb><rt>りょうり</rt></ruby>', 'りょうり', 'Masakan'],
+      [9, 'NOUN', '<ruby><rb>野球</rb><rt>やきゅう</rt></ruby>', 'やきゅう', 'Bisbol'],
+      [9, 'NOUN', '<ruby><rb>音楽</rb><rt>おんがく</rt></ruby>', 'おんがく', 'Musik'],
+      [9, 'NOUN', '<ruby><rb>約束</rb><rt>やくそく</rt></ruby>', 'やくそく', 'Janji'],
+      [10, 'VERB', 'います', 'います', 'Ada (makhluk hidup: orang, hewan)'],
+      [10, 'VERB', 'あります', 'あります', 'Ada (benda mati, tumbuhan)'],
+      [10, 'NOUN', '<ruby><rb>冷蔵庫</rb><rt>れいぞうこ</rt></ruby>', 'れいぞうこ', 'Kulkas'],
+      [10, 'NOUN', '<ruby><rb>喫茶店</rb><rt>きっさてん</rt></ruby>', 'きっさてん', 'Kedai kopi'],
+      [10, 'NOUN', '<ruby><rb>本屋</rb><rt>ほんや</rt></ruby>', 'ほんや', 'Toko buku'],
+
+      // BAB 11-20
+      [11, 'VERB', 'かかります', 'かかります', 'Memerlukan (waktu, uang)'],
+      [11, 'NOUN', '<ruby><rb>切手</rb><rt>きって</rt></ruby>', 'きって', 'Prangko'],
+      [11, 'NOUN', '<ruby><rb>封筒</rb><rt>ふうとう</rt></ruby>', 'ふうとう', 'Amplop'],
+      [11, 'NOUN', '<ruby><rb>速達</rb><rt>そくたつ</rt></ruby>', 'そくたつ', 'Pos kilat'],
+      [11, 'NOUN', '<ruby><rb>航空便</rb><rt>こうくうびん</rt></ruby>', 'こうくうびん', 'Pos udara'],
+      [11, 'NOUN', '<ruby><rb>両親</rb><rt>りょうしん</rt></ruby>', 'りょうしん', 'Orang tua'],
+      [11, 'NOUN', '<ruby><rb>兄弟</rb><rt>きょうだい</rt></ruby>', 'きょうだい', 'Saudara kandung'],
+      [12, 'ADJ_NA', '<ruby><rb>簡単</rb><rt>かんたん</rt></ruby>［な］', 'かんたん', 'Mudah, sederhana'],
+      [12, 'ADJ_I', '<ruby><rb>近</rb><rt>ちか</rt></ruby>い', 'ちかい', 'Dekat'],
+      [12, 'ADJ_I', '<ruby><rb>遠</rb><rt>とお</rt></ruby>い', 'とおい', 'Jauh'],
+      [12, 'ADJ_I', '<ruby><rb>速</rb><rt>はや</rt></ruby>い', 'はやい', 'Cepat'],
+      [12, 'ADJ_I', '<ruby><rb>遅</rb><rt>おそ</rt></ruby>い', 'おそい', 'Lambat, terlambat'],
+      [12, 'ADJ_I', '<ruby><rb>暖</rb><rt>あたた</rt></ruby>かい', 'あたたかい', 'Hangat'],
+      [12, 'ADJ_I', '<ruby><rb>涼</rb><rt>すず</rt></ruby>しい', 'すずしい', 'Sejuk'],
+      [12, 'ADJ_I', '<ruby><rb>甘</rb><rt>あま</rt></ruby>い', 'あまい', 'Manis'],
+      [12, 'ADJ_I', '<ruby><rb>辛</rb><rt>から</rt></ruby>い', 'からい', 'Pedas'],
+      [12, 'ADJ_I', '<ruby><rb>重</rb><rt>おも</rt></ruby>い', 'おもい', 'Berat'],
+      [12, 'ADJ_I', '<ruby><rb>軽</rb><rt>かる</rt></ruby>い', 'かるい', 'Ringan'],
+      [12, 'NOUN', '<ruby><rb>季節</rb><rt>きせつ</rt></ruby>', 'きせつ', 'Musim'],
+      [12, 'NOUN', '<ruby><rb>空港</rb><rt>くうこう</rt></ruby>', 'くうこう', 'Bandara'],
+      [12, 'NOUN', '<ruby><rb>紅葉</rb><rt>もみじ</rt></ruby>', 'もみじ', 'Daun musim gugur (maple)'],
+      [13, 'VERB', '<ruby><rb>遊</rb><rt>あそ</rt></ruby>びます', 'あそびます', 'Bermain, jalan-jalan'],
+      [13, 'VERB', '<ruby><rb>泳</rb><rt>およ</rt></ruby>ぎます', 'およぎます', 'Berenang'],
+      [13, 'VERB', '<ruby><rb>迎</rb><rt>むか</rt></ruby>えます', 'むかえます', 'Menjemput, menyambut'],
+      [13, 'VERB', '<ruby><rb>疲</rb><rt>つか</rt></ruby>れます', 'つかれます', 'Lelah, capek'],
+      [13, 'VERB', '<ruby><rb>結婚</rb><rt>けっこん</rt></ruby>します', 'けっこんします', 'Menikah'],
+      [13, 'VERB', '<ruby><rb>買</rb><rt>か</rt></ruby>い<ruby><rb>物</rb><rt>もの</rt></ruby>します', 'かいものします', 'Berbelanja'],
+      [13, 'VERB', '<ruby><rb>食事</rb><rt>しょくじ</rt></ruby>します', 'しょくじします', 'Makan bersama / di luar'],
+      [13, 'VERB', '<ruby><rb>散歩</rb><rt>さんぽ</rt></ruby>します', 'さんぽします', 'Berjalan-jalan'],
+      [13, 'ADJ_NA', '<ruby><rb>大変</rb><rt>たいへん</rt></ruby>［な］', 'たいへん', 'Berat, susah, melelahkan'],
+      [13, 'ADJ_I', '<ruby><rb>欲</rb><rt>ほ</rt></ruby>しい', 'ほしい', 'Ingin (memiliki benda)'],
+      [13, 'ADJ_I', '<ruby><rb>寂</rb><rt>さび</rt></ruby>しい', 'さびしい', 'Sepi, kesepian'],
+      [13, 'ADJ_I', '<ruby><rb>広</rb><rt>ひろ</rt></ruby>い', 'ひろい', 'Luas, lebar'],
+      [13, 'ADJ_I', '<ruby><rb>狭</rb><rt>せま</rt></ruby>い', 'せまい', 'Sempit'],
+      [14, 'VERB', 'つけます', 'つけます', 'Menyalakan (lampu, AC)'],
+      [14, 'VERB', '<ruby><rb>消</rb><rt>け</rt></ruby>します', 'けします', 'Mematikan, menghapus'],
+      [14, 'VERB', '<ruby><rb>開</rb><rt>あ</rt></ruby>けます', 'あけます', 'Membuka'],
+      [14, 'VERB', '<ruby><rb>閉</rb><rt>し</rt></ruby>めます', 'しめます', 'Menutup'],
+      [14, 'VERB', '<ruby><rb>急</rb><rt>いそ</rt></ruby>ぎます', 'いそぎます', 'Terburu-buru, bergegas'],
+      [14, 'VERB', '<ruby><rb>待</rb><rt>ま</rt></ruby>ちます', 'まちます', 'Menunggu'],
+      [14, 'VERB', '<ruby><rb>止</rb><rt>と</rt></ruby>めます', 'とめます', 'Menghentikan, memarkir'],
+      [14, 'VERB', '<ruby><rb>曲</rb><rt>ま</rt></ruby>がります', 'まがります', 'Berbelok'],
+      [14, 'VERB', '<ruby><rb>持</rb><rt>も</rt></ruby>ちます', 'もちます', 'Membawa, memegang'],
+      [14, 'VERB', '<ruby><rb>手伝</rb><rt>てつだ</rt></ruby>います', 'てつだいます', 'Membantu'],
+      [14, 'VERB', '<ruby><rb>呼</rb><rt>よ</rt></ruby>びます', 'よびます', 'Memanggil'],
+      [14, 'VERB', '<ruby><rb>話</rb><rt>はな</rt></ruby>します', 'はなします', 'Berbicara, bercerita'],
+      [14, 'VERB', '<ruby><rb>見</rb><rt>み</rt></ruby>せます', 'みせます', 'Memperlihatkan'],
+      [14, 'VERB', '<ruby><rb>始</rb><rt>はじ</rt></ruby>めます', 'はじめます', 'Memulai'],
+      [14, 'VERB', '<ruby><rb>降</rb><rt>ふ</rt></ruby>ります', 'ふります', 'Turun (hujan/salju)'],
+      [15, 'VERB', '<ruby><rb>置</rb><rt>お</rt></ruby>きます', 'おきます', 'Meletakkan, menaruh'],
+      [15, 'VERB', '<ruby><rb>作</rb><rt>つく</rt></ruby>ります', 'つくります', 'Membuat, memproduksi'],
+      [15, 'VERB', '<ruby><rb>売</rb><rt>う</rt></ruby>ります', 'うります', 'Menjual'],
+      [15, 'VERB', '<ruby><rb>知</rb><rt>し</rt></ruby>ります', 'しります', 'Mengetahui, mengenal'],
+      [15, 'VERB', '<ruby><rb>住</rb><rt>す</rt></ruby>みます', 'すみます', 'Tinggal, menetap'],
+      [15, 'VERB', '<ruby><rb>研究</rb><rt>けんきゅう</rt></ruby>します', 'けんきゅうします', 'Meneliti'],
+      [15, 'VERB', '<ruby><rb>思</rb><rt>おも</rt></ruby>い<ruby><rb>出</rb><rt>だ</rt></ruby>します', 'おもいだします', 'Teringat, mengingat kembali'],
+      [16, 'VERB', '<ruby><rb>乗</rb><rt>の</rt></ruby>ります', 'のります', 'Naik (kendaraan)'],
+      [16, 'VERB', '<ruby><rb>降</rb><rt>お</rt></ruby>ります', 'おります', 'Turun (dari kendaraan)'],
+      [16, 'VERB', '<ruby><rb>乗</rb><rt>の</rt></ruby>り<ruby><rb>換</rb><rt>か</rt></ruby>えます', 'のりかえます', 'Ganti kendaraan, transit'],
+      [16, 'VERB', '<ruby><rb>浴</rb><rt>あ</rt></ruby>びます', 'あびます', 'Mandi (shower)'],
+      [16, 'VERB', '<ruby><rb>入</rb><rt>い</rt></ruby>れます', 'いれます', 'Memasukkan'],
+      [16, 'VERB', '<ruby><rb>出</rb><rt>だ</rt></ruby>します', 'だします', 'Mengeluarkan, menyerahkan'],
+      [16, 'VERB', '<ruby><rb>押</rb><rt>お</rt></ruby>します', 'おします', 'Menekan, mendorong'],
+      [16, 'ADJ_I', '<ruby><rb>若</rb><rt>わか</rt></ruby>い', 'わかい', 'Muda'],
+      [16, 'ADJ_I', '<ruby><rb>長</rb><rt>なが</rt></ruby>い', 'ながい', 'Panjang'],
+      [16, 'ADJ_I', '<ruby><rb>短</rb><rt>みじか</rt></ruby>い', 'みじかい', 'Pendek'],
+      [16, 'ADJ_I', '<ruby><rb>明</rb><rt>あか</rt></ruby>るい', 'あかるい', 'Terang, ceria'],
+      [16, 'ADJ_I', '<ruby><rb>暗</rb><rt>くら</rt></ruby>い', 'くらい', 'Gelap, suram'],
+      [17, 'VERB', '<ruby><rb>覚</rb><rt>おぼ</rt></ruby>えます', 'おぼえます', 'Mengingat, menghafal'],
+      [17, 'VERB', '<ruby><rb>忘</rb><rt>わす</rt></ruby>れます', 'わすれます', 'Lupa'],
+      [17, 'VERB', 'なくします', 'なくします', 'Kehilangan'],
+      [17, 'VERB', '<ruby><rb>払</rb><rt>はら</rt></ruby>います', 'はらいます', 'Membayar'],
+      [17, 'VERB', '<ruby><rb>返</rb><rt>かえ</rt></ruby>します', 'かえします', 'Mengembalikan'],
+      [17, 'VERB', '<ruby><rb>出</rb><rt>で</rt></ruby>かけます', 'でかけます', 'Keluar rumah, pergi keluar'],
+      [17, 'VERB', '<ruby><rb>脱</rb><rt>ぬ</rt></ruby>ぎます', 'ぬぎます', 'Melepas (pakaian, sepatu)'],
+      [17, 'VERB', '<ruby><rb>心配</rb><rt>しんぱい</rt></ruby>します', 'しんぱいします', 'Khawatir'],
+      [17, 'VERB', '<ruby><rb>残業</rb><rt>ざんぎょう</rt></ruby>します', 'ざんぎょうします', 'Lembur'],
+      [17, 'VERB', '<ruby><rb>出張</rb><rt>しゅっちょう</rt></ruby>します', 'しゅっちょうします', 'Dinas luar kota'],
+      [17, 'ADJ_NA', '<ruby><rb>大切</rb><rt>たいせつ</rt></ruby>［な］', 'たいせつ', 'Penting, berharga'],
+      [17, 'ADJ_NA', '<ruby><rb>大丈夫</rb><rt>だいじょうぶ</rt></ruby>［な］', 'だいじょうぶ', 'Tidak apa-apa, aman'],
+      [17, 'ADJ_I', '<ruby><rb>危</rb><rt>あぶ</rt></ruby>ない', 'あぶない', 'Berbahaya'],
+      [18, 'VERB', 'できます', 'できます', 'Dapat, bisa'],
+      [18, 'VERB', '<ruby><rb>洗</rb><rt>あら</rt></ruby>います', 'あらいます', 'Mencuci'],
+      [18, 'VERB', '<ruby><rb>弾</rb><rt>ひ</rt></ruby>きます', 'ひきます', 'Bermain (alat musik petik/tuts)'],
+      [18, 'VERB', '<ruby><rb>歌</rb><rt>うた</rt></ruby>います', 'うたいます', 'Menyanyi'],
+      [18, 'VERB', '<ruby><rb>集</rb><rt>あつ</rt></ruby>めます', 'あつめます', 'Mengumpulkan'],
+      [18, 'VERB', '<ruby><rb>捨</rb><rt>す</rt></ruby>てます', 'すてます', 'Membuang'],
+      [18, 'VERB', '<ruby><rb>換</rb><rt>か</rt></ruby>えます', 'かえます', 'Menukar, mengganti'],
+      [18, 'VERB', '<ruby><rb>運転</rb><rt>うんてん</rt></ruby>します', 'うんてんします', 'Menyetir, mengemudikan'],
+      [18, 'VERB', '<ruby><rb>予約</rb><rt>よやく</rt></ruby>します', 'よやくします', 'Memesan, reservasi'],
+      [18, 'VERB', '<ruby><rb>見学</rb><rt>けんがく</rt></ruby>します', 'けんがくします', 'Meninjau, kunjungan belajar'],
+      [19, 'VERB', '<ruby><rb>登</rb><rt>のぼ</rt></ruby>ります', 'のぼります', 'Mendaki (gunung)'],
+      [19, 'VERB', '<ruby><rb>泊</rb><rt>と</rt></ruby>まります', 'とまります', 'Menginap (di hotel)'],
+      [19, 'VERB', '<ruby><rb>掃除</rb><rt>そうじ</rt></ruby>します', 'そうじします', 'Membersihkan'],
+      [19, 'VERB', '<ruby><rb>洗濯</rb><rt>せんたく</rt></ruby>します', 'せんたくします', 'Mencuci pakaian'],
+      [19, 'VERB', '<ruby><rb>練習</rb><rt>れんしゅう</rt></ruby>します', 'れんしゅうします', 'Berlatih'],
+      [19, 'VERB', 'なります', 'なります', 'Menjadi'],
+      [19, 'ADJ_I', '<ruby><rb>眠</rb><rt>ねむ</rt></ruby>い', 'ねむい', 'Mengantuk'],
+      [19, 'ADJ_I', '<ruby><rb>強</rb><rt>つよ</rt></ruby>い', 'つよい', 'Kuat'],
+      [19, 'ADJ_I', '<ruby><rb>弱</rb><rt>よわ</rt></ruby>い', 'よわい', 'Lemah'],
+      [20, 'VERB', '<ruby><rb>要</rb><rt>い</rt></ruby>ります', 'いります', 'Memerlukan, butuh'],
+      [20, 'VERB', '<ruby><rb>調</rb><rt>しら</rt></ruby>べます', 'しらべます', 'Memeriksa, mencari tahu'],
+      [20, 'VERB', '<ruby><rb>直</rb><rt>なお</rt></ruby>します', 'なおします', 'Memperbaiki, membetulkan'],
+      [20, 'VERB', '<ruby><rb>修理</rb><rt>しゅうり</rt></ruby>します', 'しゅうりします', 'Memperbaiki, mereparasi'],
+
+      // BAB 21-30
+      [21, 'VERB', '<ruby><rb>思</rb><rt>おも</rt></ruby>います', 'おもいます', 'Mengira, berpikir, berpendapat'],
+      [21, 'VERB', '<ruby><rb>言</rb><rt>い</rt></ruby>います', 'いいます', 'Berkata, mengatakan'],
+      [21, 'VERB', '<ruby><rb>足</rb><rt>た</rt></ruby>ります', 'たります', 'Cukup'],
+      [21, 'VERB', '<ruby><rb>勝</rb><rt>か</rt></ruby>ちます', 'かちます', 'Menang'],
+      [21, 'VERB', '<ruby><rb>負</rb><rt>ま</rt></ruby>けます', 'まけます', 'Kalah'],
+      [21, 'VERB', '<ruby><rb>役</rb><rt>やく</rt></ruby>に<ruby><rb>立</rb><rt>た</rt></ruby>ちます', 'やくにたちます', 'Berguna, bermanfaat'],
+      [21, 'VERB', '<ruby><rb>留学</rb><rt>りゅうがく</rt></ruby>します', 'りゅうがくします', 'Belajar di luar negeri'],
+      [21, 'ADJ_NA', '<ruby><rb>不便</rb><rt>ふべん</rt></ruby>［な］', 'ふべん', 'Tidak praktis, merepotkan'],
+      [22, 'VERB', '<ruby><rb>着</rb><rt>き</rt></ruby>ます', 'きます', 'Memakai (baju atasan)'],
+      [22, 'VERB', 'はきます', 'はきます', 'Memakai (sepatu, celana)'],
+      [22, 'VERB', 'かぶります', 'かぶります', 'Memakai (topi)'],
+      [22, 'VERB', '<ruby><rb>生</rb><rt>う</rt></ruby>まれます', 'うまれます', 'Lahir'],
+      [22, 'NOUN', '<ruby><rb>家賃</rb><rt>やちん</rt></ruby>', 'やちん', 'Uang sewa rumah'],
+      [23, 'VERB', '<ruby><rb>回</rb><rt>まわ</rt></ruby>します', 'まわします', 'Memutar'],
+      [23, 'VERB', '<ruby><rb>引</rb><rt>ひ</rt></ruby>きます', 'ひきます', 'Menarik'],
+      [23, 'VERB', '<ruby><rb>変</rb><rt>か</rt></ruby>えます', 'かえます', 'Mengubah'],
+      [23, 'VERB', '<ruby><rb>触</rb><rt>さわ</rt></ruby>ります', 'さわります', 'Menyentuh'],
+      [23, 'VERB', '<ruby><rb>歩</rb><rt>ある</rt></ruby>きます', 'あるきます', 'Berjalan kaki'],
+      [23, 'VERB', '<ruby><rb>渡</rb><rt>わた</rt></ruby>ります', 'わたります', 'Menyeberang'],
+      [23, 'VERB', '<ruby><rb>引</rb><rt>ひ</rt></ruby>っ<ruby><rb>越</rb><rt>こ</rt></ruby>しします', 'ひっこしします', 'Pindah rumah'],
+      [23, 'NOUN', '<ruby><rb>交差点</rb><rt>こうさてん</rt></ruby>', 'こうさてん', 'Perempatan jalan'],
+      [23, 'NOUN', '<ruby><rb>信号</rb><rt>しんごう</rt></ruby>', 'しんごう', 'Lampu lalu lintas'],
+      [24, 'VERB', 'くれます', 'くれます', 'Memberi (kepada saya)'],
+      [24, 'VERB', '<ruby><rb>連</rb><rt>つ</rt></ruby>れて<ruby><rb>行</rb><rt>い</rt></ruby>きます', 'つれていきます', 'Mengajak pergi'],
+      [24, 'VERB', '<ruby><rb>紹介</rb><rt>しょうかい</rt></ruby>します', 'しょうかいします', 'Memperkenalkan'],
+      [24, 'VERB', '<ruby><rb>案内</rb><rt>あんない</rt></ruby>します', 'あんないします', 'Mengantarkan, memandu jalan'],
+      [24, 'VERB', '<ruby><rb>説明</rb><rt>せつめい</rt></ruby>します', 'せつめいします', 'Menjelaskan, menerangkan'],
+      [25, 'VERB', '<ruby><rb>考</rb><rt>かんが</rt></ruby>えます', 'かんがえます', 'Berpikir, memikirkan'],
+      [25, 'VERB', '<ruby><rb>着</rb><rt>つ</rt></ruby>きます', 'つきます', 'Tiba, sampai'],
+      [25, 'ADJ_NA', '<ruby><rb>無理</rb><rt>むり</rt></ruby>［な］', 'むり', 'Mustahil, memaksakan diri'],
+      [25, 'NOUN', '<ruby><rb>田舎</rb><rt>いなか</rt></ruby>', 'いなか', 'Kampung halaman, pedesaan'],
+      [25, 'NOUN', '<ruby><rb>大使館</rb><rt>たいしかん</rt></ruby>', 'たいしかん', 'Kedutaan besar'],
+      [26, 'VERB', '<ruby><rb>探</rb><rt>さが</rt></ruby>します', 'さがします', 'Mencari'],
+      [26, 'VERB', '<ruby><rb>遅</rb><rt>おく</rt></ruby>れます', 'おくれます', 'Terlambat'],
+      [26, 'VERB', '<ruby><rb>間</rb><rt>ま</rt></ruby>に<ruby><rb>合</rb><rt>あ</rt></ruby>います', 'まにあいます', 'Sempat, tepat waktu'],
+      [26, 'VERB', '<ruby><rb>参加</rb><rt>さんか</rt></ruby>します', 'さんかします', 'Ikut serta, berpartisipasi'],
+      [26, 'VERB', '<ruby><rb>申</rb><rt>もう</rt></ruby>し<ruby><rb>込</rb><rt>こ</rt></ruby>みます', 'もうしこみます', 'Mendaftar, mengajukan permohonan'],
+      [27, 'VERB', '<ruby><rb>飼</rb><rt>か</rt></ruby>います', 'かいます', 'Memelihara (hewan)'],
+      [27, 'VERB', '<ruby><rb>建</rb><rt>た</rt></ruby>てます', 'たてます', 'Membangun, mendirikan'],
+      [27, 'VERB', '<ruby><rb>走</rb><rt>はし</rt></ruby>ります', 'はしります', 'Berlari'],
+      [27, 'VERB', '<ruby><rb>見</rb><rt>み</rt></ruby>えます', 'みえます', 'Terlihat'],
+      [27, 'VERB', '<ruby><rb>聞</rb><rt>き</rt></ruby>こえます', 'きこえます', 'Terdengar'],
+      [27, 'NOUN', '<ruby><rb>景色</rb><rt>けしき</rt></ruby>', 'けしき', 'Pemandangan'],
+      [28, 'VERB', '<ruby><rb>売</rb><rt>う</rt></ruby>れます', 'うれます', 'Terjual, laku'],
+      [28, 'VERB', '<ruby><rb>踊</rb><rt>おど</rt></ruby>ります', 'おどります', 'Menari'],
+      [28, 'VERB', '<ruby><rb>選</rb><rt>えら</rt></ruby>びます', 'えらびます', 'Memilih'],
+      [28, 'VERB', '<ruby><rb>通</rb><rt>かよ</rt></ruby>います', 'かよいます', 'Pergi pulang rutin (sekolah/kantor)'],
+      [28, 'ADJ_I', '<ruby><rb>偉</rb><rt>えら</rt></ruby>い', 'えらい', 'Hebat, terhormat'],
+      [29, 'VERB', '<ruby><rb>壊</rb><rt>こわ</rt></ruby>れます', 'こわれます', 'Rusak'],
+      [29, 'VERB', '<ruby><rb>割</rb><rt>わ</rt></ruby>れます', 'われます', 'Pecah'],
+      [29, 'VERB', '<ruby><rb>折</rb><rt>お</rt></ruby>れます', 'おれます', 'Patah'],
+      [29, 'VERB', '<ruby><rb>破</rb><rt>やぶ</rt></ruby>れます', 'やぶれます', 'Sobek, robek'],
+      [29, 'VERB', '<ruby><rb>汚</rb><rt>よご</rt></ruby>れます', 'よごれます', 'Menjadi kotor'],
+      [29, 'VERB', '<ruby><rb>落</rb><rt>お</rt></ruby>とします', 'おとします', 'Menjatuhkan, kehilangan'],
+      [30, 'VERB', '<ruby><rb>飾</rb><rt>かざ</rt></ruby>ります', 'かざります', 'Menghias, memajang'],
+      [30, 'VERB', '<ruby><rb>並</rb><rt>なら</rt></ruby>べます', 'ならべます', 'Menyusun, menata berjajar'],
+      [30, 'VERB', '<ruby><rb>植</rb><rt>う</rt></ruby>えます', 'うえます', 'Menanam'],
+      [30, 'VERB', '<ruby><rb>片</rb><rt>かた</rt></ruby>づけます', 'かたづけます', 'Membereskan, merapikan'],
+      [30, 'VERB', '<ruby><rb>決</rb><rt>き</rt></ruby>めます', 'きめます', 'Memutuskan, menentukan'],
+      [30, 'VERB', '<ruby><rb>相談</rb><rt>そうだん</rt></ruby>します', 'そうだんします', 'Berdiskusi, berkonsultasi'],
+      [30, 'VERB', '<ruby><rb>予習</rb><rt>よしゅう</rt></ruby>します', 'よしゅうします', 'Belajar persiapan'],
+      [30, 'VERB', '<ruby><rb>復習</rb><rt>ふくしゅう</rt></ruby>します', 'ふくしゅうします', 'Mengulang pelajaran'],
+      [30, 'ADJ_I', '<ruby><rb>丸</rb><rt>まる</rt></ruby>い', 'まるい', 'Bulat, bundar'],
+
+      // BAB 31-40
+      [31, 'VERB', '<ruby><rb>続</rb><rt>つづ</rt></ruby>けます', 'つづけます', 'Melanjutkan'],
+      [31, 'VERB', '<ruby><rb>見</rb><rt>み</rt></ruby>つけます', 'みつけます', 'Menemukan'],
+      [31, 'VERB', '<ruby><rb>受</rb><rt>う</rt></ruby>けます', 'うけます', 'Mengikuti (ujian)'],
+      [31, 'VERB', '<ruby><rb>休憩</rb><rt>きゅうけい</rt></ruby>します', 'きゅうけいします', 'Beristirahat'],
+      [31, 'VERB', '<ruby><rb>残</rb><rt>のこ</rt></ruby>ります', 'のこります', 'Tersisa, tinggal'],
+      [31, 'VERB', '<ruby><rb>卒業</rb><rt>そつぎょう</rt></ruby>します', 'そつぎょうします', 'Lulus (sekolah/universitas)'],
+      [31, 'NOUN', '<ruby><rb>連休</rb><rt>れんきゅう</rt></ruby>', 'れんきゅう', 'Libur berturut-turut'],
+      [31, 'NOUN', '<ruby><rb>展覧会</rb><rt>てんらんかい</rt></ruby>', 'てんらんかい', 'Pameran'],
+      [32, 'VERB', '<ruby><rb>運動</rb><rt>うんどう</rt></ruby>します', 'うんどうします', 'Berolahraga'],
+      [32, 'VERB', '<ruby><rb>成功</rb><rt>せいこう</rt></ruby>します', 'せいこうします', 'Berhasil, sukses'],
+      [32, 'VERB', '<ruby><rb>失敗</rb><rt>しっぱい</rt></ruby>します', 'しっぱいします', 'Gagal'],
+      [32, 'VERB', '<ruby><rb>合格</rb><rt>ごうかく</rt></ruby>します', 'ごうかくします', 'Lulus (ujian)'],
+      [32, 'VERB', '<ruby><rb>治</rb><rt>なお</rt></ruby>ります', 'なおります', 'Sembuh (penyakit)'],
+      [32, 'ADJ_NA', '<ruby><rb>十分</rb><rt>じゅうぶん</rt></ruby>［な］', 'じゅうぶん', 'Cukup'],
+      [32, 'ADJ_I', 'うるさい', 'うるさい', 'Berisik, cerewet'],
+      [33, 'VERB', '<ruby><rb>逃</rb><rt>に</rt></ruby>げます', 'にげます', 'Melarikan diri, kabur'],
+      [33, 'VERB', '<ruby><rb>騒</rb><rt>さわ</rt></ruby>ぎます', 'さわぎます', 'Membuat gaduh, ribut'],
+      [33, 'VERB', 'あきらめます', 'あきらめます', 'Menyerah, putus asa'],
+      [33, 'VERB', '<ruby><rb>投</rb><rt>な</rt></ruby>げます', 'なげます', 'Melempar'],
+      [33, 'VERB', '<ruby><rb>守</rb><rt>まも</rt></ruby>ります', 'まもります', 'Menjaga, mematuhi aturan'],
+      [33, 'VERB', '<ruby><rb>伝</rb><rt>つた</rt></ruby>えます', 'つたえます', 'Menyampaikan (pesan)'],
+      [33, 'NOUN', '<ruby><rb>規則</rb><rt>きそく</rt></ruby>', 'きそく', 'Peraturan, tata tertib'],
+      [34, 'VERB', '<ruby><rb>磨</rb><rt>みが</rt></ruby>きます', 'みがきます', 'Menggosok (gigi)'],
+      [34, 'VERB', '<ruby><rb>組</rb><rt>く</rt></ruby>み<ruby><rb>立</rb><rt>た</rt></ruby>てます', 'くみたてます', 'Merakit, memasang'],
+      [34, 'VERB', '<ruby><rb>質問</rb><rt>しつもん</rt></ruby>します', 'しつもんします', 'Bertanya'],
+      [34, 'NOUN', '<ruby><rb>説明書</rb><rt>せつめいしょ</rt></ruby>', 'せつめいしょ', 'Buku petunjuk penggunaan'],
+      [35, 'VERB', '<ruby><rb>咲</rb><rt>さ</rt></ruby>きます', 'さきます', 'Mekar (bunga)'],
+      [35, 'VERB', '<ruby><rb>変</rb><rt>か</rt></ruby>わります', 'かわります', 'Berubah'],
+      [35, 'VERB', '<ruby><rb>困</rb><rt>こま</rt></ruby>ります', 'こまります', 'Bingung, mendapat masalah'],
+      [35, 'VERB', '<ruby><rb>拾</rb><rt>ひろ</rt></ruby>います', 'ひろいます', 'Memungut, mengambil'],
+      [35, 'ADJ_NA', '<ruby><rb>楽</rb><rt>らく</rt></ruby>［な］', 'らく', 'Mudah, nyaman, santai'],
+      [35, 'ADJ_I', '<ruby><rb>正</rb><rt>ただ</rt></ruby>しい', 'ただしい', 'Benar, betul'],
+      [35, 'ADJ_I', '<ruby><rb>珍</rb><rt>めずら</rt></ruby>しい', 'めずらしい', 'Langka, jarang ada'],
+      [36, 'VERB', '<ruby><rb>届</rb><rt>とど</rt></ruby>きます', 'とどきます', 'Tiba, sampai (barang)'],
+      [36, 'VERB', '<ruby><rb>貯金</rb><rt>ちょきん</rt></ruby>します', 'ちょきんします', 'Menabung uang'],
+      [36, 'VERB', '<ruby><rb>太</rb><rt>ふと</rt></ruby>ります', 'ふとります', 'Menjadi gemuk'],
+      [36, 'VERB', '<ruby><rb>慣</rb><rt>な</rt></ruby>れます', 'なれます', 'Terbiasa'],
+      [36, 'ADJ_I', '<ruby><rb>硬</rb><rt>かた</rt></ruby>い', 'かたい', 'Keras, kaku'],
+      [36, 'ADJ_I', '<ruby><rb>柔</rb><rt>やわ</rt></ruby>らかい', 'やわらかい', 'Lunak, empuk, lembut'],
+      [37, 'VERB', '<ruby><rb>褒</rb><rt>ほ</rt></ruby>めます', 'ほめます', 'Memuji'],
+      [37, 'VERB', 'しかります', 'しかります', 'Memarahi'],
+      [37, 'VERB', '<ruby><rb>誘</rb><rt>さそ</rt></ruby>います', 'さそいます', 'Mengajak'],
+      [37, 'VERB', '<ruby><rb>招待</rb><rt>しょうたい</rt></ruby>します', 'しょうたいします', 'Mengundang'],
+      [37, 'VERB', '<ruby><rb>輸出</rb><rt>ゆしゅつ</rt></ruby>します', 'ゆしゅつします', 'Mengekspor'],
+      [37, 'VERB', '<ruby><rb>輸入</rb><rt>ゆにゅう</rt></ruby>します', 'ゆにゅうします', 'Mengimpor'],
+      [37, 'VERB', '<ruby><rb>翻訳</rb><rt>ほんやく</rt></ruby>します', 'ほんやくします', 'Menerjemahkan (tulisan)'],
+      [37, 'VERB', '<ruby><rb>発明</rb><rt>はつめい</rt></ruby>します', 'はつめいします', 'Menemukan (ciptaan baru)'],
+      [37, 'VERB', '<ruby><rb>発見</rb><rt>はっけん</rt></ruby>します', 'はっけんします', 'Menemukan (hal yang sudah ada)'],
+      [38, 'VERB', '<ruby><rb>育</rb><rt>そだ</rt></ruby>てます', 'そだてます', 'Memelihara, merawat, membesarkan'],
+      [38, 'VERB', '<ruby><rb>運</rb><rt>はこ</rt></ruby>びます', 'はこびます', 'Mengangkut, membawa'],
+      [38, 'VERB', '<ruby><rb>入院</rb><rt>にゅういん</rt></ruby>します', 'にゅういんします', 'Masuk rumah sakit (opname)'],
+      [38, 'VERB', '<ruby><rb>退院</rb><rt>たいいん</rt></ruby>します', 'たいいんします', 'Keluar dari rumah sakit'],
+      [39, 'VERB', '<ruby><rb>答</rb><rt>こた</rt></ruby>えます', 'こたえます', 'Menjawab'],
+      [39, 'VERB', '<ruby><rb>倒</rb><rt>たお</rt></ruby>れます', 'たおれます', 'Roboh, tumbang'],
+      [39, 'VERB', '<ruby><rb>安心</rb><rt>あんしん</rt></ruby>します', 'あんしんします', 'Lega, tenang'],
+      [39, 'VERB', '<ruby><rb>遅刻</rb><rt>ちこく</rt></ruby>します', 'ちこくします', 'Terlambat'],
+      [39, 'ADJ_NA', '<ruby><rb>複雑</rb><rt>ふくざつ</rt></ruby>［な］', 'ふくざつ', 'Rumit, kompleks'],
+      [39, 'ADJ_I', '<ruby><rb>恥</rb><rt>は</rt></ruby>ずかしい', 'はずかしい', 'Malu'],
+      [40, 'VERB', '<ruby><rb>数</rb><rt>かぞ</rt></ruby>えます', 'かぞえます', 'Menghitung'],
+      [40, 'VERB', '<ruby><rb>測</rb><rt>はか</rt></ruby>ります', 'はかります', 'Mengukur, menimbang'],
+      [40, 'VERB', '<ruby><rb>確</rb><rt>たし</rt></ruby>かめます', 'たしかめます', 'Memastikan, mengecek kembali'],
+      [40, 'VERB', '<ruby><rb>出発</rb><rt>しゅっぱつ</rt></ruby>します', 'しゅっぱつします', 'Berangkat'],
+      [40, 'VERB', '<ruby><rb>到着</rb><rt>とうちゃく</rt></ruby>します', 'とうちゃくします', 'Tiba, sampai'],
+      [40, 'ADJ_NA', '<ruby><rb>必要</rb><rt>ひつよう</rt></ruby>［な］', 'ひつよう', 'Perlu, butuh'],
+
+      // BAB 41-50
+      [41, 'VERB', 'いただきます', 'いただきます', 'Menerima (merendah dari もらいます)'],
+      [41, 'VERB', 'くださいます', 'くださいます', 'Memberi kepada saya (hormat dari くれます)'],
+      [41, 'VERB', '<ruby><rb>取</rb><rt>と</rt></ruby>り<ruby><rb>替</rb><rt>か</rt></ruby>えます', 'とりかえます', 'Mengganti, menukar'],
+      [41, 'NOUN', '<ruby><rb>お祝い</rb><rt>おいわい</rt></ruby>', 'おいわい', 'Hadiah ucapan selamat, perayaan'],
+      [41, 'NOUN', '<ruby><rb>お見舞い</rb><rt>おみまい</rt></ruby>', 'おみまい', 'Menjenguk orang sakit'],
+      [42, 'VERB', '<ruby><rb>包</rb><rt>つつ</rt></ruby>みます', 'つつみます', 'Membungkus'],
+      [42, 'VERB', '<ruby><rb>沸</rb><rt>わ</rt></ruby>かします', 'わかします', 'Merebus, mendidihkan'],
+      [42, 'VERB', '<ruby><rb>混</rb><rt>ま</rt></ruby>ぜます', 'まぜます', 'Mencampur, mengaduk'],
+      [42, 'VERB', '<ruby><rb>計算</rb><rt>けいさん</rt></ruby>します', 'けいさんします', 'Menghitung (angka/biaya)'],
+      [42, 'ADJ_NA', '<ruby><rb>丈夫</rb><rt>じょうぶ</rt></ruby>［な］', 'じょうぶ', 'Kuat, awet, sehat'],
+      [42, 'ADJ_I', '<ruby><rb>厚</rb><rt>あつ</rt></ruby>い', 'あつい', 'Tebal'],
+      [42, 'ADJ_I', '<ruby><rb>薄</rb><rt>うす</rt></ruby>い', 'うすい', 'Tipis'],
+      [43, 'VERB', '<ruby><rb>増</rb><rt>ふ</rt></ruby>えます', 'ふえます', 'Bertambah, meningkat'],
+      [43, 'VERB', '<ruby><rb>減</rb><rt>へ</rt></ruby>ります', 'へります', 'Berkurang, menurun'],
+      [43, 'VERB', '<ruby><rb>上</rb><rt>あ</rt></ruby>がります', 'あがります', 'Naik'],
+      [43, 'VERB', '<ruby><rb>下</rb><rt>さ</rt></ruby>がります', 'さがります', 'Turun'],
+      [43, 'VERB', '<ruby><rb>謝</rb><rt>あやま</rt></ruby>ります', 'あやまります', 'Meminta maaf'],
+      [43, 'ADJ_NA', '<ruby><rb>変</rb><rt>へん</rt></ruby>［な］', 'へん', 'Aneh'],
+      [43, 'ADJ_NA', '<ruby><rb>幸</rb><rt>しあわ</rt></ruby>せ［な］', 'しあわせ', 'Bahagia'],
+      [43, 'ADJ_I', '<ruby><rb>優</rb><rt>やさ</rt></ruby>しい', 'やさしい', 'Baik hati, lemah lembut'],
+      [44, 'VERB', '<ruby><rb>泣</rb><rt>な</rt></ruby>きます', 'なきます', 'Menangis'],
+      [44, 'VERB', '<ruby><rb>笑</rb><rt>わら</rt></ruby>います', 'わらいます', 'Tertawa, tersenyum'],
+      [44, 'VERB', '<ruby><rb>乾</rb><rt>かわ</rt></ruby>きます', 'かわきます', 'Menjadi kering'],
+      [44, 'VERB', '<ruby><rb>濡</rb><rt>ぬ</rt></ruby>れます', 'ぬれます', 'Menjadi basah'],
+      [44, 'VERB', '<ruby><rb>滑</rb><rt>すべ</rt></ruby>ります', 'すべります', 'Terpeleset, licin'],
+      [44, 'VERB', '<ruby><rb>調節</rb><rt>ちょうせつ</rt></ruby>します', 'ちょうせつします', 'Mengatur, menyetel'],
+      [44, 'ADJ_I', '<ruby><rb>濃</rb><rt>こ</rt></ruby>い', 'こい', 'Kental, pekat, tua (warna/rasa)'],
+      [45, 'VERB', '<ruby><rb>信</rb><rt>しん</rt></ruby>じます', 'しんじます', 'Mempercayai'],
+      [45, 'NOUN', '<ruby><rb>保証書</rb><rt>ほしょうしょ</rt></ruby>', 'ほしょうしょ', 'Kartu garansi'],
+      [45, 'NOUN', '<ruby><rb>領収書</rb><rt>りょうしゅうしょ</rt></ruby>', 'りょうしゅうしょ', 'Kuitansi, tanda terima'],
+      [46, 'VERB', '<ruby><rb>焼</rb><rt>や</rt></ruby>きます', 'やきます', 'Membakar, memanggang'],
+      [46, 'VERB', '<ruby><rb>渡</rb><rt>わた</rt></ruby>します', 'わたします', 'Menyerahkan'],
+      [46, 'NOUN', '<ruby><rb>宅配便</rb><rt>たくはいびん</rt></ruby>', 'たくはいびん', 'Jasa pengiriman paket / kurir'],
+      [47, 'VERB', '<ruby><rb>集</rb><rt>あつ</rt></ruby>まります', 'あつまります', 'Berkumpul'],
+      [47, 'VERB', '<ruby><rb>別</rb><rt>わか</rt></ruby>れます', 'わかれます', 'Berpisah'],
+      [47, 'VERB', '<ruby><rb>婚約</rb><rt>こんやく</rt></ruby>します', 'こんやくします', 'Bertunangan'],
+      [47, 'ADJ_I', '<ruby><rb>怖</rb><rt>こわ</rt></ruby>い', 'こわい', 'Takut, menakutkan'],
+      [48, 'VERB', '<ruby><rb>下</rb><rt>お</rt></ruby>ろします', 'おろします', 'Menurunkan (barang/penumpang)'],
+      [48, 'VERB', '<ruby><rb>届</rb><rt>とど</rt></ruby>けます', 'とどけます', 'Mengantarkan, menyampaikan'],
+      [48, 'VERB', '<ruby><rb>録音</rb><rt>ろくおん</rt></ruby>します', 'ろくおんします', 'Merekam (suara)'],
+      [48, 'ADJ_NA', '<ruby><rb>自由</rb><rt>じゆう</rt></ruby>［な］', 'じゆう', 'Bebas'],
+      [49, 'VERB', '<ruby><rb>利用</rb><rt>りよう</rt></ruby>します', 'りようします', 'Menggunakan, memanfaatkan'],
+      [49, 'VERB', '<ruby><rb>勤</rb><rt>つと</rt></ruby>めます', 'つとめます', 'Bekerja (di perusahaan)'],
+      [49, 'VERB', '<ruby><rb>過</rb><rt>す</rt></ruby>ごします', 'すごします', 'Menghabiskan (waktu)'],
+      [49, 'VERB', '<ruby><rb>召</rb><rt>め</rt></ruby>し<ruby><rb>上</rb><rt>あ</rt></ruby>がります', 'めしあがります', 'Makan, minum (hormat)'],
+      [49, 'VERB', '<ruby><rb>ご覧</rb><rt>ごらん</rt></ruby>になります', 'ごらんになります', 'Melihat (hormat)'],
+      [49, 'ADJ_NA', '<ruby><rb>失礼</rb><rt>しつれい</rt></ruby>［な］', 'しつれい', 'Tidak sopan, permisi'],
+      [50, 'VERB', '<ruby><rb>参</rb><rt>まい</rt></ruby>ります', 'まいります', 'Pergi, datang (merendah)'],
+      [50, 'VERB', '<ruby><rb>申</rb><rt>もう</rt></ruby>します', 'もうします', 'Berkata, bernama (merendah)'],
+      [50, 'VERB', '<ruby><rb>拝見</rb><rt>はいけん</rt></ruby>します', 'はいけんします', 'Melihat (merendah)'],
+      [50, 'VERB', '<ruby><rb>伺</rb><rt>うかが</rt></ruby>います', 'うかがいます', 'Bertanya, berkunjung (merendah)'],
+      [50, 'VERB', 'お<ruby><rb>目</rb><rt>め</rt></ruby>にかかります', 'おめにかかります', 'Bertemu (merendah)'],
+      [50, 'VERB', '<ruby><rb>緊張</rb><rt>きんちょう</rt></ruby>します', 'きんちょうします', 'Gugup, tegang'],
+      [50, 'VERB', '<ruby><rb>実現</rb><rt>じつげん</rt></ruby>します', 'じつげんします', 'Terwujud, terealisasi'],
+      [50, 'NOUN', '<ruby><rb>敬語</rb><rt>けいご</rt></ruby>', 'けいご', 'Bahasa hormat (Keigo)']
+    ];
+
+    const POS_LABELS = {
+      VERB: 'Kata Kerja (動詞)',
+      ADJ_I: 'Kata Sifat-い',
+      ADJ_NA: 'Kata Sifat-な',
+      NOUN: 'Kata Benda (名詞)'
+    };
+
+    const KOTOBA_DECK = RAW_KOTOBA.map((item, idx) => ({
+      id: `kt_${idx + 1}`,
+      bab: item[0],
+      pos: item[1],
+      posLabel: POS_LABELS[item[1]],
+      ruby: item[2],
+      speech: item[3],
+      meaning: item[4]
+    }));
+
+    // =========================================================================
+    // 2. DATABASE KANJI JLPT N5 & N4 (160 KANJI INTI + ON'YOMI, KUN'YOMI & 2 CONTOH)
+    // =========================================================================
+    // Format: [kanji, level, onyomi(Katakana), kunyomi(Hiragana), meaning, ex1Ruby, ex1Speech, ex1Meaning, ex2Ruby, ex2Speech, ex2Meaning]
+    const RAW_KANJI = [
+      // JLPT N5 KANJI (80 Kanji)
+      ['一', 'N5', 'イチ・イツ', 'ひと・ひと-つ', 'Satu', '<ruby><rb>一月</rb><rt>いちがつ</rt></ruby>', 'いちがつ', 'Bulan Januari', '<ruby><rb>一つ</rb><rt>ひとつ</rt></ruby>', 'ひとつ', 'Satu buah'],
+      ['二', 'N5', 'ニ', 'ふた・ふた-つ', 'Dua', '<ruby><rb>二月</rb><rt>にがつ</rt></ruby>', 'にがつ', 'Bulan Februari', '<ruby><rb>二人</rb><rt>ふたり</rt></ruby>', 'ふたり', 'Dua orang'],
+      ['三', 'N5', 'サン', 'み・みっ-つ', 'Tiga', '<ruby><rb>三月</rb><rt>さんがつ</rt></ruby>', 'さんがつ', 'Bulan Maret', '<ruby><rb>三日</rb><rt>みっか</rt></ruby>', 'みっか', 'Tanggal 3'],
+      ['四', 'N5', 'シ', 'よ・よっ-つ・よん', 'Empat', '<ruby><rb>四月</rb><rt>しがつ</rt></ruby>', 'しがつ', 'Bulan April', '<ruby><rb>四日</rb><rt>よっか</rt></ruby>', 'よっか', 'Tanggal 4'],
+      ['五', 'N5', 'ゴ', 'いつ・いつ-つ', 'Lima', '<ruby><rb>五月</rb><rt>ごがつ</rt></ruby>', 'ごがつ', 'Bulan Mei', '<ruby><rb>五日</rb><rt>いつか</rt></ruby>', 'いつか', 'Tanggal 5'],
+      ['六', 'N5', 'ロク', 'む・むっ-つ', 'Enam', '<ruby><rb>六月</rb><rt>ろくがつ</rt></ruby>', 'ろくがつ', 'Bulan Juni', '<ruby><rb>六日</rb><rt>むいか</rt></ruby>', 'むいか', 'Tanggal 6'],
+      ['七', 'N5', 'シチ', 'なな・なな-つ', 'Tujuh', '<ruby><rb>七月</rb><rt>しちがつ</rt></ruby>', 'しちがつ', 'Bulan Juli', '<ruby><rb>七日</rb><rt>なのか</rt></ruby>', 'なのか', 'Tanggal 7'],
+      ['八', 'N5', 'ハチ', 'や・やっ-つ', 'Delapan', '<ruby><rb>八月</rb><rt>はちがつ</rt></ruby>', 'はちがつ', 'Bulan Agustus', '<ruby><rb>八日</rb><rt>ようか</rt></ruby>', 'ようか', 'Tanggal 8'],
+      ['九', 'N5', 'キュウ・ク', 'ここの・ここの-つ', 'Sembilan', '<ruby><rb>九月</rb><rt>くがつ</rt></ruby>', 'くがつ', 'Bulan September', '<ruby><rb>九日</rb><rt>ここのか</rt></ruby>', 'ここのか', 'Tanggal 9'],
+      ['十', 'N5', 'ジュウ', 'とお・と', 'Sepuluh', '<ruby><rb>十月</rb><rt>じゅうがつ</rt></ruby>', 'じゅうがつ', 'Bulan Oktober', '<ruby><rb>十日</rb><rt>とおか</rt></ruby>', 'とおか', 'Tanggal 10'],
+      ['百', 'N5', 'ヒャク', '—', 'Seratus', '<ruby><rb>三百</rb><rt>さんびゃく</rt></ruby>', 'さんびゃく', 'Tiga ratus', '<ruby><rb>百円</rb><rt>ひゃくえん</rt></ruby>', 'ひゃくえん', 'Seratus yen'],
+      ['千', 'N5', 'セン', 'ち', 'Seribu', '<ruby><rb>千円</rb><rt>せんえん</rt></ruby>', 'せんえん', 'Seribu yen', '<ruby><rb>三千</rb><rt>さんぜん</rt></ruby>', 'さんぜん', 'Tiga ribu'],
+      ['万', 'N5', 'マン・バン', '—', 'Sepuluh ribu', '<ruby><rb>一万円</rb><rt>いちまんえん</rt></ruby>', 'いちまんえん', 'Sepuluh ribu yen', '<ruby><rb>万国</rb><rt>ばんこく</rt></ruby>', 'ばんこく', 'Semua negara'],
+      ['円', 'N5', 'エン', 'まる-い', 'Yen, lingkaran', '<ruby><rb>百円</rb><rt>ひゃくえん</rt></ruby>', 'ひゃくえん', 'Seratus yen', '<ruby><rb>円高</rb><rt>えんだか</rt></ruby>', 'えんだか', 'Penguatan nilai yen'],
+      ['日', 'N5', 'ニチ・ジツ', 'ひ・か', 'Hari, matahari', '<ruby><rb>日本</rb><rt>にほん</rt></ruby>', 'にほん', 'Jepang', '<ruby><rb>日曜日</rb><rt>にちようび</rt></ruby>', 'にちようび', 'Hari Minggu'],
+      ['月', 'N5', 'ゲツ・ガツ', 'つき', 'Bulan', '<ruby><rb>月曜日</rb><rt>げつようび</rt></ruby>', 'げつようび', 'Hari Senin', '<ruby><rb>今月</rb><rt>こんげつ</rt></ruby>', 'こんげつ', 'Bulan ini'],
+      ['火', 'N5', 'カ', 'ひ', 'Api', '<ruby><rb>火曜日</rb><rt>かようび</rt></ruby>', 'かようび', 'Hari Selasa', '<ruby><rb>火事</rb><rt>かじ</rt></ruby>', 'かじ', 'Kebakaran'],
+      ['水', 'N5', 'スイ', 'みず', 'Air', '<ruby><rb>水曜日</rb><rt>すいようび</rt></ruby>', 'すいようび', 'Hari Rabu', '<ruby><rb>水道</rb><rt>すいどう</rt></ruby>', 'すいどう', 'Air ledeng'],
+      ['木', 'N5', 'モク・ボク', 'き', 'Pohon, kayu', '<ruby><rb>木曜日</rb><rt>もくようび</rt></ruby>', 'もくようび', 'Hari Kamis', '<ruby><rb>木陰</rb><rt>こかげ</rt></ruby>', 'こかげ', 'Tempat teduh pohon'],
+      ['金', 'N5', 'キン・コン', 'かね', 'Emas, uang', '<ruby><rb>金曜日</rb><rt>きんようび</rt></ruby>', 'きんようび', 'Hari Jumat', 'お<ruby><rb>金</rb><rt>かね</rt></ruby>', 'おかね', 'Uang'],
+      ['土', 'N5', 'ド・ト', 'つち', 'Tanah', '<ruby><rb>土曜日</rb><rt>どようび</rt></ruby>', 'どようび', 'Hari Sabtu', '<ruby><rb>土地</rb><rt>とち</rt></ruby>', 'とち', 'Tanah, lahan'],
+      ['年', 'N5', 'ネン', 'とし', 'Tahun', '<ruby><rb>今年</rb><rt>ことし</rt></ruby>', 'ことし', 'Tahun ini', '<ruby><rb>来年</rb><rt>らいねん</rt></ruby>', 'らいねん', 'Tahun depan'],
+      ['時', 'N5', 'ジ', 'とき', 'Waktu, jam', '<ruby><rb>時間</rb><rt>じかん</rt></ruby>', 'じかん', 'Waktu', '<ruby><rb>時計</rb><rt>とけい</rt></ruby>', 'とけい', 'Jam'],
+      ['分', 'N5', 'フン・ブン', 'わ-かる・わ-ける', 'Menit, mengerti, membagi', '<ruby><rb>五分</rb><rt>ごふん</rt></ruby>', 'ごふん', 'Lima menit', '<ruby><rb>自分</rb><rt>じぶん</rt></ruby>', 'じぶん', 'Diri sendiri'],
+      ['半', 'N5', 'ハン', 'なか-ば', 'Setengah', '<ruby><rb>半分</rb><rt>はんぶん</rt></ruby>', 'はんぶん', 'Setengah bagian', '<ruby><rb>三時半</rb><rt>さんじはん</rt></ruby>', 'さんじはん', 'Pukul setengah empat'],
+      ['今', 'N5', 'コン・キン', 'いま', 'Sekarang', '<ruby><rb>今日</rb><rt>きょう</rt></ruby>', 'きょう', 'Hari ini', '<ruby><rb>今晩</rb><rt>こんばん</rt></ruby>', 'こんばん', 'Malam ini'],
+      ['先', 'N5', 'セン', 'さき', 'Sebelumnya, duluan', '<ruby><rb>先生</rb><rt>せんせい</rt></ruby>', 'せんせい', 'Guru, dosen', '<ruby><rb>先週</rb><rt>せんしゅう</rt></ruby>', 'せんしゅう', 'Minggu lalu'],
+      ['来', 'N5', 'ライ', 'く-る・き-ます', 'Datang, berikutnya', '<ruby><rb>来週</rb><rt>らいしゅう</rt></ruby>', 'らいしゅう', 'Minggu depan', '<ruby><rb>来ます</rb><rt>きます</rt></ruby>', 'きます', 'Datang'],
+      ['人', 'N5', 'ジン・ニン', 'ひと', 'Orang', '<ruby><rb>日本人</rb><rt>にほんじん</rt></ruby>', 'にほんじん', 'Orang Jepang', '<ruby><rb>外国人</rb><rt>がいこくじん</rt></ruby>', 'がいこくじん', 'Orang asing'],
+      ['男', 'N5', 'ダン・ナン', 'おとこ', 'Laki-laki', '<ruby><rb>男の人</rb><rt>おとこのひと</rt></ruby>', 'おとこのひと', 'Orang laki-laki', '<ruby><rb>男性</rb><rt>だんせい</rt></ruby>', 'だんせい', 'Pria'],
+      ['女', 'N5', 'ジョ・ニョ', 'おんな', 'Perempuan', '<ruby><rb>女の人</rb><rt>おんなのひと</rt></ruby>', 'おんなのひと', 'Orang perempuan', '<ruby><rb>女性</rb><rt>じょせい</rt></ruby>', 'じょせい', 'Wanita'],
+      ['子', 'N5', 'シ・ス', 'こ', 'Anak', '<ruby><rb>子ども</rb><rt>こども</rt></ruby>', 'こども', 'Anak-anak', '<ruby><rb>女の子</rb><rt>おんなのこ</rt></ruby>', 'おんなのこ', 'Anak perempuan'],
+      ['父', 'N5', 'フ', 'ちち', 'Ayah', 'お<ruby><rb>父</rb><rt>とう</rt></ruby>さん', 'おとうさん', 'Ayah (orang lain)', '<ruby><rb>父母</rb><rt>ふぼ</rt></ruby>', 'ふぼ', 'Ayah dan ibu'],
+      ['母', 'N5', 'ボ', 'はは', 'Ibu', 'お<ruby><rb>母</rb><rt>かあ</rt></ruby>さん', 'おかあさん', 'Ibu (orang lain)', '<ruby><rb>母国</rb><rt>ぼこく</rt></ruby>', 'ぼこく', 'Tanah air'],
+      ['友', 'N5', 'ユウ', 'とも', 'Teman', '<ruby><rb>友達</rb><rt>ともだち</rt></ruby>', 'ともだち', 'Teman', '<ruby><rb>親友</rb><rt>しんゆう</rt></ruby>', 'しんゆう', 'Sahabat karib'],
+      ['山', 'N5', 'サン', 'やま', 'Gunung', '<ruby><rb>富士山</rb><rt>ふじさん</rt></ruby>', 'ふじさん', 'Gunung Fuji', '<ruby><rb>山登り</rb><rt>やまのぼり</rt></ruby>', 'やまのぼり', 'Mendaki gunung'],
+      ['川', 'N5', 'セン', 'かわ', 'Sungai', '<ruby><rb>川口</rb><rt>かわぐち</rt></ruby>', 'かわぐち', 'Muara sungai', '<ruby><rb>小川</rb><rt>おがわ</rt></ruby>', 'おがわ', 'Sungai kecil'],
+      ['田', 'N5', 'デン', 'た', 'Sawah', '<ruby><rb>水田</rb><rt>すいでん</rt></ruby>', 'すいでん', 'Sawah berair', '<ruby><rb>田中</rb><rt>たなか</rt></ruby>', 'たなか', 'Tanaka (nama marga)'],
+      ['天', 'N5', 'テン', 'あめ・あま', 'Langit, surga', '<ruby><rb>天気</rb><rt>てんき</rt></ruby>', 'てんき', 'Cuaca', '<ruby><rb>天国</rb><rt>てんごく</rt></ruby>', 'てんごく', 'Surga'],
+      ['気', 'N5', 'キ・ケ', '—', 'Semangat, udara, perasaan', '<ruby><rb>元気</rb><rt>げんき</rt></ruby>', 'げんき', 'Sehat, bersemangat', '<ruby><rb>人気</rb><rt>にんき</rt></ruby>', 'にんき', 'Populer'],
+      ['雨', 'N5', 'ウ', 'あめ', 'Hujan', '<ruby><rb>大雨</rb><rt>おおあめ</rt></ruby>', 'おおあめ', 'Hujan lebat', '<ruby><rb>雨天</rb><rt>うてん</rt></ruby>', 'うてん', 'Cuaca hujan'],
+      ['電', 'N5', 'デン', '—', 'Listrik', '<ruby><rb>電車</rb><rt>でんしゃ</rt></ruby>', 'でんしゃ', 'Kereta listrik', '<ruby><rb>電話</rb><rt>でんわ</rt></ruby>', 'でんわ', 'Telepon'],
+      ['車', 'N5', 'シャ', 'くるま', 'Mobil, kendaraan', '<ruby><rb>自動車</rb><rt>じどうしゃ</rt></ruby>', 'じどうしゃ', 'Mobil', '<ruby><rb>自転車</rb><rt>じてんしゃ</rt></ruby>', 'じてんしゃ', 'Sepeda'],
+      ['駅', 'N5', 'エキ', '—', 'Stasiun', '<ruby><rb>駅前</rb><rt>えきまえ</rt></ruby>', 'えきまえ', 'Depan stasiun', '<ruby><rb>駅員</rb><rt>えきいん</rt></ruby>', 'えきいん', 'Petugas stasiun'],
+      ['道', 'N5', 'ドウ', 'みち', 'Jalan', '<ruby><rb>道路</rb><rt>どうろ</rt></ruby>', 'どうろ', 'Jalan raya', '<ruby><rb>書道</rb><rt>しょどう</rt></ruby>', 'しょどう', 'Kaligrafi'],
+      ['国', 'N5', 'コク', 'くに', 'Negara', '<ruby><rb>外国</rb><rt>がいこく</rt></ruby>', 'がいこく', 'Luar negeri', '<ruby><rb>中国</rb><rt>ちゅうごく</rt></ruby>', 'ちゅうごく', 'Tiongkok'],
+      ['本', 'N5', 'ホン', 'もと', 'Buku, asal', '<ruby><rb>本屋</rb><rt>ほんや</rt></ruby>', 'ほんや', 'Toko buku', '<ruby><rb>日本</rb><rt>にほん</rt></ruby>', 'にほん', 'Jepang'],
+      ['語', 'N5', 'ゴ', 'かた-る', 'Bahasa, kata', '<ruby><rb>日本語</rb><rt>にほんご</rt></ruby>', 'にほんご', 'Bahasa Jepang', '<ruby><rb>外国語</rb><rt>がいこくご</rt></ruby>', 'がいこくご', 'Bahasa asing'],
+      ['学', 'N5', 'ガク', 'まな-ぶ', 'Belajar, ilmu', '<ruby><rb>大学</rb><rt>だいがく</rt></ruby>', 'だいがく', 'Universitas', '<ruby><rb>学生</rb><rt>がくせい</rt></ruby>', 'がくせい', 'Mahasiswa'],
+      ['校', 'N5', 'コウ', '—', 'Sekolah', '<ruby><rb>学校</rb><rt>がっこう</rt></ruby>', 'がっこう', 'Sekolah', '<ruby><rb>高校</rb><rt>こうこう</rt></ruby>', 'こうこう', 'SMA'],
+      ['生', 'N5', 'セイ・ショウ', 'い-きる・う-まれる', 'Hidup, lahir, siswa', '<ruby><rb>生活</rb><rt>せいかつ</rt></ruby>', 'せいかつ', 'Kehidupan', '<ruby><rb>誕生日</rb><rt>たんじょうび</rt></ruby>', 'たんじょうび', 'Hari ulang tahun'],
+      ['名', 'N5', 'メイ・ミョウ', 'な', 'Nama, terkenal', '<ruby><rb>名前</rb><rt>なまえ</rt></ruby>', 'なまえ', 'Nama', '<ruby><rb>有名</rb><rt>ゆうめい</rt></ruby>', 'ゆうめい', 'Terkenal'],
+      ['上', 'N5', 'ジョウ', 'うえ・あ-がる', 'Atas, naik', '<ruby><rb>上手</rb><rt>じょうず</rt></ruby>', 'じょうず', 'Pandai, mahir', '<ruby><rb>屋上</rb><rt>おくじょう</rt></ruby>', 'おくじょう', 'Atap gedung'],
+      ['下', 'N5', 'カ・ゲ', 'した・さ-がる', 'Bawah, turun', '<ruby><rb>地下鉄</rb><rt>ちかてつ</rt></ruby>', 'ちかてつ', 'Kereta bawah tanah', '<ruby><rb>下手</rb><rt>へた</rt></ruby>', 'へた', 'Kurang mahir'],
+      ['中', 'N5', 'チュウ', 'なか', 'Dalam, tengah', '<ruby><rb>中学校</rb><rt>ちゅうがっこう</rt></ruby>', 'ちゅうがっこう', 'SMP', '<ruby><rb>一日中</rb><rt>いちにちじゅう</rt></ruby>', 'いちにちじゅう', 'Sepanjang hari'],
+      ['外', 'N5', 'ガイ・ゲ', 'そと・はず-す', 'Luar', '<ruby><rb>外国</rb><rt>がいこく</rt></ruby>', 'がいこく', 'Luar negeri', '<ruby><rb>外出</rb><rt>がいしゅつ</rt></ruby>', 'がいしゅつ', 'Keluar rumah'],
+      ['前', 'N5', 'ゼン', 'まえ', 'Depan, sebelum', '<ruby><rb>午前</rb><rt>ごぜん</rt></ruby>', 'ごぜん', 'Pagi (A.M.)', '<ruby><rb>名前</rb><rt>なまえ</rt></ruby>', 'なまえ', 'Nama'],
+      ['後', 'N5', 'ゴ・コウ', 'うし-ろ・あと', 'Belakang, setelah', '<ruby><rb>午後</rb><rt>ごご</rt></ruby>', 'ごご', 'Sore/Malam (P.M.)', '<ruby><rb>最後</rb><rt>さいご</rt></ruby>', 'さいご', 'Terakhir'],
+      ['右', 'N5', 'ウ・ユウ', 'みぎ', 'Kanan', '<ruby><rb>右手</rb><rt>みぎて</rt></ruby>', 'みぎて', 'Tangan kanan', '<ruby><rb>右側</rb><rt>みぎがわ</rt></ruby>', 'みぎがわ', 'Sebelah kanan'],
+      ['左', 'N5', 'サ', 'ひだり', 'Kiri', '<ruby><rb>左手</rb><rt>ひだりて</rt></ruby>', 'ひだりて', 'Tangan kiri', '<ruby><rb>左側</rb><rt>ひだりがわ</rt></ruby>', 'ひだりがわ', 'Sebelah kiri'],
+      ['東', 'N5', 'トウ', 'ひがし', 'Timur', '<ruby><rb>東京</rb><rt>とうきょう</rt></ruby>', 'とうきょう', 'Tokyo', '<ruby><rb>東口</rb><rt>ひがしぐち</rt></ruby>', 'ひがしぐち', 'Pintu keluar timur'],
+      ['西', 'N5', 'セイ・サイ', 'にし', 'Barat', '<ruby><rb>西口</rb><rt>にしぐち</rt></ruby>', 'にしぐち', 'Pintu keluar barat', '<ruby><rb>関西</rb><rt>かんさい</rt></ruby>', 'かんさい', 'Wilayah Kansai'],
+      ['南', 'N5', 'ナン', 'みなみ', 'Selatan', '<ruby><rb>南口</rb><rt>みなみぐち</rt></ruby>', 'みなみぐち', 'Pintu keluar selatan', '<ruby><rb>東南アジア</rb><rt>とうなんアジア</rt></ruby>', 'とうなんアジア', 'Asia Tenggara'],
+      ['北', 'N5', 'ホク', 'きた', 'Utara', '<ruby><rb>北海道</rb><rt>ほっかいどう</rt></ruby>', 'ほっかいどう', 'Hokkaido', '<ruby><rb>北口</rb><rt>きたぐち</rt></ruby>', 'きたぐち', 'Pintu keluar utara'],
+      ['大', 'N5', 'ダイ・タイ', 'おお-きい', 'Besar', '<ruby><rb>大学</rb><rt>だいがく</rt></ruby>', 'だいがく', 'Universitas', '<ruby><rb>大切</rb><rt>たいせつ</rt></ruby>', 'たいせつ', 'Penting'],
+      ['小', 'N5', 'ショウ', 'ちい-さい・こ', 'Kecil', '<ruby><rb>小学校</rb><rt>しょうがっこう</rt></ruby>', 'しょうがっこう', 'SD', '<ruby><rb>小説</rb><rt>しょうせつ</rt></ruby>', 'しょうせつ', 'Novel'],
+      ['高', 'N5', 'コウ', 'たか-い', 'Tinggi, mahal', '<ruby><rb>高校</rb><rt>こうこう</rt></ruby>', 'こうこう', 'SMA', '<ruby><rb>最高</rb><rt>さいこう</rt></ruby>', 'さいこう', 'Terbaik'],
+      ['安', 'N5', 'アン', 'やす-い', 'Murah, tenang', '<ruby><rb>安心</rb><rt>あんしん</rt></ruby>', 'あんしん', 'Lega, tenang', '<ruby><rb>安全</rb><rt>あんぜん</rt></ruby>', 'あんぜん', 'Aman, keselamatan'],
+      ['新', 'N5', 'シン', 'あたら-しい', 'Baru', '<ruby><rb>新聞</rb><rt>しんぶん</rt></ruby>', 'しんぶん', 'Koran', '<ruby><rb>新年</rb><rt>しんねん</rt></ruby>', 'しんねん', 'Tahun baru'],
+      ['古', 'N5', 'コ', 'ふる-い', 'Tua, lama', '<ruby><rb>中古</rb><rt>ちゅうこ</rt></ruby>', 'ちゅうこ', 'Barang bekas', '<ruby><rb>古代</rb><rt>こだい</rt></ruby>', 'こだい', 'Zaman kuno'],
+      ['長', 'N5', 'チョウ', 'なが-い', 'Panjang, ketua', '<ruby><rb>社長</rb><rt>しゃちょう</rt></ruby>', 'しゃちょう', 'Direktur utama', '<ruby><rb>部長</rb><rt>ぶちょう</rt></ruby>', 'ぶちょう', 'Kepala departemen'],
+      ['多', 'N5', 'タ', 'おお-い', 'Banyak', '<ruby><rb>多分</rb><rt>たぶん</rt></ruby>', 'たぶん', 'Mungkin', '<ruby><rb>多数</rb><rt>たすう</rt></ruby>', 'たすう', 'Jumlah banyak'],
+      ['少', 'N5', 'ショウ', 'すく-ない・すこ-し', 'Sedikit', '<ruby><rb>少々</rb><rt>しょうしょう</rt></ruby>', 'しょうしょう', 'Sebentar / sedikit', '<ruby><rb>少年</rb><rt>しょうねん</rt></ruby>', 'しょうねん', 'Anak laki-laki'],
+      ['行', 'N5', 'コウ・ギョウ', 'い-く・おこな-う', 'Pergi, mengadakan', '<ruby><rb>銀行</rb><rt>ぎんこう</rt></ruby>', 'ぎんこう', 'Bank', '<ruby><rb>旅行</rb><rt>りょこう</rt></ruby>', 'りょこう', 'Wisata, perjalanan'],
+      ['見', 'N5', 'ケン', 'み-る・み-える', 'Melihat', '<ruby><rb>見学</rb><rt>けんがく</rt></ruby>', 'けんがく', 'Kunjungan belajar', '<ruby><rb>意見</rb><rt>いけん</rt></ruby>', 'いけん', 'Pendapat'],
+      ['聞', 'N5', 'ブン・モン', 'き-く・き-こえる', 'Mendengar, bertanya', '<ruby><rb>新聞</rb><rt>しんぶん</rt></ruby>', 'しんぶん', 'Koran', '<ruby><rb>聞きます</rb><rt>ききます</rt></ruby>', 'ききます', 'Mendengar'],
+      ['読', 'N5', 'ドク', 'よ-む', 'Membaca', '<ruby><rb>読書</rb><rt>どくしょ</rt></ruby>', 'どくしょ', 'Membaca buku', '<ruby><rb>読み方</rb><rt>よみかた</rt></ruby>', 'よみかた', 'Cara membaca'],
+      ['書', 'N5', 'ショ', 'か-く', 'Menulis', '<ruby><rb>辞書</rb><rt>じしょ</rt></ruby>', 'じしょ', 'Kamus', '<ruby><rb>図書館</rb><rt>としょかん</rt></ruby>', 'としょかん', 'Perpustakaan'],
+      ['食', 'N5', 'ショク', 'た-べる', 'Makan', '<ruby><rb>食事</rb><rt>しょくじ</rt></ruby>', 'しょくじ', 'Makan bersama', '<ruby><rb>食堂</rb><rt>しょくどう</rt></ruby>', 'しょくどう', 'Kantin'],
+      ['飲', 'N5', 'イン', 'の-む', 'Minum', '<ruby><rb>飲み物</rb><rt>のみもの</rt></ruby>', 'のみもの', 'Minuman', '<ruby><rb>飲食店</rb><rt>いんしょくてん</rt></ruby>', 'いんしょくてん', 'Rumah makan'],
+      ['買', 'N5', 'バイ', 'か-う', 'Membeli', '<ruby><rb>買い物</rb><rt>かいもの</rt></ruby>', 'かいもの', 'Berbelanja', '<ruby><rb>売買</rb><rt>ばいばい</rt></ruby>', 'ばいばい', 'Jual beli'],
+      ['休', 'N5', 'キュウ', 'やす-む', 'Beristirahat, libur', '<ruby><rb>昼休み</rb><rt>ひるやすみ</rt></ruby>', 'ひるやすみ', 'Istirahat siang', '<ruby><rb>休日</rb><rt>きゅうじつ</rt></ruby>', 'きゅうじつ', 'Hari libur'],
+      ['入', 'N5', 'ニュウ', 'はい-る・い-れる', 'Masuk, memasukkan', '<ruby><rb>入口</rb><rt>いりぐち</rt></ruby>', 'いりぐち', 'Pintu masuk', '<ruby><rb>入院</rb><rt>にゅういん</rt></ruby>', 'にゅういん', 'Masuk rumah sakit'],
+      ['出', 'N5', 'シュツ', 'で-る・だ-す', 'Keluar, mengeluarkan', '<ruby><rb>出口</rb><rt>でぐち</rt></ruby>', 'でぐち', 'Pintu keluar', '<ruby><rb>出発</rb><rt>しゅっぱつ</rt></ruby>', 'しゅっぱつ', 'Berangkat'],
+      ['立', 'N5', 'リツ', 'た-つ', 'Berdiri', '<ruby><rb>立入禁止</rb><rt>たちいりきんし</rt></ruby>', 'たちいりきんし', 'Dilarang masuk', '<ruby><rb>国立</rb><rt>こくりつ</rt></ruby>', 'こくりつ', 'Negeri (milik negara)'],
+      ['会', 'N5', 'カイ', 'あ-う', 'Bertemu, perkumpulan', '<ruby><rb>会社</rb><rt>かいしゃ</rt></ruby>', 'かいしゃ', 'Perusahaan', '<ruby><rb>会議</rb><rt>かいぎ</rt></ruby>', 'かいぎ', 'Rapat'],
+      ['社', 'N5', 'シャ', 'やしろ', 'Perusahaan, kuil', '<ruby><rb>社員</rb><rt>しゃいん</rt></ruby>', 'しゃいん', 'Pegawai', '<ruby><rb>神社</rb><rt>じんじゃ</rt></ruby>', 'じんじゃ', 'Kuil Shinto'],
+      ['店', 'N5', 'テン', 'みせ', 'Toko', '<ruby><rb>喫茶店</rb><rt>きっさてん</rt></ruby>', 'きっさてん', 'Kedai kopi', '<ruby><rb>店員</rb><rt>てんいん</rt></ruby>', 'てんいん', 'Pelayan toko'],
+      ['言', 'N5', 'ゲン・ゴン', 'い-う・こと', 'Berkata, kata', '<ruby><rb>言葉</rb><rt>ことば</rt></ruby>', 'ことば', 'Kata, bahasa', '<ruby><rb>方言</rb><rt>ほうげん</rt></ruby>', 'ほうげん', 'Dialek daerah'],
+      ['話', 'N5', 'ワ', 'はな-す・はなし', 'Berbicara, cerita', '<ruby><rb>電話</rb><rt>でんわ</rt></ruby>', 'でんわ', 'Telepon', '<ruby><rb>会話</rb><rt>かいわ</rt></ruby>', 'かいわ', 'Percakapan'],
+
+      // JLPT N4 KANJI (80 Kanji)
+      ['朝', 'N4', 'チョウ', 'あさ', 'Pagi', '<ruby><rb>毎朝</rb><rt>まいあさ</rt></ruby>', 'まいあさ', 'Setiap pagi', '<ruby><rb>朝食</rb><rt>ちょうしょく</rt></ruby>', 'ちょうしょく', 'Sarapan'],
+      ['昼', 'N4', 'チュウ', 'ひる', 'Siang', '<ruby><rb>昼ごはん</rb><rt>ひるごはん</rt></ruby>', 'ひるごはん', 'Makan siang', '<ruby><rb>昼間</rb><rt>ひるま</rt></ruby>', 'ひるま', 'Siang hari'],
+      ['夜', 'N4', 'ヤ', 'よる・よ', 'Malam', '<ruby><rb>今夜</rb><rt>こんや</rt></ruby>', 'こんや', 'Malam ini', '<ruby><rb>夜中</rb><rt>よなか</rt></ruby>', 'よなか', 'Tengah malam'],
+      ['晩', 'N4', 'バン', '—', 'Malam', '<ruby><rb>今晩</rb><rt>こんばん</rt></ruby>', 'こんばん', 'Malam ini', '<ruby><rb>毎晩</rb><rt>まいばん</rt></ruby>', 'まいばん', 'Setiap malam'],
+      ['週', 'N4', 'シュウ', '—', 'Minggu, pekan', '<ruby><rb>週末</rb><rt>しゅうまつ</rt></ruby>', 'しゅうまつ', 'Akhir pekan', '<ruby><rb>今週</rb><rt>こんしゅう</rt></ruby>', 'こんしゅう', 'Minggu ini'],
+      ['曜', 'N4', 'ヨウ', '—', 'Hari dalam pekan', '<ruby><rb>曜日</rb><rt>ようび</rt></ruby>', 'ようび', 'Hari (Senin–Minggu)', '<ruby><rb>水曜日</rb><rt>すいようび</rt></ruby>', 'すいようび', 'Hari Rabu'],
+      ['春', 'N4', 'シュン', 'はる', 'Musim semi', '<ruby><rb>春休み</rb><rt>はるやすみ</rt></ruby>', 'はるやすみ', 'Libur musim semi', '<ruby><rb>青春</rb><rt>せいしゅん</rt></ruby>', 'せいしゅん', 'Masa muda'],
+      ['夏', 'N4', 'カ', 'なつ', 'Musim panas', '<ruby><rb>夏休み</rb><rt>なつやすみ</rt></ruby>', 'なつやすみ', 'Libur musim panas', '<ruby><rb>真夏</rb><rt>まなつ</rt></ruby>', 'まなつ', 'Pertengahan musim panas'],
+      ['秋', 'N4', 'シュウ', 'あき', 'Musim gugur', '<ruby><rb>秋風</rb><rt>あきかぜ</rt></ruby>', 'あきかぜ', 'Angin musim gugur', '<ruby><rb>晩秋</rb><rt>ばんしゅう</rt></ruby>', 'ばんしゅう', 'Akhir musim gugur'],
+      ['冬', 'N4', 'トウ', 'ふゆ', 'Musim dingin', '<ruby><rb>冬休み</rb><rt>ふゆやすみ</rt></ruby>', 'ふゆやすみ', 'Libur musim dingin', '<ruby><rb>真冬</rb><rt>まふゆ</rt></ruby>', 'まふゆ', 'Pertengahan musim dingin'],
+      ['海', 'N4', 'カイ', 'うみ', 'Laut', '<ruby><rb>海外</rb><rt>かいがい</rt></ruby>', 'かいがい', 'Luar negeri', '<ruby><rb>海岸</rb><rt>かいがん</rt></ruby>', 'かいがん', 'Pantai, pesisir'],
+      ['空', 'N4', 'クウ', 'そら・あ-く', 'Langit, kosong', '<ruby><rb>空港</rb><rt>くうこう</rt></ruby>', 'くうこう', 'Bandara', '<ruby><rb>空気</rb><rt>くうき</rt></ruby>', 'くうき', 'Udara'],
+      ['花', 'N4', 'カ', 'はな', 'Bunga', '<ruby><rb>花火</rb><rt>はなび</rt></ruby>', 'はなび', 'Kembang api', '<ruby><rb>花瓶</rb><rt>かびん</rt></ruby>', 'かびん', 'Vas bunga'],
+      ['風', 'N4', 'フウ・フ', 'かぜ', 'Angin, gaya', '<ruby><rb>台風</rb><rt>たいふう</rt></ruby>', 'たいふう', 'Angin topan', '<ruby><rb>和風</rb><rt>わふう</rt></ruby>', 'わふう', 'Gaya Jepang'],
+      ['雪', 'N4', 'セツ', 'ゆき', 'Salju', '<ruby><rb>大雪</rb><rt>おおゆき</rt></ruby>', 'おおゆき', 'Salju lebat', '<ruby><rb>雪国</rb><rt>ゆきぐに</rt></ruby>', 'ゆきぐに', 'Daerah bersalju'],
+      ['地', 'N4', 'チ・ジ', '—', 'Tanah, bumi', '<ruby><rb>地図</rb><rt>ちず</rt></ruby>', 'ちず', 'Peta', '<ruby><rb>地震</rb><rt>じしん</rt></ruby>', 'じしん', 'Gempa bumi'],
+      ['図', 'N4', 'ズ・ト', 'はか-る', 'Gambar, bagan', '<ruby><rb>地図</rb><rt>ちず</rt></ruby>', 'ちず', 'Peta', '<ruby><rb>図書館</rb><rt>としょかん</rt></ruby>', 'としょかん', 'Perpustakaan'],
+      ['館', 'N4', 'カン', 'やかた', 'Gedung', '<ruby><rb>映画館</rb><rt>えいがかん</rt></ruby>', 'えいがかん', 'Bioskop', '<ruby><rb>大使館</rb><rt>たいしかん</rt></ruby>', 'たいしかん', 'Kedutaan besar'],
+      ['院', 'N4', 'イン', '—', 'Institusi, gedung', '<ruby><rb>病院</rb><rt>びょういん</rt></ruby>', 'びょういん', 'Rumah sakit', '<ruby><rb>大学院</rb><rt>だいがくいん</rt></ruby>', 'だいがくいん', 'Pascasarjana'],
+      ['病', 'N4', 'ビョウ', 'や-む', 'Sakit, penyakit', '<ruby><rb>病気</rb><rt>びょうき</rt></ruby>', 'びょうき', 'Penyakit', '<ruby><rb>病人</rb><rt>びょうにん</rt></ruby>', 'びょうにん', 'Orang sakit'],
+      ['薬', 'N4', 'ヤク', 'くすり', 'Obat', '<ruby><rb>薬局</rb><rt>やっきょく</rt></ruby>', 'やっきょく', 'Apotek', '<ruby><rb>飲み薬</rb><rt>のみぐすり</rt></ruby>', 'のみぐすり', 'Obat minum'],
+      ['体', 'N4', 'タイ', 'からだ', 'Tubuh, badan', '<ruby><rb>体操</rb><rt>たいそう</rt></ruby>', 'たいそう', 'Senam', '<ruby><rb>体力</rb><rt>たいりょく</rt></ruby>', 'たいりょく', 'Stamina fisik'],
+      ['頭', 'N4', 'トウ・ズ', 'あたま', 'Kepala', '<ruby><rb>頭痛</rb><rt>ずつう</rt></ruby>', 'ずつう', 'Sakit kepala', '<ruby><rb>先頭</rb><rt>せんとう</rt></ruby>', 'せんとう', 'Barisan terdepan'],
+      ['顔', 'N4', 'ガン', 'かお', 'Wajah, muka', '<ruby><rb>笑顔</rb><rt>えがお</rt></ruby>', 'えがお', 'Wajah tersenyum', '<ruby><rb>洗顔</rb><rt>せんがん</rt></ruby>', 'せんがん', 'Mencuci muka'],
+      ['目', 'N4', 'モク', 'め', 'Mata, tujuan', '<ruby><rb>目的</rb><rt>もくてき</rt></ruby>', 'もくてき', 'Tujuan', '<ruby><rb>目覚まし</rb><rt>めざまし</rt></ruby>', 'めざまし', 'Jam weker'],
+      ['耳', 'N4', 'ジ', 'みみ', 'Telinga', '<ruby><rb>耳鼻科</rb><rt>じびか</rt></ruby>', 'じびか', 'Poli THT', '<ruby><rb>早耳</rb><rt>はやみみ</rt></ruby>', 'はやみみ', 'Cepat mendapat kabar'],
+      ['口', 'N4', 'コウ・ク', 'くち', 'Mulut, pintu', '<ruby><rb>人口</rb><rt>じんこう</rt></ruby>', 'じんこう', 'Jumlah penduduk', '<ruby><rb>非常口</rb><rt>ひじょうぐち</rt></ruby>', 'ひじょうぐち', 'Pintu darurat'],
+      ['手', 'N4', 'シュ', 'て', 'Tangan', '<ruby><rb>手紙</rb><rt>てがみ</rt></ruby>', 'てがみ', 'Surat', '<ruby><rb>運転手</rb><rt>うんてんしゅ</rt></ruby>', 'うんてんしゅ', 'Sopir'],
+      ['足', 'N4', 'ソク', 'あし・た-りる', 'Kaki, cukup', '<ruby><rb>遠足</rb><rt>えんそく</rt></ruby>', 'えんそく', 'Darmawisata', '<ruby><rb>不足</rb><rt>ふそく</rt></ruby>', 'ふそく', 'Kekurangan'],
+      ['心', 'N4', 'シン', 'こころ', 'Hati, pikiran', '<ruby><rb>心配</rb><rt>しんぱい</rt></ruby>', 'しんぱい', 'Khawatir', '<ruby><rb>安心</rb><rt>あんしん</rt></ruby>', 'あんしん', 'Lega'],
+      ['思', 'N4', 'シ', 'おも-う', 'Berpikir, mengira', '<ruby><rb>思い出</rb><rt>おもいで</rt></ruby>', 'おもいで', 'Kenangan', '<ruby><rb>意思</rb><rt>いし</rt></ruby>', 'いし', 'Kehendak'],
+      ['考', 'N4', 'コウ', 'かんが-える', 'Memikirkan', '<ruby><rb>参考</rb><rt>さんこう</rt></ruby>', 'さんこう', 'Referensi', '<ruby><rb>考え方</rb><rt>かんがえかた</rt></ruby>', 'かんがえかた', 'Cara berpikir'],
+      ['知', 'N4', 'チ', 'し-る', 'Mengetahui', '<ruby><rb>知識</rb><rt>ちしき</rt></ruby>', 'ちしき', 'Pengetahuan', '<ruby><rb>知人</rb><rt>ちじん</rt></ruby>', 'ちじん', 'Kenalan'],
+      ['使', 'N4', 'シ', 'つか-う', 'Menggunakan', '<ruby><rb>大使館</rb><rt>たいしかん</rt></ruby>', 'たいしかん', 'Kedutaan besar', '<ruby><rb>使い方</rb><rt>つかいかた</rt></ruby>', 'つかいかた', 'Cara memakai'],
+      ['作', 'N4', 'サク・サ', 'つく-る', 'Membuat', '<ruby><rb>作文</rb><rt>さくぶん</rt></ruby>', 'さくぶん', 'Karangan', '<ruby><rb>作品</rb><rt>さくひん</rt></ruby>', 'さくひん', 'Karya'],
+      ['売', 'N4', 'バイ', 'う-る', 'Menjual', '<ruby><rb>売り場</rb><rt>うりば</rt></ruby>', 'うりば', 'Tempat penjualan', '<ruby><rb>販売</rb><rt>はんばい</rt></ruby>', 'はんばい', 'Penjualan'],
+      ['送', 'N4', 'ソウ', 'おく-る', 'Mengirim', '<ruby><rb>放送</rb><rt>ほうそう</rt></ruby>', 'ほうそう', 'Siaran', '<ruby><rb>送料</rb><rt>そうりょう</rt></ruby>', 'そうりょう', 'Ongkos kirim'],
+      ['持', 'N4', 'ジ', 'も-つ', 'Membawa, memiliki', '<ruby><rb>気持ち</rb><rt>きもち</rt></ruby>', 'きもち', 'Perasaan', '<ruby><rb>金持ち</rb><rt>かねもち</rt></ruby>', 'かねもち', 'Orang kaya'],
+      ['待', 'N4', 'タイ', 'ま-つ', 'Menunggu', '<ruby><rb>招待</rb><rt>しょうたい</rt></ruby>', 'しょうたい', 'Undangan', '<ruby><rb>待合室</rb><rt>まちあいしつ</rt></ruby>', 'まちあいしつ', 'Ruang tunggu'],
+      ['急', 'N4', 'キュウ', 'いそ-ぐ', 'Terburu-buru, mendadak', '<ruby><rb>急行</rb><rt>きゅうこう</rt></ruby>', 'きゅうこう', 'Kereta ekspres', '<ruby><rb>急用</rb><rt>きゅうよう</rt></ruby>', 'きゅうよう', 'Urusan mendadak'],
+      ['乗', 'N4', 'ジョウ', 'の-る', 'Naik kendaraan', '<ruby><rb>乗り場</rb><rt>のりば</rt></ruby>', 'のりば', 'Tempat naik / halte', '<ruby><rb>乗客</rb><rt>じょうきゃく</rt></ruby>', 'じょうきゃく', 'Penumpang'],
+      ['降', 'N4', 'コウ', 'お-りる・ふ-る', 'Turun (kendaraan/hujan)', '<ruby><rb>降車</rb><rt>こうしゃ</rt></ruby>', 'こうしゃ', 'Turun dari kendaraan', '<ruby><rb>降雨</rb><rt>こうう</rt></ruby>', 'こうう', 'Curah hujan'],
+      ['着', 'N4', 'チャク', 'き-る・つ-く', 'Memakai baju, tiba', '<ruby><rb>到着</rb><rt>とうちゃく</rt></ruby>', 'とうちゃく', 'Kedatangan', '<ruby><rb>着物</rb><rt>きもの</rt></ruby>', 'きもの', 'Kimono'],
+      ['歩', 'N4', 'ホ・ブ', 'ある-く', 'Berjalan kaki', '<ruby><rb>散歩</rb><rt>さんぽ</rt></ruby>', 'さんぽ', 'Jalan-jalan santai', '<ruby><rb>歩道</rb><rt>ほどう</rt></ruby>', 'ほどう', 'Trotoar'],
+      ['走', 'N4', 'ソウ', 'はし-る', 'Berlari', '<ruby><rb>競走</rb><rt>きょうそう</rt></ruby>', 'きょうそう', 'Lomba lari', '<ruby><rb>走行</rb><rt>そうこう</rt></ruby>', 'そうこう', 'Melaju (kendaraan)'],
+      ['起', 'N4', 'キ', 'お-きる・お-こす', 'Bangun, terjadi', '<ruby><rb>早起き</rb><rt>はやおき</rt></ruby>', 'はやおき', 'Bangun pagi', '<ruby><rb>起立</rb><rt>きりつ</rt></ruby>', 'きりつ', 'Berdiri tegak'],
+      ['寝', 'N4', 'シン', 'ね-る', 'Tidur', '<ruby><rb>寝室</rb><rt>しんしつ</rt></ruby>', 'しんしつ', 'Kamar tidur', '<ruby><rb>昼寝</rb><rt>ひるね</rt></ruby>', 'ひるね', 'Tidur siang'],
+      ['働', 'N4', 'ドウ', 'はたら-く', 'Bekerja', '<ruby><rb>労働</rb><rt>ろうどう</rt></ruby>', 'ろうどう', 'Tenaga kerja', '<ruby><rb>働きすぎ</rb><rt>はたらきすぎ</rt></ruby>', 'はたらきすぎ', 'Terlalu banyak bekerja'],
+      ['勉', 'N4', 'ベン', 'つと-める', 'Berusaha, belajar', '<ruby><rb>勉強</rb><rt>べんきょう</rt></ruby>', 'べんきょう', 'Belajar', '<ruby><rb>勤勉</rb><rt>きんべん</rt></ruby>', 'きんべん', 'Rajin, tekun'],
+      ['強', 'N4', 'キョウ・ゴウ', 'つよ-い', 'Kuat', '<ruby><rb>勉強</rb><rt>べんきょう</rt></ruby>', 'べんきょう', 'Belajar', '<ruby><rb>強力</rb><rt>きょうりょく</rt></ruby>', 'きょうりょく', 'Sangat kuat'],
+      ['教', 'N4', 'キョウ', 'おし-える', 'Mengajar', '<ruby><rb>教室</rb><rt>きょうしつ</rt></ruby>', 'きょうしつ', 'Ruang kelas', '<ruby><rb>教育</rb><rt>きょういく</rt></ruby>', 'きょういく', 'Pendidikan'],
+      ['習', 'N4', 'シュウ', 'なら-う', 'Belajar, berlatih', '<ruby><rb>練習</rb><rt>れんしゅう</rt></ruby>', 'れんしゅう', 'Latihan', '<ruby><rb>習慣</rb><rt>しゅうかん</rt></ruby>', 'しゅうかん', 'Kebiasaan'],
+      ['試', 'N4', 'シ', 'ため-す・こころ-みる', 'Mencoba, ujian', '<ruby><rb>試験</rb><rt>しけん</rt></ruby>', 'しけん', 'Ujian', '<ruby><rb>試合</rb><rt>しあい</rt></ruby>', 'しあい', 'Pertandingan'],
+      ['験', 'N4', 'ケン', '—', 'Uji, pengalaman', '<ruby><rb>経験</rb><rt>けいけん</rt></ruby>', 'けいけん', 'Pengalaman', '<ruby><rb>実験</rb><rt>じっけん</rt></ruby>', 'じっけん', 'Eksperimen'],
+      ['質', 'N4', 'シツ・シチ', '—', 'Kualitas, pertanyaan', '<ruby><rb>質問</rb><rt>しつもん</rt></ruby>', 'しつもん', 'Pertanyaan', '<ruby><rb>品質</rb><rt>ひんしつ</rt></ruby>', 'ひんしつ', 'Kualitas barang'],
+      ['問', 'N4', 'モン', 'と-う', 'Bertanya, soal', '<ruby><rb>問題</rb><rt>もんだい</rt></ruby>', 'もんだい', 'Masalah, soal', '<ruby><rb>質問</rb><rt>しつもん</rt></ruby>', 'しつもん', 'Pertanyaan'],
+      ['題', 'N4', 'ダイ', '—', 'Topik, judul, soal', '<ruby><rb>宿題</rb><rt>しゅくだい</rt></ruby>', 'しゅくだい', 'Pekerjaan rumah', '<ruby><rb>話題</rb><rt>わだい</rt></ruby>', 'わだい', 'Topik pembicaraan'],
+      ['答', 'N4', 'トウ', 'こた-える・こたえ', 'Menjawab, jawaban', '<ruby><rb>回答</rb><rt>かいとう</rt></ruby>', 'かいとう', 'Jawaban', '<ruby><rb>答え</rb><rt>こたえ</rt></ruby>', 'こたえ', 'Jawaban'],
+      ['漢', 'N4', 'カン', '—', 'Tiongkok, aksara Kanji', '<ruby><rb>漢字</rb><rt>かんじ</rt></ruby>', 'かんじ', 'Huruf Kanji', '<ruby><rb>漢和辞典</rb><rt>かんわじてん</rt></ruby>', 'かんわじてん', 'Kamus Kanji-Jepang'],
+      ['字', 'N4', 'ジ', 'あざ', 'Huruf, karakter', '<ruby><rb>文字</rb><rt>もじ</rt></ruby>', 'もじ', 'Huruf', '<ruby><rb>ローマ字</rb><rt>ローマじ</rt></ruby>', 'ローマじ', 'Huruf Latin'],
+      ['文', 'N4', 'ブン・モン', 'ふみ', 'Kalimat, sastra', '<ruby><rb>文法</rb><rt>ぶんぽう</rt></ruby>', 'ぶんぽう', 'Tata bahasa', '<ruby><rb>文化</rb><rt>ぶんか</rt></ruby>', 'ぶんか', 'Budaya'],
+      ['音', 'N4', 'オン・イン', 'おと・ね', 'Bunyi, suara', '<ruby><rb>音楽</rb><rt>おんがく</rt></ruby>', 'おんがく', 'Musik', '<ruby><rb>発音</rb><rt>はつおん</rt></ruby>', 'はつおん', 'Pelafalan'],
+      ['楽', 'N4', 'ガク・ラク', 'たの-しい', 'Musik, menyenangkan', '<ruby><rb>楽しい</rb><rt>たのしい</rt></ruby>', 'たのしい', 'Menyenangkan', '<ruby><rb>音楽家</rb><rt>おんがくか</rt></ruby>', 'おんがくか', 'Musisi'],
+      ['歌', 'N4', 'カ', 'うた・うた-う', 'Lagu, menyanyi', '<ruby><rb>歌手</rb><rt>かしゅ</rt></ruby>', 'かしゅ', 'Penyanyi', '<ruby><rb>国歌</rb><rt>こっか</rt></ruby>', 'こっか', 'Lagu kebangsaan'],
+      ['映', 'N4', 'エイ', 'うつ-る', 'Memantul, film', '<ruby><rb>映画</rb><rt>えいが</rt></ruby>', 'えいが', 'Film', '<ruby><rb>映画館</rb><rt>えいがかん</rt></ruby>', 'えいがかん', 'Bioskop'],
+      ['画', 'N4', 'ガ・カク', '—', 'Gambar, lukisan', '<ruby><rb>計画</rb><rt>けいかく</rt></ruby>', 'けいかく', 'Rencana', '<ruby><rb>画家</rb><rt>がか</rt></ruby>', 'がか', 'Pelukis'],
+      ['写', 'N4', 'シャ', 'うつ-す', 'Menyalin, memotret', '<ruby><rb>写真</rb><rt>しゃしん</rt></ruby>', 'しゃしん', 'Foto', '<ruby><rb>描写</rb><rt>びょうしゃ</rt></ruby>', 'びょうしゃ', 'Penggambaran'],
+      ['真', 'N4', 'シン', 'ま', 'Benar, asli, tengah', '<ruby><rb>真ん中</rb><rt>まんなか</rt></ruby>', 'まんなか', 'Tengah-tengah', '<ruby><rb>真っ白</rb><rt>まっしろ</rt></ruby>', 'まっしろ', 'Putih bersih'],
+      ['旅', 'N4', 'リョ', 'たび', 'Perjalanan, wisata', '<ruby><rb>旅行</rb><rt>りょこう</rt></ruby>', 'りょこう', 'Wisata', '<ruby><rb>旅館</rb><rt>りょかん</rt></ruby>', 'りょかん', 'Penginapan Jepang'],
+      ['京', 'N4', 'キョウ・ケイ', 'みやこ', 'Ibu kota', '<ruby><rb>京都</rb><rt>きょうと</rt></ruby>', 'きょうと', 'Kyoto', '<ruby><rb>東京</rb><rt>とうきょう</rt></ruby>', 'とうきょう', 'Tokyo'],
+      ['都', 'N4', 'ト・ツ', 'みやこ', 'Ibu kota, metropolis', '<ruby><rb>都会</rb><rt>とかい</rt></ruby>', 'とかい', 'Kota besar', '<ruby><rb>都合</rb><rt>つごう</rt></ruby>', 'つごう', 'Kondisi waktu'],
+      ['町', 'N4', 'チョウ', 'まち', 'Kota kecil, kelurahan', '<ruby><rb>町長</rb><rt>ちょうちょう</rt></ruby>', 'ちょうちょう', 'Kepala kota/kecamatan', '<ruby><rb>下町</rb><rt>したまち</rt></ruby>', 'したまち', 'Kawasan kota lama'],
+      ['村', 'N4', 'ソン', 'むら', 'Desa', '<ruby><rb>村人</rb><rt>むらびと</rt></ruby>', 'むらびと', 'Penduduk desa', '<ruby><rb>農村</rb><rt>のうそん</rt></ruby>', 'のうそん', 'Desa pertanian'],
+      ['家', 'N4', 'カ・ケ', 'いえ・や', 'Rumah, keluarga', '<ruby><rb>家族</rb><rt>かぞく</rt></ruby>', 'かぞく', 'Keluarga', '<ruby><rb>作家</rb><rt>さっか</rt></ruby>', 'さっか', 'Penulis'],
+      ['族', 'N4', 'ゾク', '—', 'Keluarga, suku', '<ruby><rb>家族</rb><rt>かぞく</rt></ruby>', 'かぞく', 'Keluarga', '<ruby><rb>民族</rb><rt>みんぞく</rt></ruby>', 'みんぞく', 'Suku bangsa'],
+      ['親', 'N4', 'シン', 'おや・した-しい', 'Orang tua, akrab', '<ruby><rb>両親</rb><rt>りょうしん</rt></ruby>', 'りょうしん', 'Kedua orang tua', '<ruby><rb>親切</rb><rt>しんせつ</rt></ruby>', 'しんせつ', 'Ramah, baik hati'],
+      ['兄', 'N4', 'ケイ・キョウ', 'あに', 'Kakak laki-laki', 'お<ruby><rb>兄</rb><rt>にい</rt></ruby>さん', 'おにいさん', 'Kakak laki-laki (orang lain)', '<ruby><rb>兄弟</rb><rt>きょうだい</rt></ruby>', 'きょうだい', 'Saudara kandung'],
+      ['弟', 'N4', 'テイ・ダイ', 'おとうと', 'Adik laki-laki', '<ruby><rb>弟</rb><rt>おとうと</rt></ruby>さん', 'おとうとさん', 'Adik laki-laki (orang lain)', '<ruby><rb>弟子</rb><rt>でし</rt></ruby>', 'でし', 'Murid perguruan'],
+      ['姉', 'N4', 'シ', 'あね', 'Kakak perempuan', 'お<ruby><rb>姉</rb><rt>ねえ</rt></ruby>さん', 'おねえさん', 'Kakak perempuan (orang lain)', '<ruby><rb>姉妹</rb><rt>しまい</rt></ruby>', 'しまい', 'Saudara perempuan'],
+      ['妹', 'N4', 'マイ', 'いもうと', 'Adik perempuan', '<ruby><rb>妹</rb><rt>いもうと</rt></ruby>さん', 'いもうとさん', 'Adik perempuan (orang lain)', '<ruby><rb>姉妹</rb><rt>しまい</rt></ruby>', 'しまい', 'Saudara perempuan']
+    ];
+
+    const KANJI_DECK = RAW_KANJI.map((item, idx) => ({
+      id: `kj_${idx + 1}`,
+      char: item[0],
+      level: item[1],
+      onyomi: item[2],
+      kunyomi: item[3],
+      meaning: item[4],
+      ex1: { ruby: item[5], speech: item[6], meaning: item[7] },
+      ex2: { ruby: item[8], speech: item[9], meaning: item[10] }
+    }));
+
+    // =========================================================================
+    // 3. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+    // =========================================================================
+    const STORAGE_KEY = 'onkei_flashcard_studio_v1';
+
+    const DEFAULT_STATE = {
+      settings: {
+        furigana: true,
+        darkMode: false,
+        autoAudio: true
+      },
+      stats: {
+        xp: 0,
+        streak: 0
+      },
+      masteredKotoba: [],
+      masteredKanji: []
+    };
+
+    let state = loadState();
+    let currentDeck = 'kotoba'; // 'kotoba' | 'kanji'
+    let filteredCards = [];
+    let currentIndex = 0;
+    let isFlipped = false;
+    let timerSeconds = 0;
+    let timerInterval = null;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            settings: { ...DEFAULT_STATE.settings, ...(parsed.settings || {}) },
+            stats: { ...DEFAULT_STATE.stats, ...(parsed.stats || {}) },
+            masteredKotoba: Array.isArray(parsed.masteredKotoba) ? parsed.masteredKotoba : [],
+            masteredKanji: Array.isArray(parsed.masteredKanji) ? parsed.masteredKanji : []
+          };
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        const badge = document.getElementById('save-indicator');
+        if (badge) {
+          badge.textContent = '✓ Tersimpan otomatis';
+        }
+      } catch (e) {}
+      updateHeaderStats();
+    }
+
+    function updateHeaderStats() {
+      document.getElementById('stat-xp').textContent = `${state.stats.xp} XP`;
+      document.getElementById('stat-streak').textContent = state.stats.streak;
+      document.getElementById('stat-kotoba-mastered').textContent = `${state.masteredKotoba.length} / ${KOTOBA_DECK.length}`;
+      document.getElementById('stat-kanji-mastered').textContent = `${state.masteredKanji.length} / ${KANJI_DECK.length}`;
+
+      const totalItems = KOTOBA_DECK.length + KANJI_DECK.length;
+      const totalMastered = state.masteredKotoba.length + state.masteredKanji.length;
+      const pct = totalItems > 0 ? Math.min(100, Math.round((totalMastered / totalItems) * 100)) : 0;
+      document.getElementById('global-progress-bar').style.width = `${pct}%`;
+    }
+
+    // =========================================================================
+    // 4. DISPLAY SETTINGS & OFFLINE JAPANESE TTS (ja-JP)
+    // =========================================================================
+    function applyDisplaySettings() {
+      document.documentElement.classList.toggle('dark', state.settings.darkMode);
+      document.body.classList.toggle('hide-furigana', !state.settings.furigana);
+
+      document.getElementById('btn-furigana').textContent = state.settings.furigana ? 'ふりがな: ON' : 'ふりがな: OFF';
+      document.getElementById('btn-darkmode').textContent = state.settings.darkMode ? '☀️ Mode Terang' : '🌙 Mode Gelap';
+
+      const audioBtn = document.getElementById('btn-auto-audio');
+      audioBtn.textContent = state.settings.autoAudio ? '🔊 Auto-Suara: ON' : '🔇 Auto-Suara: OFF';
+      audioBtn.className = state.settings.autoAudio ? 'btn btn-primary' : 'btn';
+    }
+
+    function toggleFurigana() {
+      state.settings.furigana = !state.settings.furigana;
+      applyDisplaySettings();
+      saveState();
+    }
+
+    function toggleDarkMode() {
+      state.settings.darkMode = !state.settings.darkMode;
+      applyDisplaySettings();
+      saveState();
+    }
+
+    function toggleAutoAudio() {
+      state.settings.autoAudio = !state.settings.autoAudio;
+      applyDisplaySettings();
+      saveState();
+    }
+
+    function speakJapanese(text) {
+      if (!text || !('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'ja-JP';
+        utter.rate = 0.92;
+        const voices = window.speechSynthesis.getVoices();
+        const jpVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes('ja'));
+        if (jpVoice) utter.voice = jpVoice;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {}
+    }
+
+    function playCurrentFrontAudio() {
+      const card = filteredCards[currentIndex];
+      if (!card) return;
+      if (currentDeck === 'kotoba') {
+        speakJapanese(card.speech);
+      } else {
+        speakJapanese(card.ex1.speech);
+      }
+    }
+
+    function playCurrentBackAudio() {
+      const card = filteredCards[currentIndex];
+      if (!card) return;
+      if (currentDeck === 'kotoba') {
+        speakJapanese(card.speech);
+      } else {
+        speakJapanese(`${card.ex1.speech}、${card.ex2.speech}`);
+      }
+    }
+
+    // =========================================================================
+    // 5. DECK SWITCHING, FILTERING & SHUFFLE
+    // =========================================================================
+    function switchDeck(deckName) {
+      currentDeck = deckName;
+      stopTimer();
+
+      document.getElementById('tab-kotoba').className = deckName === 'kotoba' ? 'btn btn-deck-active' : 'btn';
+      document.getElementById('tab-kanji').className = deckName === 'kanji' ? 'btn btn-deck-active' : 'btn';
+
+      if (deckName === 'kotoba') {
+        document.getElementById('filters-kotoba').classList.remove('hidden');
+        document.getElementById('filters-kanji').classList.add('hidden');
+      } else {
+        document.getElementById('filters-kotoba').classList.add('hidden');
+        document.getElementById('filters-kanji').classList.remove('hidden');
+      }
+
+      // Update URL parameter cleanly without reload
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('deck', deckName);
+        window.history.replaceState({}, '', url);
+      } catch (e) {}
+
+      applyDeckFilters();
+    }
+
+    function matchBabRange(bab, rangeStr) {
+      if (rangeStr === 'ALL') return true;
+      const [minB, maxB] = rangeStr.split('-').map(Number);
+      return bab >= minB && bab <= maxB;
+    }
+
+    function applyDeckFilters() {
+      if (currentDeck === 'kotoba') {
+        const babRange = document.getElementById('filter-bab').value;
+        const posVal = document.getElementById('filter-pos').value;
+        const statusVal = document.getElementById('filter-kotoba-status').value;
+        const query = document.getElementById('filter-kotoba-search').value.trim().toLowerCase();
+        const masteredSet = new Set(state.masteredKotoba);
+
+        filteredCards = KOTOBA_DECK.filter(c => {
+          if (!matchBabRange(c.bab, babRange)) return false;
+          if (posVal !== 'ALL' && c.pos !== posVal) return false;
+          const isHafal = masteredSet.has(c.id);
+          if (statusVal === 'MASTERED' && !isHafal) return false;
+          if (statusVal === 'UNMASTERED' && isHafal) return false;
+          if (query) {
+            const haystack = `${c.meaning} ${c.speech} ${c.ruby}`.toLowerCase();
+            if (!haystack.includes(query)) return false;
+          }
+          return true;
+        });
+
+        if (filteredCards.length === 0) {
+          showToast('Tidak ada kartu Kotoba yang cocok dengan filter. Menampilkan semua kartu.');
+          filteredCards = [...KOTOBA_DECK];
+        }
+      } else {
+        const levelVal = document.getElementById('filter-kanji-level').value;
+        const statusVal = document.getElementById('filter-kanji-status').value;
+        const query = document.getElementById('filter-kanji-search').value.trim().toLowerCase();
+        const masteredSet = new Set(state.masteredKanji);
+
+        filteredCards = KANJI_DECK.filter(c => {
+          if (levelVal !== 'ALL' && c.level !== levelVal) return false;
+          const isHafal = masteredSet.has(c.id);
+          if (statusVal === 'MASTERED' && !isHafal) return false;
+          if (statusVal === 'UNMASTERED' && isHafal) return false;
+          if (query) {
+            const haystack = `${c.char} ${c.meaning} ${c.onyomi} ${c.kunyomi} ${c.ex1.meaning} ${c.ex2.meaning}`.toLowerCase();
+            if (!haystack.includes(query)) return false;
+          }
+          return true;
+        });
+
+        if (filteredCards.length === 0) {
+          showToast('Tidak ada kartu Kanji yang cocok dengan filter. Menampilkan semua Kanji.');
+          filteredCards = [...KANJI_DECK];
+        }
+      }
+
+      currentIndex = 0;
+      isFlipped = false;
+      renderCard();
+    }
+
+    function shuffleCurrentDeck() {
+      for (let i = filteredCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [filteredCards[i], filteredCards[j]] = [filteredCards[j], filteredCards[i]];
+      }
+      currentIndex = 0;
+      isFlipped = false;
+      renderCard();
+      showToast('Urutan kartu telah diacak!');
+    }
+
+    // =========================================================================
+    // 6. CARD RENDERING, FLIP, NAVIGATION & SELF-ASSESSMENT
+    // =========================================================================
+    function renderCard() {
+      if (!filteredCards.length) return;
+      const card = filteredCards[currentIndex];
+      const cardEl = document.getElementById('fc-card');
+      cardEl.classList.remove('is-flipped');
+      isFlipped = false;
+
+      const hintEl = document.getElementById('front-hint');
+      hintEl.classList.add('hidden');
+
+      const masteredList = currentDeck === 'kotoba' ? state.masteredKotoba : state.masteredKanji;
+      const isMastered = masteredList.includes(card.id);
+
+      document.getElementById('deck-counter-badge').textContent = `Kartu ${currentIndex + 1} / ${filteredCards.length}`;
+      document.getElementById('deck-mastered-badge').textContent = `${masteredList.length} Hafal`;
+
+      if (currentDeck === 'kotoba') {
+        const babLevel = card.bab <= 25 ? 'N5' : 'N4';
+        document.getElementById('front-badges').innerHTML = `
+          <span class="badge badge-blue">Bab ${card.bab} (${babLevel})</span>
+          <span class="badge badge-neutral">${card.posLabel}</span>
+          ${isMastered ? '<span class="badge badge-emerald">✓ Sudah Hafal</span>' : ''}
+        `;
+        document.getElementById('front-prompt').textContent = 'Apa arti bahasa Indonesia dari kosakata berikut?';
+        document.getElementById('front-main').className = 'jp-text kotoba-hero';
+        document.getElementById('front-main').innerHTML = card.ruby;
+        hintEl.innerHTML = `💡 <strong>Petunjuk:</strong> Kosakata dari <em>Minna no Nihongo</em> <strong>Bab ${card.bab}</strong> (${card.posLabel}).`;
+
+        document.getElementById('back-badges').innerHTML = `
+          <span class="badge badge-emerald">Bab ${card.bab} • ${card.posLabel}</span>
+          ${isMastered ? '<span class="badge badge-blue">✓ Tercatat Hafal</span>' : ''}
+        `;
+        document.getElementById('back-content').innerHTML = `
+          <div class="jp-text" style="font-size: 1.85rem; font-weight: 800; color: var(--accent-blue); margin-bottom: 0.45rem;">
+            ${card.ruby}
+          </div>
+          <div style="font-size: 1.55rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">
+            ${card.meaning}
+          </div>
+          <div class="surface-subtle" style="max-width: 500px; margin: 0 auto; padding: 0.85rem 1rem; font-size: 0.82rem; color: var(--text-secondary);">
+            <div><strong>Sumber Kurikulum:</strong> Minna no Nihongo Bab ${card.bab} (JLPT ${babLevel})</div>
+            <div style="margin-top: 0.25rem;"><strong>Kelas Kata:</strong> ${card.posLabel}</div>
+          </div>
+        `;
+
+        if (state.settings.autoAudio) {
+          speakJapanese(card.speech);
+        }
+      } else {
+        document.getElementById('front-badges').innerHTML = `
+          <span class="badge badge-purple">Kanji JLPT ${card.level}</span>
+          ${isMastered ? '<span class="badge badge-emerald">✓ Sudah Hafal</span>' : ''}
+        `;
+        document.getElementById('front-prompt').textContent = "Sebutkan On'yomi, Kun'yomi, dan arti Kanji berikut:";
+        document.getElementById('front-main').className = 'jp-text kanji-hero';
+        document.getElementById('front-main').textContent = card.char;
+        hintEl.innerHTML = `💡 <strong>Petunjuk:</strong> Muncul pada kata <span class="jp-text" style="font-weight:700;">${card.ex1.ruby}</span> (${card.ex1.meaning}).`;
+
+        document.getElementById('back-badges').innerHTML = `
+          <span class="badge badge-purple">Kanji JLPT ${card.level}</span>
+          <span class="badge badge-neutral">Arti &amp; Contoh Kata</span>
+        `;
+        document.getElementById('back-content').innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+            <span class="jp-text" style="font-size: 3rem; font-weight: 900; color: var(--accent-purple); line-height: 1;">${card.char}</span>
+            <div style="text-align: left;">
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--text-main);">${card.meaning}</div>
+              <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.2rem;">
+                <span class="badge badge-amber">音読み</span> <span class="jp-text" style="font-weight:700;">${card.onyomi}</span>
+                &nbsp;|&nbsp;
+                <span class="badge badge-blue">訓読み</span> <span class="jp-text" style="font-weight:700;">${card.kunyomi}</span>
+              </div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.65rem; max-width: 580px; margin: 0.65rem auto 0 auto; text-align: left;">
+            <div class="surface-subtle" style="padding: 0.75rem 0.9rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+              <div>
+                <div style="font-size: 0.68rem; font-weight: 800; color: var(--text-muted);">CONTOH KATA 1</div>
+                <div class="jp-text" style="font-size: 1.15rem; font-weight: 800; margin-top: 0.15rem;">${card.ex1.ruby}</div>
+                <div style="font-size: 0.78rem; color: var(--text-secondary);">${card.ex1.meaning}</div>
+              </div>
+              <button type="button" onclick="event.stopPropagation(); speakJapanese('${card.ex1.speech}')" class="btn" style="padding: 0.35rem 0.55rem;" title="Putar Suara">🔊</button>
+            </div>
+            <div class="surface-subtle" style="padding: 0.75rem 0.9rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+              <div>
+                <div style="font-size: 0.68rem; font-weight: 800; color: var(--text-muted);">CONTOH KATA 2</div>
+                <div class="jp-text" style="font-size: 1.15rem; font-weight: 800; margin-top: 0.15rem;">${card.ex2.ruby}</div>
+                <div style="font-size: 0.78rem; color: var(--text-secondary);">${card.ex2.meaning}</div>
+              </div>
+              <button type="button" onclick="event.stopPropagation(); speakJapanese('${card.ex2.speech}')" class="btn" style="padding: 0.35rem 0.55rem;" title="Putar Suara">🔊</button>
+            </div>
+          </div>
+        `;
+
+        if (state.settings.autoAudio) {
+          speakJapanese(card.ex1.speech);
+        }
+      }
+
+      if (timerSeconds > 0) {
+        startTimer();
+      }
+    }
+
+    function flipCard(forceState) {
+      isFlipped = typeof forceState === 'boolean' ? forceState : !isFlipped;
+      document.getElementById('fc-card').classList.toggle('is-flipped', isFlipped);
+
+      if (isFlipped && state.settings.autoAudio) {
+        playCurrentBackAudio();
+      }
+    }
+
+    function toggleHint() {
+      document.getElementById('front-hint').classList.toggle('hidden');
+    }
+
+    function prevCard() {
+      currentIndex = (currentIndex - 1 + filteredCards.length) % filteredCards.length;
+      renderCard();
+    }
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % filteredCards.length;
+      renderCard();
+    }
+
+    function markCardMastery(isHafal) {
+      const card = filteredCards[currentIndex];
+      if (!card) return;
+
+      const list = currentDeck === 'kotoba' ? state.masteredKotoba : state.masteredKanji;
+      const idx = list.indexOf(card.id);
+
+      if (isHafal) {
+        if (idx === -1) {
+          list.push(card.id);
+        }
+        state.stats.xp += 10;
+        state.stats.streak += 1;
+        showToast('✓ Ditandai Hafal (+10 XP)!');
+      } else {
+        if (idx !== -1) {
+          list.splice(idx, 1);
+        }
+        state.stats.streak = 0;
+        showToast('Kartu dijadwalkan untuk diulang.');
+      }
+
+      saveState();
+      nextCard();
+    }
+
+    // =========================================================================
+    // 7. AUTO-PLAY TIMER CONTROLLER
+    // =========================================================================
+    function setAutoTimer(secStr) {
+      timerSeconds = parseInt(secStr, 10) || 0;
+      if (timerSeconds > 0) {
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      document.getElementById('timer-progress-wrap').classList.add('hidden');
+    }
+
+    function startTimer() {
+      stopTimer();
+      if (timerSeconds <= 0) return;
+
+      const wrap = document.getElementById('timer-progress-wrap');
+      const bar = document.getElementById('timer-progress-bar');
+      wrap.classList.remove('hidden');
+
+      const totalMs = timerSeconds * 1000;
+      const halfMs = totalMs / 2;
+      let elapsed = 0;
+      let flippedThisRound = false;
+
+      timerInterval = setInterval(() => {
+        elapsed += 100;
+        const pct = Math.max(0, 100 - (elapsed / totalMs) * 100);
+        bar.style.width = `${pct}%`;
+
+        if (!flippedThisRound && elapsed >= halfMs && !isFlipped) {
+          flippedThisRound = true;
+          flipCard(true);
+        }
+        if (elapsed >= totalMs) {
+          nextCard();
+        }
+      }, 100);
+    }
+
+    // =========================================================================
+    // 8. RESET PROGRES & TOAST HELPERS
+    // =========================================================================
+    function openResetModal() {
+      document.getElementById('modal-reset').classList.remove('hidden');
+    }
+
+    function closeResetModal() {
+      document.getElementById('modal-reset').classList.add('hidden');
+    }
+
+    function resetDeckProgress(deckType) {
+      if (deckType === 'kotoba') {
+        state.masteredKotoba = [];
+        showToast('Progres Flashcard Kotoba berhasil direset!');
+      } else {
+        state.masteredKanji = [];
+        showToast('Progres Flashcard Kanji berhasil direset!');
+      }
+      saveState();
+      closeResetModal();
+      renderCard();
+    }
+
+    function resetAllProgress() {
+      state.masteredKotoba = [];
+      state.masteredKanji = [];
+      state.stats.xp = 0;
+      state.stats.streak = 0;
+      saveState();
+      closeResetModal();
+      renderCard();
+      showToast('Seluruh progres & XP berhasil direset ke awal!');
+    }
+
+    let toastTimeout = null;
+    function showToast(msg) {
+      const el = document.getElementById('toast-box');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        el.classList.add('hidden');
+      }, 2400);
+    }
+
+    // =========================================================================
+    // 9. INITIALIZATION & KEYBOARD SHORTCUTS
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      applyDisplaySettings();
+      updateHeaderStats();
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
+      }
+
+      // Check URL parameter (?deck=kotoba or ?deck=kanji)
+      let initialDeck = 'kotoba';
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const paramDeck = (params.get('deck') || '').toLowerCase();
+        if (paramDeck === 'kanji' || paramDeck === 'kotoba') {
+          initialDeck = paramDeck;
+        }
+      } catch (e) {}
+
+      switchDeck(initialDeck);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        flipCard();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        nextCard();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        prevCard();
+      } else if (e.key === 'h' || e.key === 'H') {
+        e.preventDefault();
+        toggleHint();
+      } else if (e.key === 'a' || e.key === 'A') {
+        e.preventDefault();
+        if (isFlipped) playCurrentBackAudio();
+        else playCurrentFrontAudio();
+      } else if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        markCardMastery(true);
+      }
+    });
+  </script>
+</body>
+</html>
