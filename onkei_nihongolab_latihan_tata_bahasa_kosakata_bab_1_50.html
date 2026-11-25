@@ -1,0 +1,4144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ONKEI NihongoLab — Aplikasi Belajar Tata Bahasa, Konjugasi & Kosakata Minna no Nihongo Bab 1–50 (JLPT N5 & N4)" />
+  <title>ONKEI NihongoLab — JLPT N5 &amp; N4 Grammar &amp; Vocabulary Lab</title>
+  <style>
+    /* =====================================================================
+       ONKEI NIHONGOLAB — OFFLINE STANDALONE STYLESHEET (ZERO EXTERNAL CDN)
+       ===================================================================== */
+    :root {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --bg-muted: #e2e8f0;
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent: #1d4ed8;
+      --accent-hover: #1e40af;
+      --accent-soft: #eff6ff;
+      --accent-border: #bfdbfe;
+      --accent-text: #1d4ed8;
+      --onkei-gold: #d97706;
+      --onkei-emerald: #059669;
+      --onkei-rose: #e11d48;
+    }
+
+    html.dark {
+      --bg-body: #090e1a;
+      --bg-surface: #111827;
+      --bg-subtle: #1e293b;
+      --bg-muted: #334155;
+      --text-main: #f8fafc;
+      --text-secondary: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border-color: #1f2937;
+      --border-strong: #374151;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-soft: rgba(59, 130, 246, 0.16);
+      --accent-border: rgba(59, 130, 246, 0.42);
+      --accent-text: #93c5fd;
+      --onkei-gold: #f59e0b;
+      --onkei-emerald: #10b981;
+      --onkei-rose: #fb7185;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { line-height: 1.5; -webkit-text-size-adjust: 100%; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      margin: 0;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    h1, h2, h3, h4, p { margin: 0; }
+    button, input, select { font-family: inherit; font-size: 100%; margin: 0; }
+    button { cursor: pointer; }
+    table { border-collapse: collapse; width: 100%; }
+
+    .jp-text {
+      font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", "Noto Sans JP", sans-serif;
+    }
+    ruby rt { font-size: 0.56em; color: var(--text-muted); font-weight: 500; letter-spacing: 0.02em; }
+    .hide-furigana ruby rt { visibility: hidden; }
+
+    /* Surfaces & Text */
+    .surface-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-main); }
+    .surface-subtle { background-color: var(--bg-subtle); border: 1px solid var(--border-color); color: var(--text-main); }
+    .text-main { color: var(--text-main); }
+    .text-sec { color: var(--text-secondary); }
+    .text-mut { color: var(--text-muted); }
+
+    /* Layout Helpers */
+    .min-h-screen { min-height: 100vh; }
+    .max-w-6xl { max-width: 72rem; }
+    .max-w-4xl { max-width: 56rem; }
+    .max-w-sm { max-width: 24rem; }
+    .max-h-\[88vh\] { max-height: 88vh; }
+    .max-h-\[90vh\] { max-height: 90vh; }
+    .min-h-\[74px\] { min-height: 74px; }
+    .w-full { width: 100%; }
+    .w-10 { width: 2.5rem; }
+    .h-10 { height: 2.5rem; }
+    .w-6 { width: 1.5rem; }
+    .h-6 { height: 1.5rem; }
+    .w-5 { width: 1.25rem; }
+    .h-5 { height: 1.25rem; }
+    .w-4 { width: 1rem; }
+    .h-4 { height: 1rem; }
+    .w-px { width: 1px; }
+    .h-2 { height: 0.5rem; }
+    .h-2\.5 { height: 0.625rem; }
+    .h-full { height: 100%; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .ml-auto { margin-left: auto; }
+    .ml-1 { margin-left: 0.25rem; }
+    .mr-1 { margin-right: 0.25rem; }
+    .mr-2 { margin-right: 0.5rem; }
+    .mt-0\.5 { margin-top: 0.125rem; }
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-1\.5 { margin-top: 0.375rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-2\.5 { margin-top: 0.625rem; }
+    .mt-3 { margin-top: 0.75rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-5 { margin-top: 1.25rem; }
+    .mb-1 { margin-bottom: 0.25rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-3 { margin-bottom: 0.75rem; }
+    .my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+
+    /* Padding */
+    .p-2 { padding: 0.5rem; }
+    .p-2\.5 { padding: 0.625rem; }
+    .p-3 { padding: 0.75rem; }
+    .p-3\.5 { padding: 0.875rem; }
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .px-1\.5 { padding-left: 0.375rem; padding-right: 0.375rem; }
+    .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .px-2\.5 { padding-left: 0.625rem; padding-right: 0.625rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .px-3\.5 { padding-left: 0.875rem; padding-right: 0.875rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .py-1\.5 { padding-top: 0.375rem; padding-bottom: 0.375rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-2\.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+    .pt-1 { padding-top: 0.25rem; }
+    .pt-2 { padding-top: 0.5rem; }
+    .pt-3 { padding-top: 0.75rem; }
+    .pt-4 { padding-top: 1rem; }
+    .pb-2\.5 { padding-bottom: 0.625rem; }
+
+    /* Flex & Grid */
+    .flex { display: flex; }
+    .inline-flex { display: inline-flex; }
+    .inline-block { display: inline-block; }
+    .block { display: block; }
+    .hidden { display: none !important; }
+    .grid { display: grid; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .flex-1 { flex: 1 1 0%; }
+    .shrink-0 { flex-shrink: 0; }
+    .items-center { align-items: center; }
+    .items-baseline { align-items: baseline; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .justify-end { justify-content: flex-end; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .col-span-full { grid-column: 1 / -1; }
+    .gap-1\.5 { gap: 0.375rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-2\.5 { gap: 0.625rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+
+    .space-y-1\.5 > * + * { margin-top: 0.375rem; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .space-y-2\.5 > * + * { margin-top: 0.625rem; }
+    .space-y-3 > * + * { margin-top: 0.75rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-y-5 > * + * { margin-top: 1.25rem; }
+    .space-y-6 > * + * { margin-top: 1.5rem; }
+
+    .sticky { position: sticky; }
+    .fixed { position: fixed; }
+    .top-0 { top: 0; }
+    .inset-0 { inset: 0; }
+    .z-30 { z-index: 30; }
+    .z-50 { z-index: 50; }
+    .overflow-hidden { overflow: hidden; }
+    .overflow-x-auto { overflow-x: auto; }
+    .overflow-y-auto { overflow-y: auto; }
+
+    /* Typography */
+    .text-\[10px\] { font-size: 10px; }
+    .text-\[11px\] { font-size: 11px; }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .font-extrabold { font-weight: 800; }
+    .leading-tight { line-height: 1.25; }
+    .leading-relaxed { line-height: 1.625; }
+    .tracking-tight { letter-spacing: -0.025em; }
+    .whitespace-nowrap { white-space: nowrap; }
+    .text-left { text-align: left; }
+    .text-center { text-align: center; }
+    .italic { font-style: italic; }
+    .underline { text-decoration: underline; }
+
+    /* ONKEI Brand Palettes */
+    .bg-brand-600 { background-color: #1d4ed8; }
+    .bg-brand-700 { background-color: #1e40af; }
+    .bg-slate-900 { background-color: #0f172a; }
+    .bg-slate-900\/60 { background-color: rgba(15, 23, 42, 0.72); }
+    .bg-emerald-600 { background-color: #059669; }
+    .bg-amber-600 { background-color: #d97706; }
+    .bg-rose-600 { background-color: #e11d48; }
+    .bg-indigo-600 { background-color: #4f46e5; }
+    .bg-purple-600 { background-color: #7c3aed; }
+    .bg-onkei-header { background-image: linear-gradient(135deg, #0f172a 0%, #1e3a8a 65%, #b45309 100%); }
+    .bg-gradient-br-onkei { background-image: linear-gradient(135deg, #1d4ed8, #0f172a); }
+
+    .text-white { color: #ffffff; }
+    .text-slate-200 { color: #e2e8f0; }
+    .text-brand-600 { color: #3b82f6; }
+    .text-amber-600 { color: #d97706; }
+    .text-emerald-600 { color: #10b981; }
+    .text-rose-600 { color: #f43f5e; }
+
+    /* Feedback Boxes */
+    .feedback-correct { background-color: #ecfdf5; border: 1px solid #6ee7b7; color: #064e3b; }
+    html.dark .feedback-correct { background-color: rgba(6, 78, 59, 0.38); border-color: #10b981; color: #d1fae5; }
+    .feedback-wrong { background-color: #fff1f2; border: 1px solid #fda4af; color: #881337; }
+    html.dark .feedback-wrong { background-color: rgba(136, 19, 55, 0.38); border-color: #f43f5e; color: #ffe4e6; }
+
+    /* Interactive Choices & Pills */
+    .opt-choice { background-color: var(--bg-surface); border: 2px solid var(--border-color); color: var(--text-main); }
+    .opt-choice:hover { border-color: var(--accent); }
+    .opt-choice.selected { border-color: var(--accent); background-color: var(--accent-soft); }
+
+    .pill-btn { background-color: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-color); }
+    .pill-btn:hover { background-color: var(--bg-muted); }
+    .pill-btn.active { background-color: var(--accent); color: #ffffff; border-color: var(--accent); }
+    .pill-btn.active-dark { background-color: #0f172a; color: #ffffff; border-color: #334155; }
+    html.dark .pill-btn.active-dark { background-color: #3b82f6; color: #ffffff; border-color: #3b82f6; }
+
+    .audio-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 0.7rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background-color: var(--accent-soft);
+      color: var(--accent-text);
+      border: 1px solid var(--accent-border);
+      transition: all 150ms ease;
+    }
+    .audio-btn:hover { background-color: var(--accent); color: #ffffff; }
+
+    .border { border: 1px solid var(--border-color); }
+    .border-2 { border: 2px solid var(--border-color); }
+    .border-b { border-bottom: 1px solid var(--border-color); }
+    .border-b-2 { border-bottom-width: 2px; border-bottom-style: solid; }
+    .border-t { border-top: 1px solid var(--border-color); }
+    .border-dashed { border-style: dashed; }
+    .border-transparent { border-color: transparent; }
+
+    .rounded-md { border-radius: 0.375rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-full { border-radius: 9999px; }
+
+    .shadow-xs { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+    .shadow-sm { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); }
+    .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25); }
+    .opacity-40 { opacity: 0.4; }
+    .transition, .transition-all { transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1); }
+    .duration-300 { transition-duration: 300ms; }
+    .cursor-pointer { cursor: pointer; }
+
+    .hover\:bg-brand-700:hover { background-color: #1e40af; }
+    .hover\:bg-slate-800:hover { background-color: #1e293b; }
+    .hover\:bg-rose-700:hover { background-color: #be123c; }
+    .focus\:outline-none:focus { outline: none; }
+
+    /* Toast Notification */
+    .toast-banner {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 60;
+      padding: 0.75rem 1.15rem;
+      border-radius: 0.875rem;
+      background-color: #0f172a;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.28);
+      border: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    @media (min-width: 640px) {
+      .sm\:flex-row { flex-direction: row; }
+      .sm\:items-center { align-items: center; }
+      .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .sm\:p-5 { padding: 1.25rem; }
+      .sm\:p-6 { padding: 1.5rem; }
+      .sm\:p-7 { padding: 1.75rem; }
+      .sm\:text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+      .sm\:text-base { font-size: 1rem; line-height: 1.5rem; }
+      .sm\:text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+      .sm\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+      .sm\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
+      .sm\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+    }
+    @media (min-width: 768px) {
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-subtle); }
+    ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 9999px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Navigation & Global Controls -->
+  <header class="surface-card border-b sticky top-0 z-30 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- LPK ONKEI Brand Logo -->
+      <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchView('dashboard')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-br-onkei text-white flex items-center justify-center jp-text font-bold text-lg shadow-sm">
+          恩恵
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-main leading-tight">
+              ONKEI <span class="text-brand-600">NihongoLab</span>
+            </h1>
+            <span class="px-1.5 py-0.5 rounded-md bg-amber-600 text-white text-[10px] font-bold">BAB 1–50</span>
+            <span id="autosave-indicator" class="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-bold">
+              ✓ Tersimpan otomatis
+            </span>
+          </div>
+          <p class="text-xs text-mut font-medium">LPK ONKEI • Tata Bahasa, Konjugasi &amp; Kosakata JLPT N5–N4</p>
+        </div>
+      </div>
+
+      <!-- Display Toggles, Quick Reference & Reset Progres -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <button id="btn-toggle-furigana" onclick="toggleSetting('furigana')"
+          class="px-3 py-1.5 rounded-xl text-xs font-semibold border transition flex items-center gap-1.5 pill-btn"
+          title="Tampilkan atau sembunyikan cara baca hiragana di atas kanji">
+          <span class="jp-text">ふりがな</span>
+          <span id="status-furigana" class="px-1.5 py-0.5 rounded-md bg-brand-600 text-white text-[10px]">ON</span>
+        </button>
+
+        <button id="btn-toggle-dark" onclick="toggleSetting('darkMode')"
+          class="px-3 py-1.5 rounded-xl text-xs font-semibold border transition flex items-center gap-1.5 pill-btn"
+          title="Ubah Mode Gelap / Mode Terang">
+          <span id="label-dark">Mode Gelap</span>
+          <span id="status-dark" class="px-1.5 py-0.5 rounded-md bg-slate-900 text-white text-[10px]">OFF</span>
+        </button>
+
+        <button onclick="openCheatSheet()"
+          class="px-3 py-1.5 rounded-xl text-xs font-semibold border transition flex items-center gap-1.5 pill-btn shadow-xs">
+          <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span>Rumus Cepat</span>
+        </button>
+
+        <button onclick="openResetModal()"
+          class="px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 transition flex items-center gap-1 shadow-xs"
+          title="Reset seluruh atau sebagian progres pencapaian">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span>Reset Progres</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Saved Progress Summary Bar -->
+    <div class="max-w-6xl mx-auto px-4 pb-2.5">
+      <div class="surface-subtle rounded-xl px-3.5 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-1.5 font-bold text-main">
+          <span class="px-2 py-0.5 rounded-md bg-brand-600 text-white text-[10px]">PROGRES TERSIMPAN</span>
+          <span id="hdr-mastery">Penguasaan: 0%</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 text-sec font-semibold">
+          <span>Skor XP: <strong id="hdr-xp" class="text-brand-600">0</strong></span>
+          <span>•</span>
+          <span>Akurasi: <strong id="hdr-acc" class="text-emerald-600">0%</strong></span>
+          <span>•</span>
+          <span>Rekor Streak: <strong id="hdr-best-streak" class="text-amber-600">0x</strong></span>
+          <span>•</span>
+          <span>Kosakata Hafal: <strong id="hdr-learned" class="text-main">0</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module Navigation Tabs -->
+    <nav class="max-w-6xl mx-auto px-4 pb-2.5 flex gap-1.5 overflow-x-auto">
+      <button onclick="switchView('dashboard')" id="nav-dashboard"
+        class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition pill-btn active-dark">
+        Dashboard Pencapaian
+      </button>
+      <button onclick="switchView('mod1')" id="nav-mod1"
+        class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition pill-btn">
+        1. Golongan KK &amp; Kelas Kata
+      </button>
+      <button onclick="switchView('mod2')" id="nav-mod2"
+        class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition pill-btn">
+        2. Lab Konjugasi (KK &amp; KS)
+      </button>
+      <button onclick="switchView('mod3')" id="nav-mod3"
+        class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition pill-btn">
+        3. Susun Kalimat Acak
+      </button>
+      <button onclick="switchView('mod4')" id="nav-mod4"
+        class="nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition pill-btn">
+        4. Kamus &amp; Kuis Bab 1–50
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
+
+    <!-- ==================== VIEW: DASHBOARD PENCAPAIAN ==================== -->
+    <section id="view-dashboard" class="space-y-6">
+      <div class="surface-card rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap mb-2">
+            <span class="inline-block px-2.5 py-1 rounded-lg bg-brand-600 text-white text-xs font-bold">
+              LPK ONKEI • Kurikulum Lengkap Minna no Nihongo Bab 1–50
+            </span>
+            <span id="total-db-counter" class="inline-block px-2.5 py-1 rounded-lg surface-subtle text-xs font-bold">
+              Memuat Database...
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-main">Ringkasan Pencapaian Siswa</h2>
+          <p class="text-sm text-mut mt-1">
+            Seluruh kosakata Bab 1–50 terklasifikasi menjadi <strong>Kata Kerja</strong>, <strong>Kata Sifat-い &amp; Kata Sifat-な</strong>, dan <strong>Kata Benda</strong> dengan furigana khusus pada kanji (tanpa romaji) serta audio pelafalan <span class="jp-text">日本語</span> offline. Seluruh progres tersimpan otomatis di peramban meskipun aplikasi ditutup.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="openResetModal()"
+            class="px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-rose-600 hover:bg-rose-700 transition">
+            Reset Progres
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 Module Progress Cards -->
+      <div id="dashboard-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Populated dynamically via JS -->
+      </div>
+
+      <!-- ONKEI Pedagogical Guide Banner -->
+      <div class="bg-onkei-header text-white rounded-2xl p-5 sm:p-6 shadow-sm">
+        <h3 class="text-base sm:text-lg font-bold mb-2 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-lg bg-amber-600 flex items-center justify-center text-xs font-extrabold">恩</span>
+          Panduan Pembelajaran Terstruktur LPK ONKEI (Bab 1–50)
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs sm:text-sm text-slate-200 mt-3">
+          <div class="p-3.5 rounded-xl" style="background: rgba(255,255,255,0.09);">
+            <p class="font-bold text-white mb-1">1. Golongan KK &amp; Kelas Kata</p>
+            <p>Klasifikasi golongan kata kerja (1, 2, 3) &amp; identifikasi kelas kata (KK, KS-い, KS-な, KB) dari seluruh Bab 1–50.</p>
+          </div>
+          <div class="p-3.5 rounded-xl" style="background: rgba(255,255,255,0.09);">
+            <p class="font-bold text-white mb-1">2. Lab Konjugasi Interaktif</p>
+            <p>Ubah Kata Kerja (11 bentuk) dan Kata Sifat (6 bentuk) Bab 4–50 lengkap dengan penjelasan langkah bunyi.</p>
+          </div>
+          <div class="p-3.5 rounded-xl" style="background: rgba(255,255,255,0.09);">
+            <p class="font-bold text-white mb-1">3. Susun Kalimat Acak</p>
+            <p>Rangkai kalimat berpola tata bahasa JLPT N5 &amp; N4 (Bab 1–50) hingga bentuk hormat <span class="jp-text">敬語</span>.</p>
+          </div>
+          <div class="p-3.5 rounded-xl" style="background: rgba(255,255,255,0.09);">
+            <p class="font-bold text-white mb-1">4. Kamus &amp; Kuis Bab 1–50</p>
+            <p>Telusuri seluruh kosakata Bab 1–50, dengarkan audio <span class="jp-text">ja-JP</span>, dan uji hafalan arti dengan Kuis Cepat.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW: PRACTICE ARENA (MOD 1, 2, 3) ==================== -->
+    <section id="view-practice" class="hidden space-y-5">
+      <div class="surface-card rounded-2xl p-4 sm:p-5 shadow-xs">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span id="mod-badge" class="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-brand-600 text-white">MODUL 1</span>
+              <span id="mod-streak-badge" class="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-amber-600 text-white">Streak: 0</span>
+            </div>
+            <h2 id="mod-title" class="text-lg sm:text-xl font-extrabold text-main mt-1">Judul Modul</h2>
+          </div>
+
+          <div class="flex items-center gap-3 surface-subtle px-3.5 py-2 rounded-xl text-xs">
+            <div>
+              <span class="text-mut block">Dikuasai</span>
+              <span id="mod-stat-mastered" class="font-bold text-main text-sm">0 / 0</span>
+            </div>
+            <div class="h-6 w-px" style="background-color: var(--border-strong);"></div>
+            <div>
+              <span class="text-mut block">Akurasi</span>
+              <span id="mod-stat-accuracy" class="font-bold text-emerald-600 text-sm">0%</span>
+            </div>
+            <div class="h-6 w-px" style="background-color: var(--border-strong);"></div>
+            <button onclick="resetCurrentModule()" class="text-rose-600 font-semibold underline">
+              Ulangi
+            </button>
+          </div>
+        </div>
+
+        <div id="mod-filters" class="flex flex-wrap items-center gap-2 pt-3 border-t"></div>
+
+        <div class="w-full surface-subtle h-2 rounded-full overflow-hidden mt-3">
+          <div id="mod-progress-bar" class="bg-brand-600 h-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div id="question-card" class="surface-card rounded-2xl p-5 sm:p-7 shadow-xs space-y-5">
+        <div id="question-prompt-area" class="space-y-2"></div>
+        <div id="question-input-area" class="space-y-4"></div>
+        <div id="feedback-area" class="hidden rounded-2xl p-4 sm:p-5 transition-all"></div>
+
+        <div class="pt-4 border-t flex flex-wrap items-center justify-between gap-3">
+          <button onclick="switchView('dashboard')"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold pill-btn transition">
+            ← Kembali ke Dashboard
+          </button>
+
+          <div class="flex items-center gap-2 ml-auto">
+            <button id="btn-submit-answer" onclick="submitCurrentAnswer()"
+              class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 shadow-xs transition">
+              Periksa Jawaban
+            </button>
+            <button id="btn-next-question" onclick="nextQuestion()"
+              class="hidden px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xs transition">
+              Soal Berikutnya →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW: MODUL 4 (KAMUS & KUIS BAB 1-50) ==================== -->
+    <section id="view-mod4" class="hidden space-y-5">
+      <div class="surface-card rounded-2xl p-4 sm:p-5 shadow-xs space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-emerald-600 text-white">MODUL 4 • BANK KOSAKATA BAB 1–50</span>
+              <span id="mod4-count-badge" class="px-2.5 py-0.5 rounded-lg surface-subtle text-xs font-bold">0 Kosakata</span>
+            </div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-main mt-1">Kamus Lengkap &amp; Kuis Cepat Minna no Nihongo Bab 1–50</h2>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="setMod4SubMode('BROWSE')" id="m4-mode-BROWSE"
+              class="px-3.5 py-2 rounded-xl text-xs font-bold pill-btn active-dark">
+              Mode Kamus &amp; Audio
+            </button>
+            <button onclick="setMod4SubMode('QUIZ')" id="m4-mode-QUIZ"
+              class="px-3.5 py-2 rounded-xl text-xs font-bold pill-btn">
+              Mode Kuis Cepat Kosakata
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-3 border-t">
+          <input type="text" id="mod4-search" oninput="onMod4FilterChange()"
+            placeholder="Cari kanji, hiragana, katakana, arti, atau 'bab 25'..."
+            class="px-3.5 py-2 rounded-xl border surface-subtle focus:outline-none text-xs sm:text-sm text-main" />
+
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-xs font-semibold text-mut">Rentang Bab:</span>
+            <select id="mod4-bab-select" onchange="onMod4FilterChange()" class="flex-1 px-3 py-2 rounded-xl text-xs font-bold surface-subtle">
+              <option value="ALL">Semua Bab (Bab 1–50)</option>
+              <option value="1-15">Bab 1–15 (N5 Dasar)</option>
+              <option value="16-30">Bab 16–30 (N5 Lanjut – N4 Awal)</option>
+              <option value="31-40">Bab 31–40 (JLPT N4)</option>
+              <option value="41-50">Bab 41–50 (JLPT N4 &amp; Keigo)</option>
+            </select>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-xs font-semibold text-mut">Kelas Kata:</span>
+            <select id="mod4-pos-select" onchange="onMod4FilterChange()" class="flex-1 px-3 py-2 rounded-xl text-xs font-bold surface-subtle">
+              <option value="ALL">Semua Kelas Kata</option>
+              <option value="VERB">Kata Kerja (動詞)</option>
+              <option value="ADJ_I">Kata Sifat-い (い形容詞)</option>
+              <option value="ADJ_NA">Kata Sifat-な (な形容詞)</option>
+              <option value="NOUN">Kata Benda (名詞)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-view A: Kamus Browser -->
+      <div id="mod4-browse-panel" class="space-y-4">
+        <div id="mod4-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm"></div>
+        <div id="mod4-pagination" class="flex flex-wrap items-center justify-between gap-3 surface-card rounded-2xl p-3.5"></div>
+      </div>
+
+      <!-- Sub-view B: Kuis Cepat Kosakata -->
+      <div id="mod4-quiz-panel" class="hidden surface-card rounded-2xl p-5 sm:p-7 shadow-xs space-y-5">
+        <div id="mod4-quiz-prompt" class="space-y-2"></div>
+        <div id="mod4-quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
+        <div id="mod4-quiz-feedback" class="hidden rounded-2xl p-4 sm:p-5"></div>
+        <div class="pt-4 border-t flex items-center justify-between">
+          <span id="mod4-quiz-score" class="text-xs sm:text-sm font-bold text-main">Skor Kuis: 0 Benar / 0 Soal</span>
+          <button onclick="renderMod4QuizQuestion()"
+            class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 transition">
+            Soal Kosakata Berikutnya →
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL: RUMUS CEPAT ==================== -->
+  <div id="modal-cheatsheet" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-3 sm:p-5">
+    <div class="surface-card rounded-2xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-xl overflow-hidden">
+      <div class="px-5 py-4 border-b flex items-center justify-between surface-subtle">
+        <div>
+          <h3 class="text-base sm:text-lg font-extrabold text-main">Ringkasan Rumus Cepat LPK ONKEI (Bab 1–50)</h3>
+          <p class="text-xs text-mut">Panduan golongan kata kerja, 11 konjugasi kata kerja, konjugasi kata sifat, dan bentuk hormat</p>
+        </div>
+        <button onclick="closeCheatSheet()" class="p-2 rounded-xl pill-btn transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="px-5 pt-3 border-b flex gap-2 overflow-x-auto surface-card">
+        <button onclick="switchCheatTab('cs-kk-group')" id="tab-cs-kk-group" class="cs-tab px-3 py-2 text-xs font-bold border-b-2 border-brand-600 text-brand-600 whitespace-nowrap">
+          1. Golongan Kata Kerja
+        </button>
+        <button onclick="switchCheatTab('cs-kk-form')" id="tab-cs-kk-form" class="cs-tab px-3 py-2 text-xs font-bold border-b-2 border-transparent text-mut whitespace-nowrap">
+          2. Konjugasi Kata Kerja
+        </button>
+        <button onclick="switchCheatTab('cs-ks-kb')" id="tab-cs-ks-kb" class="cs-tab px-3 py-2 text-xs font-bold border-b-2 border-transparent text-mut whitespace-nowrap">
+          3. Konjugasi Kata Sifat
+        </button>
+        <button onclick="switchCheatTab('cs-keigo')" id="tab-cs-keigo" class="cs-tab px-3 py-2 text-xs font-bold border-b-2 border-transparent text-mut whitespace-nowrap">
+          4. Keigo (Bab 49–50)
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto text-xs sm:text-sm space-y-4">
+        <div id="cs-kk-group" class="cs-panel space-y-3">
+          <div class="p-3.5 rounded-xl surface-subtle">
+            <h4 class="font-bold text-brand-600 mb-1">Golongan 1 (五段動詞)</h4>
+            <p class="text-sec">Bentuk kamus berakhiran <span class="jp-text font-bold">う・く・ぐ・す・つ・ぬ・ぶ・む・る</span>. Pada bentuk <span class="jp-text">ます</span>, huruf sebelum <span class="jp-text">ます</span> bervokal <strong>i</strong> (<span class="jp-text">書きます, 飲みます, 買います</span>).</p>
+            <p class="mt-1.5 text-rose-600 font-semibold">Kata Jebakan Golongan 1 (berakhiran -iru/-eru namun masuk Golongan 1): <span class="jp-text"><ruby><rb>帰</rb><rt>かえ</rt></ruby>る, <ruby><rb>入</rb><rt>はい</rt></ruby>る, <ruby><rb>切</rb><rt>き</rt></ruby>る, <ruby><rb>知</rb><rt>し</rt></ruby>る, <ruby><rb>要</rb><rt>い</rt></ruby>る, <ruby><rb>走</rb><rt>はし</rt></ruby>る, <ruby><rb>滑</rb><rt>すべ</rt></ruby>る, <ruby><rb>参</rb><rt>まい</rt></ruby>る</span>.</p>
+          </div>
+          <div class="p-3.5 rounded-xl surface-subtle">
+            <h4 class="font-bold text-emerald-600 mb-1">Golongan 2 (一段動詞)</h4>
+            <p class="text-sec">Bentuk kamus selalu berakhiran bunyi <strong>-iru</strong> atau <strong>-eru</strong> (<span class="jp-text"><ruby><rb>食</rb><rt>た</rt></ruby>べる, <ruby><rb>見</rb><rt>み</rt></ruby>る, <ruby><rb>起</rb><rt>お</rt></ruby>きる, <ruby><rb>降</rb><rt>お</rt></ruby>りる, <ruby><rb>信</rb><rt>しん</rt></ruby>じる</span>). Cukup buang <span class="jp-text">る</span> saat mengubah bentuk.</p>
+          </div>
+          <div class="p-3.5 rounded-xl surface-subtle">
+            <h4 class="font-bold text-brand-600 mb-1">Golongan 3 (不規則動詞)</h4>
+            <p class="text-sec">Hanya <span class="jp-text">する</span> dan <span class="jp-text"><ruby><rb>来</rb><rt>く</rt></ruby>る</span> beserta seluruh kata kerja majemuk [Kata Benda + <span class="jp-text">する</span>].</p>
+          </div>
+        </div>
+
+        <div id="cs-kk-form" class="cs-panel hidden space-y-3">
+          <div class="overflow-x-auto">
+            <table class="w-full border text-left text-xs">
+              <thead class="bg-slate-900 text-white">
+                <tr>
+                  <th class="p-2 border">Bentuk</th>
+                  <th class="p-2 border">Golongan 1</th>
+                  <th class="p-2 border">Golongan 2</th>
+                  <th class="p-2 border">Golongan 3</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="p-2 border font-bold">Bentuk て</td><td class="p-2 border">う/つ/る→って, む/ぶ/ぬ→んで, く→いて (行く→行って), ぐ→いで, す→して</td><td class="p-2 border">buang る + て (<span class="jp-text">食べて</span>)</td><td class="p-2 border"><span class="jp-text">して / 来て</span></td></tr>
+                <tr><td class="p-2 border font-bold">Bentuk ない</td><td class="p-2 border">deret あ + ない (う→わない) (<span class="jp-text">書かない, 買わない</span>)</td><td class="p-2 border">buang る + ない (<span class="jp-text">食べない</span>)</td><td class="p-2 border"><span class="jp-text">しない / 来ない</span></td></tr>
+                <tr><td class="p-2 border font-bold">Potensial (可能形)</td><td class="p-2 border">deret え + る (<span class="jp-text">書ける</span>)</td><td class="p-2 border">buang る + られる (<span class="jp-text">食べられる</span>)</td><td class="p-2 border"><span class="jp-text">できる / 来られる</span></td></tr>
+                <tr><td class="p-2 border font-bold">Pasif (受身形)</td><td class="p-2 border">deret あ + れる (<span class="jp-text">書かれる</span>)</td><td class="p-2 border">buang る + られる (<span class="jp-text">食べられる</span>)</td><td class="p-2 border"><span class="jp-text">される / 来られる</span></td></tr>
+                <tr><td class="p-2 border font-bold">Kausatif (使役形)</td><td class="p-2 border">deret あ + せる (<span class="jp-text">書かせる</span>)</td><td class="p-2 border">buang る + させる (<span class="jp-text">食べさせる</span>)</td><td class="p-2 border"><span class="jp-text">させる / 来させる</span></td></tr>
+                <tr><td class="p-2 border font-bold">Ajakan (意向形)</td><td class="p-2 border">deret お + う (<span class="jp-text">書こう</span>)</td><td class="p-2 border">buang る + よう (<span class="jp-text">食べよう</span>)</td><td class="p-2 border"><span class="jp-text">しよう / 来よう</span></td></tr>
+                <tr><td class="p-2 border font-bold">Syarat 〜ば</td><td class="p-2 border">deret え + ば (<span class="jp-text">書けば</span>)</td><td class="p-2 border">buang る + れば (<span class="jp-text">食べれば</span>)</td><td class="p-2 border"><span class="jp-text">すれば / 来れば</span></td></tr>
+                <tr><td class="p-2 border font-bold">Perintah (命令形)</td><td class="p-2 border">deret え (<span class="jp-text">書け</span>)</td><td class="p-2 border">buang る + ろ (<span class="jp-text">食べろ</span>)</td><td class="p-2 border"><span class="jp-text">しろ / 来い</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="cs-ks-kb" class="cs-panel hidden space-y-3">
+          <div class="overflow-x-auto">
+            <table class="w-full border text-left text-xs">
+              <thead class="bg-slate-900 text-white">
+                <tr>
+                  <th class="p-2 border">Bentuk</th>
+                  <th class="p-2 border">Kata Sifat-い (<span class="jp-text">高い</span>)</th>
+                  <th class="p-2 border">Kata Sifat-な (<span class="jp-text">静か</span>)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="p-2 border font-bold">Positif Biasa</td><td class="p-2 border"><span class="jp-text">高い</span> (<span class="jp-text">いい</span>)</td><td class="p-2 border"><span class="jp-text">静かだ</span></td></tr>
+                <tr><td class="p-2 border font-bold">Negatif Biasa</td><td class="p-2 border"><span class="jp-text">高くない</span> (<span class="jp-text">いい→よくない</span>)</td><td class="p-2 border"><span class="jp-text">静かじゃない</span></td></tr>
+                <tr><td class="p-2 border font-bold">Lampau Biasa</td><td class="p-2 border"><span class="jp-text">高かった</span> (<span class="jp-text">いい→よかった</span>)</td><td class="p-2 border"><span class="jp-text">静かだった</span></td></tr>
+                <tr><td class="p-2 border font-bold">Lampau Negatif</td><td class="p-2 border"><span class="jp-text">高くなかった</span> (<span class="jp-text">いい→よくなかった</span>)</td><td class="p-2 border"><span class="jp-text">静かじゃなかった</span></td></tr>
+                <tr><td class="p-2 border font-bold">Bentuk て</td><td class="p-2 border"><span class="jp-text">高くて</span> (buang い + くて)</td><td class="p-2 border"><span class="jp-text">静かで</span> (+ で)</td></tr>
+                <tr><td class="p-2 border font-bold">Keterangan (Adverbia)</td><td class="p-2 border"><span class="jp-text">高く</span> (buang い + く)</td><td class="p-2 border"><span class="jp-text">静かに</span> (+ に)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="cs-keigo" class="cs-panel hidden space-y-2.5">
+          <div class="p-3 rounded-xl surface-subtle">
+            <p class="font-bold text-main">Sonkeigo (尊敬語 — Meninggikan Lawan Bicara, Bab 49)</p>
+            <p class="text-sec mt-1 jp-text">行きます・来ます・います → いらっしゃいます ／ 食べます・飲みます → 召し上がります ／ 言います → おっしゃいます ／ します → なさいます ／ 見ます → ご覧になります ／ 知っています → ご存じです</p>
+          </div>
+          <div class="p-3 rounded-xl surface-subtle">
+            <p class="font-bold text-main">Kenjougo (謙譲語 — Merendahkan Diri Sendiri, Bab 50)</p>
+            <p class="text-sec mt-1 jp-text">行きます・来ます → 参ります ／ います → おります ／ 食べます・飲みます・もらいます → いただきます ／ 言います → 申します ／ します → いたします ／ 見ます → 拝見します ／ 知っています → 存じます ／ 聞きます・行きます → 伺います ／ 会います → お目にかかります</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Reset Progres Modal (Full or Per-Module Reset) -->
+  <div id="modal-confirm" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4">
+    <div class="surface-card rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b pb-2.5">
+        <h3 id="confirm-title" class="text-base font-extrabold text-main">Reset Progres Belajar</h3>
+        <button onclick="closeConfirmModal()" class="p-1.5 rounded-lg pill-btn text-xs font-bold">✕</button>
+      </div>
+      <p id="confirm-message" class="text-xs sm:text-sm text-sec leading-relaxed">
+        Pilih cakupan progres yang ingin diulang kembali dari nol (0). Tindakan ini akan memperbarui data tersimpan di peramban Anda.
+      </p>
+
+      <div class="space-y-2 pt-1">
+        <button onclick="executeModuleReset('mod1')" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-bold pill-btn text-left flex justify-between items-center">
+          <span>Reset Modul 1 (Golongan KK &amp; Kelas Kata)</span>
+          <span class="text-rose-600">Reset →</span>
+        </button>
+        <button onclick="executeModuleReset('mod2')" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-bold pill-btn text-left flex justify-between items-center">
+          <span>Reset Modul 2 (Lab Konjugasi KK &amp; KS)</span>
+          <span class="text-rose-600">Reset →</span>
+        </button>
+        <button onclick="executeModuleReset('mod3')" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-bold pill-btn text-left flex justify-between items-center">
+          <span>Reset Modul 3 (Susun Kalimat Acak)</span>
+          <span class="text-rose-600">Reset →</span>
+        </button>
+        <button onclick="executeModuleReset('mod4')" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-bold pill-btn text-left flex justify-between items-center">
+          <span>Reset Modul 4 (Kamus &amp; Hafalan Kosakata)</span>
+          <span class="text-rose-600">Reset →</span>
+        </button>
+      </div>
+
+      <div class="flex flex-wrap justify-between items-center gap-2 pt-3 border-t">
+        <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-xs font-semibold pill-btn">Batal</button>
+        <button id="confirm-ok-btn" onclick="executeFullReset()" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-700">
+          Ya, Reset Semua Progres
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Banner -->
+  <div id="toast-notification" class="hidden toast-banner">
+    <span class="text-emerald-600 font-extrabold">✓</span>
+    <span id="toast-message">Progres tersimpan!</span>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. AUDIO PELAFALAN OFFLINE (SPEECH SYNTHESIS ja-JP) & RUBY KANJI PARSER
+    // =========================================================================
+    function speakJapanese(plainText) {
+      if (!('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(plainText);
+        utter.lang = 'ja-JP';
+        utter.rate = 0.92;
+        const voices = window.speechSynthesis.getVoices();
+        const jpVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes('ja'));
+        if (jpVoice) utter.voice = jpVoice;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {}
+    }
+
+    // Mengambil permukaan kanji/kana murni tanpa tag <rt>
+    function stripRubyToSurface(html) {
+      return String(html || '')
+        .replace(/<rt>.*?<\/rt>/g, '')
+        .replace(/<\/?ruby>/g, '')
+        .replace(/<\/?rb>/g, '')
+        .replace(/<[^>]*>/g, '')
+        .trim();
+    }
+
+    // Mengambil cara baca hiragana/katakana penuh
+    function stripRubyToKana(html) {
+      return String(html || '')
+        .replace(/<ruby><rb>[^<]*<\/rb><rt>([^<]*)<\/rt><\/ruby>/g, '$1')
+        .replace(/<ruby>[^<]*<rt>([^<]*)<\/rt><\/ruby>/g, '$1')
+        .replace(/<[^>]*>/g, '')
+        .trim();
+    }
+
+    // Otomatis memetakan teks mentah seperti "起きます (おきます)" menjadi
+    // "<ruby><rb>起</rb><rt>お</rt></ruby>きます" — furigana HANYA pada karakter Kanji!
+    const KANJI_RE = /[\u4E00-\u9FAF\u3400-\u4DBF々]+/g;
+
+    function buildKanjiOnlyRuby(surfaceRaw, readingRaw) {
+      let cleanSurface = surfaceRaw
+        .replace(/［[^］]*］/g, '')
+        .replace(/（[^）]*）/g, '')
+        .replace(/\([^)]*\)/g, '')
+        .trim();
+
+      if (!readingRaw) {
+        return cleanSurface;
+      }
+
+      let cleanReading = readingRaw
+        .replace(/［[^］]*］/g, '')
+        .replace(/（[^）]*）/g, '')
+        .replace(/\([^)]*\)/g, '')
+        .trim();
+
+      if (cleanReading.includes('/')) {
+        cleanReading = cleanReading.split('/')[0].trim();
+      }
+      if (cleanSurface.includes('・')) {
+        cleanSurface = cleanSurface.split('・')[0].trim();
+      }
+      if (cleanSurface.includes('／')) {
+        cleanSurface = cleanSurface.split('／')[0].trim();
+      }
+
+      if (!KANJI_RE.test(cleanSurface)) {
+        return cleanSurface;
+      }
+
+      // Pecah segmen kanji vs okurigana/kana di sekitarnya
+      const segments = [];
+      let lastIdx = 0;
+      KANJI_RE.lastIndex = 0;
+      let match;
+      while ((match = KANJI_RE.exec(cleanSurface)) !== null) {
+        if (match.index > lastIdx) {
+          segments.push({ type: 'kana', text: cleanSurface.slice(lastIdx, match.index) });
+        }
+        segments.push({ type: 'kanji', text: match[0] });
+        lastIdx = match.index + match[0].length;
+      }
+      if (lastIdx < cleanSurface.length) {
+        segments.push({ type: 'kana', text: cleanSurface.slice(lastIdx) });
+      }
+
+      // Alokasikan bacaan hiragana hanya ke segmen kanji menggunakan jangkar okurigana
+      let rPos = 0;
+      let resultHtml = '';
+      for (let i = 0; i < segments.length; i++) {
+        const seg = segments[i];
+        if (seg.type === 'kana') {
+          resultHtml += seg.text;
+          if (cleanReading.startsWith(seg.text, rPos)) {
+            rPos += seg.text.length;
+          } else {
+            const foundIdx = cleanReading.indexOf(seg.text, rPos);
+            if (foundIdx >= 0) rPos = foundIdx + seg.text.length;
+          }
+        } else {
+          // Cari segmen kana berikutnya sebagai batas akhir bacaan kanji ini
+          let nextKana = '';
+          for (let j = i + 1; j < segments.length; j++) {
+            if (segments[j].type === 'kana') {
+              nextKana = segments[j].text;
+              break;
+            }
+          }
+          let kanjiReading = '';
+          if (!nextKana) {
+            kanjiReading = cleanReading.slice(rPos);
+            rPos = cleanReading.length;
+          } else {
+            // Cari posisi okurigana berikutnya (minimal 1 karakter untuk bacaan kanji)
+            const nextPos = cleanReading.indexOf(nextKana, rPos + 1);
+            if (nextPos > rPos) {
+              kanjiReading = cleanReading.slice(rPos, nextPos);
+              rPos = nextPos;
+            } else {
+              kanjiReading = cleanReading.slice(rPos);
+              rPos = cleanReading.length;
+            }
+          }
+          if (kanjiReading && kanjiReading !== seg.text) {
+            resultHtml += `<ruby><rb>${seg.text}</rb><rt>${kanjiReading}</rt></ruby>`;
+          } else {
+            resultHtml += seg.text;
+          }
+        }
+      }
+      return resultHtml;
+    }
+
+    function audioButtonHtml(rubyHtml, label = 'Dengarkan') {
+      const surface = stripRubyToSurface(rubyHtml).replace(/'/g, "\\'");
+      return `
+        <button type="button" onclick="speakJapanese('${surface}')" class="audio-btn" title="Putar pelafalan bahasa Jepang">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          </svg>
+          <span>${label}</span>
+        </button>
+      `;
+    }
+
+    // =========================================================================
+    // 2. DATABASE MENTAH LENGKAP MINNA NO NIHONGO BAB 1 - 50
+    //    (Terpisah: Kata Kerja, Kata Sifat, dan Kata Benda dari Bab 1 s/d 50)
+    // =========================================================================
+    const RAW_VERBS_1_50 = `
+[Bab 4]
+1. 起きます (おきます) - Bangun tidur
+2. 寝ます (ねます) - Tidur
+3. 働きます (はたらきます) - Bekerja
+4. 休みます (やすみます) - Beristirahat, libur
+5. 勉強します (べんきょうします) - Belajar
+6. 終わります (おわります) - Selesai
+
+[Bab 5]
+7. 行きます (いきます) - Pergi
+8. 来ます (きます) - Datang
+9. 帰ります (かえります) - Pulang
+
+[Bab 6]
+10. 食べます (たべます) - Makan
+11. 飲みます (のみます) - Minum
+12. 吸います［たばこを～］ (すいます) - Menghisap [merokok]
+13. 見ます (みます) - Melihat, menonton
+14. 聞きます (ききます) - Mendengar, mendengarkan
+15. 読みます (よみます) - Membaca
+16. 書きます (かきます) - Menulis, menggambar
+17. 買います (かいます) - Membeli
+18. 撮ります［写真を～］ (とります［しゃしんを～］) - Mengambil [memotret]
+19. します - Melakukan, mengerjakan, bermain
+20. 会います［友達に～］ (あいます［ともだちに～］) - Bertemu [dengan teman]
+
+[Bab 7]
+21. 切ります (きります) - Memotong, menggunting
+22. 送ります (おくります) - Mengirim
+23. あげます - Memberi
+24. もらいます - Menerima, mendapat
+25. 貸します (かします) - Meminjamkan, menyewakan
+26. 借ります (かります) - Meminjam, menyewa
+27. 教えます (おしえます) - Mengajar, memberi tahu
+28. 習います (ならいます) - Belajar (dari seseorang)
+29. かけます［電話を～］ (かけます［でんわを～］) - Menelepon
+
+[Bab 9]
+30. 分かります (わかります) - Mengerti, paham
+31. あります - Ada, mempunyai (benda mati)
+
+[Bab 10]
+32. います - Ada (makhluk hidup: orang, hewan)
+33. あります - Ada (benda mati, tumbuhan)
+
+[Bab 11]
+34. います［子どもが～］ (います［こどもが～］) - Ada / mempunyai [anak]
+35. います［日本に～］ (います［にほんに～］) - Berada / tinggal [di Jepang]
+36. かかります - Memerlukan (waktu, uang)
+37. 休みます［会社を～］ (やすみます［かいしゃを～］) - Tidak masuk kerja / cuti [dari perusahaan]
+
+[Bab 13]
+38. 遊びます (あそびます) - Bermain, jalan-jalan
+39. 泳ぎます (およぎます) - Berenang
+40. 迎えます (むかえます) - Menjemput, menyambut
+41. 疲れます (つかれます) - Lelah, capek
+42. 出します［手紙を～］ (だします［てがみを～］) - Mengirim [surat]
+43. 入ります［喫茶店に～］ (はいります［きっさてんに～］) - Masuk [ke kedai kopi]
+44. 出ます［喫茶店を～］ (でます［きっさてんを～］) - Keluar [dari kedai kopi]
+45. 結婚します (けっこんします) - Menikah
+46. 買い物します (かいものします) - Berbelanja
+47. 食事します (しょくじします) - Makan (bersama/di luar)
+48. 散歩します［公園を～］ (さんぽします［こうえんを～］) - Berjalan-jalan [di taman]
+
+[Bab 14]
+49. つけます - Menyalakan (lampu, AC)
+50. 消します (けします) - Mematikan, memadamkan, menghapus
+51. 開けます (あけます) - Membuka
+52. 閉めます (しめます) - Menutup
+53. 急ぎます (いそぎます) - Terburu-buru, bergegas
+54. 待ちます (まちます) - Menunggu
+55. 止めます (とめます) - Menghentikan, memarkir
+56. 曲がります［右へ～］ (まがります［みぎへ～］) - Berbelok [ke kanan]
+57. 持ちます (もちます) - Membawa, memegang
+58. 取ります (とります) - Mengambil
+59. 手伝います (てつだいます) - Membantu
+60. 呼びます (よびます) - Memanggil
+61. 話します (はなします) - Berbicara, bercerita
+62. 見せます (みせます) - Memperlihatkan
+63. 教えます［住所を～］ (おしえます［じゅうしょを～］) - Memberi tahu [alamat]
+64. 始めます (はじめます) - Memulai
+65. 降ります［雨が～］ (ふります［あめが～］) - Turun [hujan]
+66. コピーします - Memfotokopi
+
+[Bab 15]
+67. 置きます (おきます) - Meletakkan, menaruh
+68. 作ります・造ります (つくります) - Membuat, memproduksi
+69. 売ります (うります) - Menjual
+70. 知ります (しります) - Mengetahui, mengenal
+71. 住みます (すみます) - Tinggal, menetap
+72. 研究します (けんきゅうします) - Meneliti
+73. 思い出します (おもいだします) - Teringat, mengingat kembali
+74. いらっしゃいます - Ada (bentuk hormat dari います)
+
+[Bab 16]
+1. 乗ります［電車に～］ (のります［でんしゃに～］) - Naik [kereta]
+2. 降ります［電車を～］ (おります［でんしゃを～］) - Turun [dari kereta]
+3. 乗り換えます (のりかえます) - Ganti kendaraan, transit
+4. 浴びます［シャワーを～］ (あびます) - Mandi [shower]
+5. 入れます (いれます) - Memasukkan
+6. 出します (だします) - Mengeluarkan, menyerahkan
+7. 入ります［大学に～］ (はいります［だいがくに～］) - Masuk [universitas]
+8. 出ます［大学を～］ (でます［だいがくを～］) - Lulus / keluar [dari universitas]
+9. やめます［会社を～］ (やめます［かいしゃを～］) - Berhenti [dari perusahaan]
+10. 押します (おします) - Menekan, mendorong
+
+[Bab 17]
+11. 覚えます (おぼえます) - Mengingat, menghafal
+12. 忘れます (わすれます) - Lupa
+13. なくします - Kehilangan
+14. 出します［レポートを～］ (だします［レポートを～］) - Menyerahkan, mengumpulkan [laporan]
+15. 払います (はらいます) - Membayar
+16. 返します (かえします) - Mengembalikan
+17. 出かけます (でかけます) - Keluar rumah, pergi keluar
+18. 脱ぎます (ぬぎます) - Melepas (pakaian, sepatu)
+19. 持って行きます (もっていきます) - Membawa pergi
+20. 持って来ます (もってきます) - Membawa datang
+21. 心配します (しんぱいします) - Khawatir
+22. 残業します (ざんぎょうします) - Lembur
+23. 出張します (しゅっちょうします) - Dinas luar kota
+24. 飲みます［薬を～］ (のみます［くすりを～］) - Minum [obat]
+25. 入ります［お風呂に～］ (はいります［おふろに～］) - Masuk [bak mandi / mandi berendam]
+
+[Bab 18]
+26. できます - Dapat, bisa
+27. 洗います (あらいます) - Mencuci
+28. 弾きます (ひきます) - Bermain (alat musik petik/tuts: piano, gitar)
+29. 歌います (うたいます) - Menyanyi
+30. 集めます (あつめます) - Mengumpulkan
+31. 捨てます (すてます) - Membuang
+32. 換えます (かえます) - Menukar, mengganti
+33. 運転します (うんてんします) - Menyetir, mengemudikan
+34. 予約します (よやくします) - Memesan (tempat, tiket), reservasi
+35. 見学します (けんがくします) - Meninjau, kunjungan belajar
+
+[Bab 19]
+36. 登ります［山に～］ (のぼります［やまに～］) - Mendaki [gunung]
+37. 泊まります［ホテルに～］ (とまります［ホテルに～］) - Menginap [di hotel]
+38. 掃除します (そうじします) - Membersihkan
+39. 洗濯します (せんたくします) - Mencuci pakaian
+40. 練習します (れんしゅうします) - Berlatih
+41. なります - Menjadi
+
+[Bab 20]
+42. 要ります［ビザが～］ (いります［ビザが～］) - Memerlukan, butuh [visa]
+43. 調べます (しらべます) - Memeriksa, meneliti, mencari tahu
+44. 直します (なおします) - Memperbaiki, membetulkan
+45. 修理します (しゅうりします) - Memperbaiki, mereparasi
+46. 電話します (でんわします) - Menelepon
+
+[Bab 21]
+47. 思います (おもいます) - Mengira, berpikir, berpendapat
+48. 言います (いいます) - Berkata, mengatakan
+49. 足ります (たります) - Cukup
+50. 勝ちます (かちます) - Menang
+51. 負けます (まけます) - Kalah
+52. あります［お祭りが～］ (あります［おまつりが～］) - Ada, diadakan [festival]
+53. 役に立ちます (やくにたちます) - Berguna, bermanfaat
+54. 動きます (うごきます) - Bergerak, bekerja (mesin)
+55. やめます［会社を～］ (やめます［かいしゃを～］) - Berhenti [dari perusahaan]
+56. 気をつけます (きをつけます) - Berhati-hati, waspada
+57. 留学します (りゅうがくします) - Belajar di luar negeri
+
+[Bab 22]
+58. 着ます［シャツを～］ (きます) - Memakai [kemeja / baju atasan]
+59. はきます［靴を～］ (はきます［くつを～］) - Memakai [sepatu / celana]
+60. かぶります［帽子を～］ (かぶります［ぼうしを～］) - Memakai [topi]
+61. かけます［眼鏡を～］ (かけます［めがねを～］) - Memakai [kacamata]
+62. 生まれます (うまれます) - Lahir
+
+[Bab 23]
+63. 聞きます［先生に～］ (ききます［せんせいに～］) - Bertanya [kepada guru]
+64. 回します (まわします) - Memutar
+65. 引きます (ひきます) - Menarik
+66. 変えます (かえます) - Mengubah
+67. 触ります［ドアに～］ (さわります) - Menyentuh [pintu]
+68. 出ます［お釣りが～］ (でます［おつりが～］) - Keluar [uang kembalian]
+69. 動きます［時計が～］ (うごきます［とけいが～］) - Berjalan, bergerak [jam]
+70. 歩きます［道を～］ (あるきます［みちを～］) - Berjalan kaki [di jalan]
+71. 渡ります［橋を～］ (わたります［はしを～］) - Menyeberang [jembatan]
+72. 気をつけます［車に～］ (きをつけます［くるまに～］) - Berhati-hati [terhadap mobil]
+73. 引っ越しします (ひっこしします) - Pindah rumah
+
+[Bab 24]
+74. くれます - Memberi (kepada saya)
+75. 連れて行きます (つれていきます) - Mengajak pergi (seseorang)
+76. 連れて来ます (つれてきます) - Mengajak datang (seseorang)
+77. 送ります［人を～］ (おくります［ひとを～］) - Mengantar [orang]
+78. 紹介します (しょうかいします) - Memperkenalkan
+79. 案内します (あんないします) - Mengantarkan, memandu jalan
+80. 説明します (せつめいします) - Menjelaskan, menerangkan
+81. いれます［コーヒーを～］ - Membuat, menyeduh [kopi]
+
+[Bab 25]
+82. 考えます (かんがえます) - Berpikir, memikirkan
+83. 着きます［駅に～］ (つきます［えきに～］) - Tiba, sampai [di stasiun]
+84. 留学します (りゅうがくします) - Belajar di luar negeri
+85. 取ります［年を～］ (とります［としを～］) - Berumur, menjadi tua
+
+[Bab 26]
+86. 見ます (みます) - Memeriksa, melihat
+87. 探します (さがします) - Mencari
+88. 遅れます［時間に～］ (おくれます［じかんに～］) - Terlambat [pada waktunya]
+89. 間に合います［時間に～］ (まにあいます［じかんに～］) - Sempat, tepat waktu
+90. やります - Melakukan, mengerjakan
+91. 参加します［パーティーに～］ (さんかします) - Ikut serta, berpartisipasi [dalam pesta]
+92. 申し込みます (もうしこみます) - Mendaftar, mengajukan permohonan
+
+[Bab 27]
+93. 飼います (かいます) - Memelihara (hewan)
+94. 建てます (たてます) - Membangun, mendirikan
+95. 走ります［道を～］ (はしります［みちを～］) - Berlari [di jalan]
+96. 取ります［休みを～］ (とります［やすみを～］) - Mengambil [libur / cuti]
+97. 見えます［山が～］ (みえます［やまが～］) - Terlihat [gunung]
+98. 聞こえます［音が～］ (きこえます［おとが～］) - Terdengar [suara]
+99. できます［空港が～］ (できます［くうこうが～］) - Selesai dibangun, jadi [bandara]
+100. 開きます［教室を～］ (ひらきます［きょうしつを～］) - Membuka, mengadakan [kelas]
+
+[Bab 28]
+101. 売れます［パンが～］ (うれます) - Terjual, laku [roti]
+102. 踊ります (おどります) - Menari
+103. かみます - Mengunyah, menggigit
+104. 選びます (えらびます) - Memilih
+105. 違います (ちがいます) - Berbeda, salah
+106. 通います［大学に～］ (かよいます［だいがくに～］) - Pergi pulang, rutin pergi [ke universitas]
+107. メモします - Mencatat
+
+[Bab 29]
+108. 開きます［ドアが～］ (あきます) - Terbuka [pintu]
+109. 閉まります［ドアが～］ (しまります) - Tertutup [pintu]
+110. つきます［電気が～］ (つきます［でんきが～］) - Menyala [lampu]
+111. 消えます［電気が～］ (きえます［でんきが～］) - Padam, mati [lampu]
+112. 込みます［道が～］ (こみます［みちが～］) - Macet, penuh [jalan]
+113. すきます［道が～］ (すきます［みちが～］) - Sepi, lengang [jalan]
+114. 壊れます［いすが～］ (こわれます) - Rusak [kursi]
+115. 割れます［コップが～］ (われます) - Pecah [gelas]
+116. 折れます［木が～］ (おれます［きが～］) - Patah [pohon]
+117. 破れます［紙が～］ (やぶれます［かみが～］) - Sobek, robek [kertas]
+118. 汚れます［服が～］ (よごれます［ふくが～］) - Menjadi kotor [pakaian]
+119. 付きます［ポケットが～］ (つきます) - Terpasang, ada [saku]
+120. 外れます［ボタンが～］ (はずれます) - Terlepas, copot [kancing]
+121. 止まります［エレベーターが～］ (とまります) - Berhenti [lift]
+122. まちがえます - Melakukan kesalahan, keliru
+123. 落とします (おとします) - Menjatuhkan, kehilangan
+124. かかります［かぎが～］ - Terkunci [kunci]
+
+[Bab 30]
+125. はります - Menempelkan
+126. 掛けます (かけます) - Menggantungkan
+127. 飾ります (かざります) - Menghias, memajang
+128. 並べます (ならべます) - Menyusun, menata berjajar
+129. 植えます (うえます) - Menanam
+130. 戻します (もどします) - Mengembalikan (ke tempat semula)
+131. まとめます - Merangkum, mengumpulkan jadi satu
+132. 片づけます (かたづけます) - Membereskan, merapikan
+133. しまいます - Menyimpan (ke dalam tempatnya)
+134. 決めます (きめます) - Memutuskan, menentukan
+135. 知らせます (しらせます) - Memberitahukan, mengabarkan
+136. 相談します (そうだんします) - Berdiskusi, berkonsultasi
+137. 予習します (よしゅうします) - Belajar persiapan (sebelum pelajaran)
+138. 復習します (ふくしゅうします) - Mengulang pelajaran
+139. そのままにします - Membiarkan begitu saja
+
+[Bab 31]
+1. 続けます (つづけます) - Melanjutkan
+2. 見つけます (みつけます) - Menemukan
+3. 取ります［休みを～］ (とります［やすみを～］) - Mengambil [libur / cuti]
+4. 受けます［試験を～］ (うけます［しけんを～］) - Mengikuti [ujian]
+5. 申し込みます (もうしこみます) - Mendaftar, mengajukan permohonan
+6. 休憩します (きゅうけいします) - Beristirahat
+7. 残ります (のこります) - Tersisa, tinggal
+8. 卒業します［大学を～］ (そつぎょうします［だいがくを～］) - Lulus [dari universitas]
+9. 閉じます (とじます) - Menutup (mata, buku)
+
+[Bab 32]
+11. 運動します (うんどうします) - Berolahraga
+12. 成功します (せいこうします) - Berhasil, sukses
+13. 失敗します［試験に～］ (しっぱいします［しけんに～］) - Gagal [dalam ujian]
+14. 合格します［試験に～］ (ごうかくします［しけんに～］) - Lulus [ujian]
+15. 戻ります (もどります) - Kembali
+16. やみます［雨が～］ (やみます［あめが～］) - Berhenti, reda [hujan]
+17. 晴れます (はれます) - Menjadi cerah
+18. 曇ります (くもります) - Menjadi mendung
+19. 吹きます［風が～］ (ふきます［かぜが～］) - Bertiup [angin]
+20. 治ります［病気が～］ (なおります［びょうきが～］) - Sembuh [penyakit]
+21. 直ります［故障が～］ (なおります［こしょうが～］) - Diperbaiki, pulih [kerusakan]
+22. 続きます［熱が～］ (つづきます［ねつが～］) - Berlanjut, terus-menerus [demam]
+23. ひきます［かぜを～］ - Masuk angin, terserang flu
+24. 冷やします (ひやします) - Mendinginkan
+25. 込みます［道が～］ (こみます［みちが～］) - Macet, penuh [jalan]
+26. すきます［道が～］ (すきます［みちが～］) - Sepi, lengang [jalan]
+27. 出ます［試合に～］ (でます［しあいに～］) - Ikut serta, tampil [dalam pertandingan]
+28. 出ます［パーティーに～］ (でます［パーティーに～］) - Menghadiri [pesta]
+29. 無理をします (むりをします) - Memaksakan diri
+
+[Bab 33]
+30. 逃げます (にげます) - Melarikan diri, kabur
+31. 騒ぎます (さわぎます) - Membuat gaduh, ribut
+32. あきらめます - Menyerah, putus asa
+33. 投げます (なげます) - Melempar
+34. 守ります (まもります) - Menjaga, mematuhi (aturan)
+35. 上げます (あげます) - Menaikkan, mengangkat
+36. 下げます (さげます) - Menurunkan
+37. 伝えます (つたえます) - Menyampaikan (pesan)
+38. 注意します［車に～］ (ちゅういします［くるまに～］) - Memperingatkan, berhati-hati [terhadap mobil]
+39. 外します［席を～］ (はずします［せきを～］) - Meninggalkan [tempat duduk]
+
+[Bab 34]
+40. 磨きます［歯を～］ (みがきます［はを～］) - Menggosok [gigi]
+41. 組み立てます (くみたてます) - Merakit, memasang
+42. 折ります (おります) - Melipat, mematahkan
+43. 気がつきます［忘れ物に～］ (きがつきます［わすれものに～］) - Menyadari, teringat [barang ketinggalan]
+44. つけます［しょうゆを～］ - Mencelupkan, membubuhkan [kecap asin]
+45. 見つかります［かぎが～］ (みつかります［かぎが～］) - Ditemukan [kunci]
+46. します［ネクタイを～］ - Memakai [dasi]
+47. 質問します (しつもんします) - Bertanya
+
+[Bab 35]
+48. 咲きます［花が～］ (さきます［はなが～］) - Mekar [bunga]
+49. 変わります［色が～］ (かわります［いろが～］) - Berubah [warna]
+50. 困ります (こまります) - Bingung, kesusahan, mendapat masalah
+51. つけます［丸を～］ (つけます［まるを～］) - Memberi tanda [lingkaran]
+52. 拾います (ひろいます) - Memungut, mengambil
+53. かかります［電話が～］ (かかります［でんわが～］) - Ada [telepon masuk]
+
+[Bab 36]
+54. 届きます［荷物が～］ (とどきます［にもつが～］) - Tiba, sampai [barang]
+55. 出ます［試合に～］ (でます［しあいに～］) - Ikut bertanding [dalam pertandingan]
+56. 打ちます［ワープロを～］ (うちます) - Mengetik [pengolah kata]
+57. 貯金します (ちょきんします) - Menabung uang
+58. 太ります (ふとります) - Menjadi gemuk
+59. やせます - Menjadi kurus
+60. 過ぎます［7時を～］ (すぎます［しちじを～］) - Lewat, melewati [jam 7]
+61. 慣れます［習慣に～］ (なれます［しゅうかんに～］) - Terbiasa [dengan kebiasaan]
+
+[Bab 37]
+62. 褒めます (ほめます) - Memuji
+63. しかります - Memarahi
+64. 誘います (さそいます) - Mengajak
+65. 起こします (おこします) - Membangunkan
+66. 招待します (しょうたいします) - Mengundang
+67. 頼みます (たのみます) - Meminta tolong, memesan
+68. 注意します (ちゅういします) - Menasihati, menegur
+69. とります - Mencuri, mengambil
+70. 踏みます (ふみます) - Menginjak
+71. 壊します (こわします) - Merusak
+72. 汚します (よごします) - Mengotori
+73. 行います (おこないます) - Mengadakan, menyelenggarakan
+74. 輸出します (ゆしゅつします) - Mengekspor
+75. 輸入します (ゆにゅうします) - Mengimpor
+76. 翻訳します (ほんやくします) - Menerjemahkan (tulisan)
+77. 発明します (はつめいします) - Menemukan (ciptaan baru)
+78. 発見します (はっけんします) - Menemukan (hal yang sudah ada)
+79. 設計します (せっけいします) - Merancang, mendesain
+80. 焼けます (やけます) - Terbakar, terpanggang
+
+[Bab 38]
+81. 育てます (そだてます) - Memelihara, membesarkan, merawat
+82. 運びます (はこびます) - Mengangkut, membawa
+83. 亡くなります (なくなります) - Meninggal dunia
+84. 入院します (にゅういんします) - Masuk rumah sakit (opname)
+85. 退院します (たいいんします) - Keluar dari rumah sakit
+86. 入れます［電源を～］ (いれます［でんげんを～］) - Menyalakan [aliran listrik / power]
+87. 切ります［電源を～］ (きります［でんげんを～］) - Mematikan [aliran listrik / power]
+88. 掛けます［かぎを～］ (かけます) - Mengunci
+89. つきます［うそを～］ - Berbohong
+
+[Bab 39]
+90. 答えます［質問に～］ (こたえます［しつもんに～］) - Menjawab [pertanyaan]
+91. 倒れます［ビルが～］ (たおれます) - Roboh, tumbang [gedung]
+92. 焼けます［うちが～］ (やけます) - Terbakar [rumah]
+93. 通ります［道を～］ (とおります［みちを～］) - Melewati, melintas [jalan]
+94. 死にます (しにます) - Mati, meninggal
+95. びっくりします - Terkejut, kaget
+96. がっかりします - Kecewa, putus asa
+97. 安心します (あんしんします) - Lega, tenang
+98. 遅刻します (ちこくします) - Terlambat (sekolah/kerja)
+99. 早退します (そうたいします) - Pulang lebih awal
+100. けんかします - Bertengkar, berkelahi
+101. 離婚します (りこんします) - Bercerai
+
+[Bab 40]
+102. 数えます (かぞえます) - Menghitung
+103. 測ります・量ります (はかります) - Mengukur, menimbang
+104. 確かめます (たしかめます) - Memastikan, mengecek kembali
+105. 合います［サイズが～］ (あいます) - Cocok, pas [ukuran]
+106. 出発します (しゅっぱつします) - Berangkat
+107. 到着します (とうちゃくします) - Tiba, sampai
+108. 酔います (よいます) - Mabuk
+110. 相談します (そうだんします) - Berkonsultasi, berdiskusi
+
+[Bab 41]
+1. いただきます - Menerima (bentuk merendah dari もらいます)
+2. くださいます - Memberi kepada saya (bentuk hormat dari くれます)
+3. やります - Memberi (kepada anak, adik, hewan, tumbuhan)
+4. 呼びます (よびます) - Memanggil, mengundang
+5. 取り替えます (とりかえます) - Mengganti, menukar (yang rusak/lama dengan yang baru)
+6. 親切にします (しんせつにします) - Berbuat baik, bersikap ramah
+
+[Bab 42]
+7. 包みます (つつみます) - Membungkus
+8. 沸かします (わかします) - Merebus, mendidihkan (air)
+9. 混ぜます (まぜます) - Mencampur, mengaduk
+10. 計算します (けいさんします) - Menghitung (angka/biaya)
+11. 並びます (ならびます) - Antre, berbaris
+
+[Bab 43]
+12. 増えます［輸出が～］ (ふえます［ゆしゅつが～］) - Bertambah, meningkat [ekspor]
+13. 減ります［輸出が～］ (へります［ゆしゅつが～］) - Berkurang, menurun [ekspor]
+14. 上がります［値段が～］ (あがります［ねだんが～］) - Naik [harga]
+15. 下がります［値段が～］ (さがります［ねだんが～］) - Turun [harga]
+16. 切れます［ひもが～］ (きれます) - Putus [tali]
+17. 取れます［ボタンが～］ (とれます) - Copot, lepas [kancing]
+18. 落ちます［荷物が～］ (おちます［にもつが～］) - Jatuh [barang]
+19. なくなります［ガソリンが～］ - Habis, hilang [bensin]
+20. 謝ります (あやまります) - Meminta maaf
+21. 知り合います (しりあいます) - Berkenalan
+
+[Bab 44]
+22. 泣きます (なきます) - Menangis
+23. 笑います (わらいます) - Tertawa, tersenyum
+24. 乾きます (かわきます) - Menjadi kering
+25. 濡れます (ぬれます) - Menjadi basah
+26. 滑ります (すべります) - Terpeleset, licin
+27. 起きます［事故が～］ (おきます［じこが～］) - Terjadi [kecelakaan]
+28. 調節します (ちょうせつします) - Mengatur, menyetel
+29. 嫌がります (いやがります) - Merasa tidak suka, enggan (orang ketiga)
+30. 分けます (わけます) - Membagi
+
+[Bab 45]
+31. 信じます (しんじます) - Mempercayai
+32. キャンセルします - Membatalkan
+33. 知らせます (しらせます) - Memberitahukan, mengabarkan
+36. ぶつかります - Menabrak, terbentur
+37. 並びます (ならびます) - Berbaris, antre
+
+[Bab 46]
+38. 焼きます (やきます) - Membakar, memanggang
+39. 渡します (わたします) - Menyerahkan
+40. 帰って来ます (かえってきます) - Pulang kembali
+41. 出ます［バスが～］ (でます) - Berangkat [bus]
+42. 留守にします (るすにします) - Pergi meninggalkan rumah / tidak ada di rumah
+
+[Bab 47]
+44. 集まります［人が～］ (あつまります［ひとが～］) - Berkumpul [orang]
+45. 別れます［人が～］ (わかれます［ひとが～］) - Berpisah [orang]
+46. 長生きします (ながいきします) - Berumur panjang
+47. します［音・声が～］ (します) - Terdengar [suara / bunyi]
+50. さします［傘を～］ (さします［かさを～］) - Memakai [payung]
+51. 婚約します (こんやくします) - Bertunangan
+52. 知り合います (しりあいます) - Berkenalan
+
+[Bab 48]
+53. 下ろします (おろします) - Menurunkan (barang/penumpang)
+54. 届けます (とどけます) - Mengantarkan, menyampaikan
+55. 世話をします (せわをします) - Merawat, mengurus
+56. いやがります - Merasa enggan / tidak suka
+57. 楽しみます (たのしみます) - Menikmati
+58. 録音します (ろくおんします) - Merekam (suara)
+
+[Bab 49]
+59. 利用します (りようします) - Menggunakan, memanfaatkan
+60. 勤めます［会社に～］ (つとめます［かいしゃに～］) - Bekerja [di perusahaan]
+61. 掛けます［いすに～］ (かけます) - Duduk [di kursi]
+62. 過ごします (すごします) - Menghabiskan (waktu)
+63. いらっしゃいます - Ada, pergi, datang (bentuk hormat)
+64. 召し上がります (めしあがります) - Makan, minum (bentuk hormat)
+65. おっしゃいます - Berkata (bentuk hormat)
+66. なさいます - Melakukan (bentuk hormat)
+67. ご覧になります (ごらんになります) - Melihat (bentuk hormat)
+68. ご存じです (ごぞんじです) - Mengetahui, kenal (bentuk hormat)
+69. 出します［熱を～］ (だします［ねつを～］) - Mengalami [demam]
+
+[Bab 50]
+70. 参ります (まいります) - Pergi, datang (bentuk merendah)
+71. おります - Ada (bentuk merendah)
+72. いただきます - Makan, minum, menerima (bentuk merendah)
+73. 申します (もうします) - Berkata, bernama (bentuk merendah)
+74. いたします - Melakukan (bentuk merendah)
+75. 拝見します (はいけんします) - Melihat (bentuk merendah)
+76. 存じます (ぞんじます) - Mengetahui (bentuk merendah)
+77. 伺います (うかがいます) - Bertanya, mendengar, berkunjung (bentuk merendah)
+78. お目にかかります (おめにかかります) - Bertemu (bentuk merendah)
+79. ございます - Ada (bentuk sopan dari あります)
+80. 緊張します (きんちょうします) - Gugup, tegang
+81. 放送します (ほうそうします) - Menyiarkan
+82. 撮ります［ビデオを～］ (とります) - Merekam [video]
+84. 実現します (じつげんします) - Terwujud, terealisasi
+`;
+
+    const RAW_ADJECTIVES_1_50 = `
+[Bab 8]
+1. ハンサム［な］ - Tampan, gagah
+2. きれい［な］ - Cantik, indah, bersih
+3. 静か［な］ (しずか［な］) - Tenang, sepi
+4. にぎやか［な］ - Ramai
+5. 有名［な］ (ゆうめい［な］) - Terkenal
+6. 親切［な］ (しんせつ［な］) - Baik hati, ramah
+7. 元気［な］ (げんき［な］) - Sehat, bersemangat
+8. 暇［な］ (ひま［な］) - Senggang, luang
+9. 便利［な］ (べんり［な］) - Praktis
+10. すてき［な］ - Bagus sekali, indah
+11. 大きい (おおきい) - Besar
+12. 小さい (ちいさい) - Kecil
+13. 新しい (あたらしい) - Baru
+14. 古い (ふるい) - Lama, tua (benda)
+15. いい - Baik, bagus
+16. 悪い (わるい) - Buruk, jelek
+17. 暑い (あつい) - Panas (cuaca / benda)
+18. 寒い (さむい) - Dingin (cuaca)
+19. 冷たい (つめたい) - Dingin (benda)
+20. 難しい (むずかしい) - Sulit, susah
+21. 易しい (やさしい) - Mudah, gampang
+22. 高い (たかい) - Mahal, tinggi
+23. 安い (やすい) - Murah
+24. 低い (ひくい) - Rendah
+25. おもしろい - Menarik, lucu
+26. おいしい - Enak, lezat
+27. 忙しい (いそがしい) - Sibuk
+28. 楽しい (たのしい) - Menyenangkan, gembira
+29. 白い (しろい) - Putih
+30. 黒い (くろい) - Hitam
+31. 赤い (あかい) - Merah
+32. 青い (あおい) - Biru
+
+[Bab 9]
+33. 好き［な］ (すき［な］) - Suka
+34. 嫌い［な］ (きらい［な］) - Benci, tidak suka
+35. 上手［な］ (じょうず［な］) - Pandai, mahir
+36. 下手［な］ (へた［な］) - Tidak pandai, bodoh
+37. 多い (おおい) - Banyak
+38. 少ない (すくない) - Sedikit
+
+[Bab 12]
+39. 簡単［な］ (かんたん［な］) - Mudah, sederhana
+40. 近い (ちかい) - Dekat
+41. 遠い (とおい) - Jauh
+42. 速い (はやい) - Cepat
+43. 遅い (おそい) - Lambat, terlambat
+44. 温かい (あたたかい) - Hangat
+45. 涼しい (すずしい) - Sejuk
+46. 甘い (あまい) - Manis
+47. 辛い (からい) - Pedas
+48. 重い (おもい) - Berat
+49. 軽い (かるい) - Ringan
+
+[Bab 13]
+51. 大変［な］ (たいへん［な］) - Berat, susah, melelahkan
+52. 欲しい (ほしい) - Ingin (memiliki benda)
+53. 寂しい (さびしい) - Sepi, kesepian
+54. 広い (ひろい) - Luas, lebar
+55. 狭い (せまい) - Sempit
+
+[Bab 16]
+1. 若い (わかい) - Muda
+2. 長い (ながい) - Panjang
+3. 短い (みじかい) - Pendek
+4. 明るい (あかるい) - Terang, ceria
+5. 暗い (くらい) - Gelap, suram
+
+[Bab 17]
+8. 大切［な］ (たいせつ［な］) - Penting, berharga
+9. 大丈夫［な］ (だいじょうぶ［な］) - Tidak apa-apa, aman
+10. 危ない (あぶない) - Berbahaya
+
+[Bab 19]
+11. 眠い (ねむい) - Mengantuk
+12. 強い (つよい) - Kuat
+13. 弱い (よわい) - Lemah
+
+[Bab 21]
+16. むだ［な］ - Sia-sia, boros
+17. 不便［な］ (ふべん［な］) - Tidak praktis, merepotkan
+18. すごい - Hebat, luar biasa
+
+[Bab 25]
+19. 無理［な］ (むり［な］) - Mustahil, memaksakan diri
+
+[Bab 28]
+24. 偉い (えらい) - Hebat, terhormat
+
+[Bab 30]
+26. 丸い (まるい) - Bulat, bundar
+
+[Bab 32]
+1. 心配［な］ (しんぱい［な］) - Khawatir, cemas
+2. 十分［な］ (じゅうぶん［な］) - Cukup
+3. おかしい - Aneh, lucu
+4. うるさい - Berisik, cerewet
+
+[Bab 33]
+5. だめ［な］ - Tidak boleh, jangan, gagal
+
+[Bab 35]
+6. 楽［な］ (らく［な］) - Mudah, nyaman, santai
+7. 正しい (ただしい) - Benar, betul
+8. 珍しい (めずらしい) - Langka, jarang ada
+
+[Bab 36]
+9. 堅い (かたい) - Keras, kaku
+10. 柔らかい (やわらかい) - Lunak, empuk, lembut
+
+[Bab 37]
+157. 豪華［な］ (ごうか［な］) - Mewah, megah
+
+[Bab 38]
+180. おとなしい - Pendiam, penurut
+184. 大好き［な］ (だいすき［な］) - Sangat suka
+175. 悔しい (くやしい) - Kesal, menyesal
+
+[Bab 39]
+15. 複雑［な］ (ふくざつ［な］) - Rumit, kompleks
+16. 邪魔［な］ (じゃま［な］) - Mengganggu, menghalangi
+17. 汚い (きたない) - Kotor
+18. うれしい - Senang, gembira
+19. 悲しい (かなしい) - Sedih
+20. 恥ずかしい (はずかしい) - Malu
+
+[Bab 40]
+21. 必要［な］ (ひつよう［な］) - Perlu, butuh
+
+[Bab 41]
+1. かわいい - Lucu, manis, mungil
+
+[Bab 42]
+2. 丈夫［な］ (じょうぶ［な］) - Kuat, awet, sehat
+3. 厚い (あつい) - Tebal
+4. 薄い (うすい) - Tipis
+
+[Bab 43]
+5. 変［な］ (へん［な］) - Aneh
+6. 幸せ［な］ (しあわせ［な］) - Bahagia
+7. うまい - Enak, lezat, mahir
+8. まずい - Tidak enak (rasa)
+9. つまらない - Membosankan, tidak menarik
+10. 優しい (やさしい) - Baik hati, lemah lembut
+91. 適当［な］ (てきとう［な］) - Tepat, sesuai, cocok
+
+[Bab 44]
+11. 濃い (こい) - Kental, pekat, tua (warna/rasa)
+12. 薄い (うすい) - Encer, tawar, muda (warna/rasa)
+14. 安心［な］ (あんしん［な］) - Lega, tenang
+
+[Bab 46]
+15. 留守［な］ (るす［な］) - Tidak ada di rumah
+
+[Bab 47]
+16. ひどい - Kejam, parah, keterlaluan
+17. 怖い (こわい) - Takut, menakutkan
+
+[Bab 48]
+18. 自由［な］ (じゆう［な］) - Bebas
+227. 美しい (うつくしい) - Indah, cantik
+
+[Bab 49]
+19. 失礼［な］ (しつれい［な］) - Tidak sopan, permisi
+
+[Bab 50]
+20. よろしい - Baik, boleh (bentuk hormat dari いい)
+`;
+
+    const RAW_NOUNS_1_50 = `
+[Bab 1]
+1. 私 (わたし) - Saya
+2. 私たち (わたしたち) - Kami, kita
+3. あなた - Anda
+4. あの人 (あのひと) - Orang itu
+5. 皆さん (みなさん) - Saudara-saudara, Anda sekalian
+6. 先生 (せんせい) - Guru, dosen
+7. 教師 (きょうし) - Guru, pengajar (profesi sendiri)
+8. 学生 (がくせい) - Siswa, mahasiswa
+9. 会社員 (かいしゃいん) - Pegawai perusahaan
+10. 社員 (しゃいん) - Pegawai (perusahaan ~)
+11. 銀行員 (ぎんこういん) - Pegawai bank
+12. 医者 (いしゃ) - Dokter
+13. 研究者 (けんきゅうしゃ) - Peneliti
+14. エンジニア - Insinyur, teknisi
+15. 大学 (だいがく) - Universitas
+16. 病院 (びょういん) - Rumah sakit
+17. 電気 (でんき) - Listrik, lampu
+18. だれ - Siapa
+19. 歳 (さい) - Umur, tahun
+20. 何歳 (なんさい) - Umur berapa
+
+[Bab 2]
+21. 本 (ほん) - Buku
+22. 辞書 (じしょ) - Kamus
+23. 雑誌 (ざっし) - Majalah
+24. 新聞 (しんぶん) - Koran
+25. ノート - Buku catatan
+26. 手帳 (てちょう) - Buku agenda
+27. 名刺 (めいし) - Kartu nama
+28. カード - Kartu
+29. 鉛筆 (えんぴつ) - Pensil
+30. ボールペン - Bolpoin
+31. シャープペンシル - Pensil mekanik
+32. かぎ - Kunci
+33. 時計 (とけい) - Jam, arloji
+34. 傘 (かさ) - Payung
+35. かばん - Tas
+36. テレビ - Televisi
+37. ラジオ - Radio
+38. カメラ - Kamera
+39. コンピューター - Komputer
+40. 自動車 (じどうしゃ) - Mobil
+41. 机 (つくえ) - Meja
+42. いす - Kursi
+43. チョコレート - Cokelat
+44. コーヒー - Kopi
+45. 英語 (えいご) - Bahasa Inggris
+46. 日本語 (にほんご) - Bahasa Jepang
+47. 語 (ご) - Bahasa ~
+
+[Bab 3]
+48. 教室 (きょうしつ) - Ruang kelas
+49. 食堂 (しょくどう) - Kantin, ruang makan
+50. 事務所 (じむしょ) - Kantor
+51. 会議室 (かいぎしつ) - Ruang rapat
+52. 受付 (うけつけ) - Resepsionis, meja informasi
+53. ロビー - Lobi
+54. 部屋 (へや) - Kamar, ruangan
+55. トイレ - Toilet, kamar kecil
+56. 階段 (かいだん) - Tangga
+57. エレベーター - Lift
+58. エスカレーター - Eskalator
+59. 国 (くに) - Negara
+60. 会社 (かいしゃ) - Perusahaan
+61. うち - Rumah
+62. 電話 (でんわ) - Telepon
+63. 靴 (くつ) - Sepatu
+64. ネクタイ - Dasi
+65. ワイン - Anggur (minuman)
+66. たばこ - Rokok
+67. 売り場 (うりば) - Tempat penjualan, konter
+68. 地下 (ちか) - Bawah tanah
+69. 階 (かい) - Lantai ~
+70. 円 (えん) - Yen (mata uang Jepang)
+
+[Bab 4]
+71. 今 (いま) - Sekarang
+72. 時 (じ) - Jam, pukul ~
+73. 分 (ふん) - Menit
+74. 半 (はん) - Setengah
+75. 午前 (ごぜん) - A.M. (pagi, sebelum jam 12 siang)
+76. 午後 (ごご) - P.M. (sore/malam, setelah jam 12 siang)
+77. 朝 (あさ) - Pagi
+78. 昼 (ひる) - Siang
+79. 晩 (ばん) - Malam
+80. おととい - Kemarin lusa
+81. きのう - Kemarin
+82. きょう - Hari ini
+83. あした - Besok
+84. あさって - Besok lusa
+85. けさ - Tadi pagi
+86. 今晩 (こんばん) - Malam ini
+87. 休み (やすみ) - Istirahat, libur, cuti
+88. 昼休み (ひるやすみ) - Istirahat siang
+89. 毎朝 (まいあさ) - Setiap pagi
+90. 毎晩 (まいばん) - Setiap malam
+91. 毎日 (まいにち) - Setiap hari
+92. 月曜日 (げつようび) - Hari Senin
+93. 火曜日 (かようび) - Hari Selasa
+94. 水曜日 (すいようび) - Hari Rabu
+95. 木曜日 (もくようび) - Hari Kamis
+96. 金曜日 (きんようび) - Hari Jumat
+97. 土曜日 (どようび) - Hari Sabtu
+98. 日曜日 (にちようび) - Hari Minggu
+99. 番号 (ばんごう) - Nomor
+100. 銀行 (ぎんこう) - Bank
+101. 郵便局 (ゆうびんきょく) - Kantor pos
+102. 図書館 (としょかん) - Perpustakaan
+103. 美術館 (びじゅつかん) - Gedung kesenian, museum seni
+
+[Bab 5]
+104. 学校 (がっこう) - Sekolah
+105. スーパー - Supermarket
+106. 駅 (えき) - Stasiun
+107. 飛行機 (ひこうき) - Pesawat terbang
+108. 船 (ふね) - Kapal laut
+109. 電車 (でんしゃ) - Kereta listrik
+110. 地下鉄 (ちかてつ) - Kereta bawah tanah
+111. 新幹線 (しんかんせん) - Shinkansen (kereta super cepat)
+112. バス - Bus
+113. タクシー - Taksi
+114. 自転車 (じてんしゃ) - Sepeda
+115. 人 (ひと) - Orang
+116. 友達 (ともだち) - Teman
+117. 彼 (かれ) - Dia (laki-laki), pacar laki-laki
+118. 彼女 (かのじょ) - Dia (perempuan), pacar perempuan
+119. 家族 (かぞく) - Keluarga
+120. 先週 (せんしゅう) - Minggu lalu
+121. 今週 (こんしゅう) - Minggu ini
+122. 来週 (らいしゅう) - Minggu depan
+123. 先月 (せんげつ) - Bulan lalu
+124. 今月 (こんげつ) - Bulan ini
+125. 来月 (らいげつ) - Bulan depan
+126. 去年 (きょねん) - Tahun lalu
+127. ことし - Tahun ini
+128. 来年 (らいねん) - Tahun depan
+129. 月 (がつ) - Bulan ~
+130. 日 (にち) - Tanggal ~
+131. 誕生日 (たんじょうび) - Hari ulang tahun
+
+[Bab 6]
+132. ごはん - Nasi, makanan
+133. 朝ごはん (あさごはん) - Sarapan
+134. 昼ごはん (ひるごはん) - Makan siang
+135. 晩ごはん (ばんごはん) - Makan malam
+136. パン - Roti
+137. たまご - Telur
+138. 肉 (にく) - Daging
+139. 魚 (さかな) - Ikan
+140. 野菜 (やさい) - Sayuran
+141. 果物 (くだもの) - Buah-buahan
+142. 水 (みず) - Air
+143. お茶 (おちゃ) - Teh (hijau)
+144. 紅茶 (こうちゃ) - Teh hitam
+145. 牛乳 (ぎゅうにゅう) - Susu sapi
+146. ジュース - Jus
+147. ビール - Bir
+148. お酒 (おさけ) - Minuman keras, sake
+149. ビデオ - Video
+150. 映画 (えいが) - Film
+151. 手紙 (てがみ) - Surat
+152. レポート - Laporan
+153. 写真 (しゃしん) - Foto
+154. 店 (みせ) - Toko
+155. レストラン - Restoran
+156. 庭 (にわ) - Halaman, kebun
+157. 宿題 (しゅくだい) - Pekerjaan rumah (PR)
+158. テニス - Tenis
+159. サッカー - Sepak bola
+160. お花見 (おはなみ) - Menikmati bunga sakura
+
+[Bab 7]
+161. 手 (て) - Tangan
+162. はし - Sumpit
+163. スプーン - Sendok
+164. ナイフ - Pisau
+165. フォーク - Garpu
+166. はさみ - Gunting
+167. パソコン - Komputer pribadi (PC)
+168. ケータイ - Ponsel, HP
+169. メール - Email
+170. 年賀状 (ねんがじょう) - Kartu tahun baru
+171. パンチ - Pembolong kertas
+172. ホッチキス - Stapler
+173. セロテープ - Selotip
+174. 消しゴム (けしゴム) - Penghapus karet
+175. 紙 (かみ) - Kertas
+176. 花 (はな) - Bunga
+177. シャツ - Kemeja
+178. プレゼント - Hadiah, kado
+179. 荷物 (にもつ) - Barang bawaan
+180. お金 (おかね) - Uang
+181. 切符 (きっぷ) - Karcis, tiket
+182. クリスマス - Natal
+183. 父 (ちち) - Ayah (saya)
+184. 母 (はは) - Ibu (saya)
+185. お父さん (おとうさん) - Ayah (orang lain)
+186. お母さん (おかあさん) - Ibu (orang lain)
+
+[Bab 8]
+187. 桜 (さくら) - Bunga sakura
+188. 山 (やま) - Gunung
+189. 町 (まち) - Kota
+190. 食べ物 (たべもの) - Makanan
+191. 車 (くるま) - Mobil
+192. 所 (ところ) - Tempat
+193. 寮 (りょう) - Asrama
+194. 勉強 (べんきょう) - Pelajaran, belajar
+195. 生活 (せいかつ) - Kehidupan
+196. お仕事 (おしごと) - Pekerjaan
+
+[Bab 9]
+197. 料理 (りょうり) - Masakan
+198. 飲み物 (のみもの) - Minuman
+199. スポーツ - Olahraga
+200. 野球 (やきゅう) - Bisbol
+201. ダンス - Dansa, tari
+202. 音楽 (おんがく) - Musik
+203. 歌 (うた) - Lagu
+204. クラシック - Musik klasik
+205. ジャズ - Musik jazz
+206. コンサート - Konser
+207. カラオケ - Karaoke
+208. 歌舞伎 (かぶき) - Kabuki (drama tradisional Jepang)
+209. 絵 (え) - Gambar, lukisan
+210. 字 (じ) - Huruf
+211. 漢字 (かんじ) - Huruf kanji
+212. ひらがな - Huruf hiragana
+213. カタカナ - Huruf katakana
+214. ローマ字 (ローマじ) - Huruf latin
+215. 細かいお金 (こまかいおかね) - Uang receh
+216. チケット - Tiket (konser, film)
+217. 時間 (じかん) - Waktu
+218. 用事 (ようじ) - Urusan, keperluan
+219. 約束 (やくそく) - Janji
+220. ご主人 (ごしゅじん) - Suami (orang lain)
+221. 夫 (おっと) - Suami (saya)
+222. 奥さん (おくさん) - Istri (orang lain)
+223. 妻 (つま) - Istri (saya)
+224. 子ども (こども) - Anak
+
+[Bab 10]
+225. 男の人 (おとこのひと) - Orang laki-laki
+226. 女の人 (おんなのひと) - Orang perempuan
+227. 男の子 (おとこのこ) - Anak laki-laki
+228. 女の子 (おんなのこ) - Anak perempuan
+229. 犬 (いぬ) - Anjing
+230. 猫 (ねこ) - Kucing
+231. 木 (き) - Pohon
+232. 物 (もの) - Barang, benda
+233. 電池 (でんち) - Baterai
+234. 箱 (はこ) - Kotak
+235. スイッチ - Sakelar
+236. 冷蔵庫 (れいぞうこ) - Kulkas
+237. テーブル - Meja makan
+238. ベッド - Tempat tidur
+239. 棚 (たな) - Lemari, rak
+240. ドア - Pintu
+241. 窓 (まど) - Jendela
+242. ポスト - Kotak surat
+243. ビル - Gedung
+244. 公園 (こうえん) - Taman
+245. 喫茶店 (きっさてん) - Kedai kopi
+246. 本屋 (ほんや) - Toko buku
+247. 乗り場 (のりば) - Tempat naik kendaraan (halte/pangkalan)
+248. 県 (けん) - Prefektur
+249. 上 (うえ) - Atas
+250. 下 (した) - Bawah
+251. 前 (まえ) - Depan
+252. うしろ - Belakang
+253. 右 (みぎ) - Kanan
+254. 左 (ひだり) - Kiri
+255. 中 (なか) - Dalam
+256. 外 (そと) - Luar
+257. 隣 (となり) - Sebelah, tetangga
+258. 近く (ちかく) - Dekat
+259. 間 (あいだ) - Antara
+
+[Bab 11]
+260. りんご - Apel
+261. みかん - Jeruk
+262. サンドイッチ - Roti lapis (sandwich)
+263. カレーライス - Nasi kari
+264. アイスクリーム - Es krim
+265. 切手 (きって) - Prangko
+266. はがき - Kartu pos
+267. 封筒 (ふうとう) - Amplop
+268. 速達 (そくたつ) - Pos kilat
+269. 書留 (かきとめ) - Pos tercatat
+270. 航空便 (こうくうびん) - Pos udara
+271. 船便 (ふなびん) - Pos laut
+272. 両親 (りょうしん) - Orang tua
+273. 兄弟 (きょうだい) - Saudara kandung
+274. 兄 (あに) - Kakak laki-laki (saya)
+275. お兄さん (おにいさん) - Kakak laki-laki (orang lain)
+276. 姉 (あね) - Kakak perempuan (saya)
+277. お姉さん (おねえさん) - Kakak perempuan (orang lain)
+278. 弟 (おとうと) - Adik laki-laki (saya)
+279. 弟さん (おとうとさん) - Adik laki-laki (orang lain)
+280. 妹 (いもうと) - Adik perempuan (saya)
+281. 妹さん (いもうとさん) - Adik perempuan (orang lain)
+282. 外国 (がいこく) - Luar negeri
+
+[Bab 12]
+283. 季節 (きせつ) - Musim
+284. 春 (はる) - Musim semi
+285. 夏 (なつ) - Musim panas
+286. 秋 (あき) - Musim gugur
+287. 冬 (ふゆ) - Musim dingin
+288. 天気 (てんき) - Cuaca
+289. 雨 (あめ) - Hujan
+290. 雪 (ゆき) - Salju
+291. 曇り (くもり) - Mendung
+292. ホテル - Hotel
+293. 空港 (くうこう) - Bandara
+294. 海 (うみ) - Laut
+295. 世界 (せかい) - Dunia
+296. パーティー - Pesta
+297. お祭り (おまつり) - Perayaan, festival
+298. 試験 (しけん) - Ujian
+299. すき焼き (すきやき) - Sukiyaki
+300. 刺身 (さしみ) - Sashimi
+301. おすし - Sushi
+302. てんぷら - Tempura
+303. いけばな - Seni merangkai bunga
+304. 紅葉 (もみじ) - Daun musim gugur (maple)
+
+[Bab 13]
+305. 週末 (しゅうまつ) - Akhir pekan
+306. 正月 (しょうがつ) - Tahun baru
+307. ごろ - Sekitar (waktu)
+308. のど - Tenggorokan
+309. おなか - Perut
+
+[Bab 14]
+310. 名前 (なまえ) - Nama
+311. 住所 (じゅうしょ) - Alamat
+312. 地図 (ちず) - Peta
+313. 塩 (しお) - Garam
+314. 砂糖 (さとう) - Gula
+315. 読み方 (よみかた) - Cara membaca
+316. 方 (かた) - Cara ~
+317. エアコン - AC
+318. パスポート - Paspor
+
+[Bab 15]
+319. 家族 (かぞく) - Keluarga
+320. 独身 (どくしん) - Bujangan, lajang
+321. 資料 (しりょう) - Data, bahan
+322. カタログ - Katalog
+323. 時刻表 (じこくひょう) - Jadwal keberangkatan
+324. 服 (ふく) - Pakaian
+325. 製品 (せいひん) - Produk
+326. ソフト - Perangkat lunak (software)
+327. 専門 (せんもん) - Jurusan, keahlian
+328. 歯医者 (はいしゃ) - Dokter gigi
+329. 床屋 (とこや) - Tukang cukur
+330. プレイガイド - Agen penjualan tiket
+
+[Bab 16]
+1. 体 (からだ) - Badan, tubuh
+2. 頭 (あたま) - Kepala
+3. 髪 (かみ) - Rambut
+4. 顔 (かお) - Wajah, muka
+5. 目 (め) - Mata
+6. 耳 (みみ) - Telinga
+7. 口 (くち) - Mulut
+8. 歯 (は) - Gigi
+9. おなか - Perut
+10. 足 (あし) - Kaki
+11. サービス - Pelayanan, servis
+12. ジョギング - Joging, lari santai
+13. シャワー - Shower
+14. 緑 (みどり) - Hijau, tanaman hijau
+15. お寺 (おてら) - Kuil Buddha
+16. 神社 (じんじゃ) - Kuil Shinto
+17. 留学生 (りゅうがくせい) - Pelajar asing
+18. 番 (ばん) - Nomor ~
+
+[Bab 17]
+19. 禁煙 (きんえん) - Dilarang merokok
+20. 健康保険証 (けんこうほけんしょう) - Kartu asuransi kesehatan
+21. かぜ - Masuk angin, flu
+22. 熱 (ねつ) - Demam
+23. 病気 (びょうき) - Sakit, penyakit
+24. 薬 (くすり) - Obat
+25. お風呂 (おふろ) - Bak mandi, kamar mandi Jepang
+26. 上着 (うわぎ) - Jaket, jas, baju luar
+27. 下着 (したぎ) - Pakaian dalam
+
+[Bab 18]
+29. ピアノ - Piano
+30. メートル - Meter
+31. 国際 (こくさい) - Internasional
+32. 現金 (げんきん) - Uang tunai
+33. 趣味 (しゅみ) - Hobi
+34. 日記 (にっき) - Buku harian
+35. お祈り (おいのり) - Doa
+36. 課長 (かちょう) - Kepala seksi / bagian
+37. 部長 (ぶちょう) - Kepala departemen / manajer
+38. 社長 (しゃちょう) - Direktur utama, presiden direktur
+39. 動物 (どうぶつ) - Hewan, binatang
+40. 馬 (うま) - Kuda
+
+[Bab 19]
+41. ゴルフ - Golf
+42. 相撲 (すもう) - Sumo
+43. パチンコ - Pachinko
+44. お茶 (おちゃ) - Upacara minum teh
+45. 日 (ひ) - Hari, tanggal
+46. 調子 (ちょうし) - Kondisi
+47. 一度 (いちど) - Satu kali
+48. 一度も (いちども) - Satu kali pun (tidak pernah)
+49. ダイエット - Diet
+
+[Bab 20]
+50. 僕 (ぼく) - Aku (laki-laki)
+51. 君 (きみ) - Kamu (kasual)
+52. くん - Saudara ~ (panggilan akrab anak/pria)
+53. うん - Ya (kasual)
+54. ううん - Tidak (kasual)
+55. サラリーマン - Pegawai kantor
+56. ことば - Kata, bahasa
+57. 物価 (ぶっか) - Harga barang
+58. 着物 (きもの) - Kimono
+59. ビザ - Visa
+60. 初め (はじめ) - Awal, permulaan
+61. 終わり (おわり) - Akhir
+
+[Bab 21]
+62. 首相 (しゅしょう) - Perdana Menteri
+63. 大統領 (だいとうりょう) - Presiden
+64. 政治 (せいじ) - Politik
+65. ニュース - Berita
+66. スピーチ - Pidato
+67. 試合 (しあい) - Pertandingan
+68. アルバイト - Kerja paruh waktu
+69. 意見 (いけん) - Pendapat
+70. お話 (おはなし) - Cerita, pembicaraan
+71. ユーモア - Humor
+72. デザイン - Desain
+73. 交通 (こうつう) - Lalu lintas, transportasi
+74. ラッシュ - Jam sibuk
+75. 最近 (さいきん) - Akhir-akhir ini, baru-baru ini
+76. 天気予報 (てんきよほう) - Ramalan cuaca
+
+[Bab 22]
+77. 帽子 (ぼうし) - Topi
+78. 眼鏡 (めがね) - Kacamata
+79. ケーキ - Kue
+80. お弁当 (おべんとう) - Bekal makanan
+81. ロボット - Robot
+83. 都合 (つごう) - Kondisi waktu, kesempatan
+84. 家賃 (やちん) - Uang sewa rumah
+85. ダイニングキッチン - Ruang makan dan dapur
+86. 和室 (わしつ) - Kamar bergaya Jepang (tatami)
+87. 押し入れ (おしいれ) - Lemari dinding khas Jepang
+88. 布団 (ふとん) - Kasur lipat Jepang (futon)
+89. アパート - Apartemen
+
+[Bab 23]
+90. 建物 (たてもの) - Bangunan, gedung
+91. 外国人登録証 (がいこくじんとうろくしょう) - Kartu registrasi orang asing
+92. 橋 (はし) - Jembatan
+93. 駐車場 (ちゅうしゃじょう) - Tempat parkir
+94. 交差点 (こうさてん) - Perempatan jalan
+95. 信号 (しんごう) - Lampu lalu lintas
+96. 角 (かど) - Sudut, tikungan
+97. お釣り (おつり) - Uang kembalian
+99. お正月 (おしょうがつ) - Tahun baru Jepang
+
+[Bab 24]
+100. おじいさん - Kakek
+101. おばあさん - Nenek
+102. 準備 (じゅんび) - Persiapan
+103. 意味 (いみ) - Arti, makna
+104. お菓子 (おかし) - Kue, camilan
+105. 全部 (ぜんぶ) - Semua, seluruhnya
+106. 自分 (じぶん) - Diri sendiri
+107. 母の日 (ははのひ) - Hari Ibu
+
+[Bab 25]
+108. 田舎 (いなか) - Kampung halaman, pedesaan
+109. 大使館 (たいしかん) - Kedutaan besar
+110. グループ - Grup, kelompok
+111. チャンス - Kesempatan, peluang
+112. 億 (おく) - Ratus juta (100.000.000)
+113. 転勤 (てんきん) - Pindah tugas kerja
+
+[Bab 26]
+114. 連絡先 (れんらくさき) - Alamat / nomor kontak
+115. ゴミ - Sampah
+116. 燃えるゴミ (もえるゴミ) - Sampah yang bisa dibakar
+117. 置き場 (おきば) - Tempat menaruh ~
+118. 横 (よこ) - Samping, sebelah
+119. 瓶 (びん) - Botol kaca
+120. 缶 (かん) - Kaleng
+121. お湯 (おゆ) - Air panas
+122. ガス - Gas
+124. ボランティア - Sukarelawan
+125. 弁 (べん) - Dialek / logat daerah ~
+126. 今度 (こんど) - Kali ini, lain kali
+127. 宇宙 (うちゅう) - Luar angkasa
+128. 宇宙船 (うちゅうせん) - Pesawat luar angkasa
+
+[Bab 27]
+129. ペット - Hewan peliharaan
+130. 鳥 (とり) - Burung
+131. 声 (こえ) - Suara (manusia/hewan)
+132. 波 (なみ) - Ombak, gelombang
+133. 花火 (はなび) - Kembang api
+134. 景色 (けしき) - Pemandangan
+135. 昼間 (ひるま) - Siang hari
+136. 昔 (むかし) - Masa lampau, dahulu kala
+137. 道具 (どうぐ) - Alat, perkakas
+138. 自動販売機 (じどうはんばいき) - Mesin penjual otomatis
+139. 通信販売 (つうしんはんばい) - Penjualan lewat pos / online
+140. クリーニング - Penatu, laundry
+141. マンション - Apartemen mewah / kondominium
+142. 台所 (だいどころ) - Dapur
+144. パーティールーム - Ruang pesta
+147. 夢 (ゆめ) - Mimpi, cita-cita
+148. 本物 (ほんもの) - Barang asli
+
+[Bab 28]
+150. 美容院 (びよういん) - Salon kecantikan
+151. 経験 (けいけん) - Pengalaman
+152. 力 (ちから) - Tenaga, kekuatan, kemampuan
+153. 人気 (にんき) - Kepopuleran
+154. 形 (かたち) - Bentuk
+155. 色 (いろ) - Warna
+156. 味 (あじ) - Rasa
+157. ガム - Permen karet
+158. 品物 (しなもの) - Barang dagangan
+159. 値段 (ねだん) - Harga
+160. 給料 (きゅうりょう) - Gaji
+161. ボーナス - Bonus
+162. 番組 (ばんぐみ) - Acara TV / radio
+163. ドラマ - Drama
+164. 小説 (しょうせつ) - Novel
+165. 小説家 (しょうせつか) - Novelis
+166. 歌手 (かしゅ) - Penyanyi
+167. 管理人 (かんりにん) - Pengelola gedung / penjaga
+168. 息子 (むすこ) - Anak laki-laki (saya)
+169. 息子さん (むすこさん) - Anak laki-laki (orang lain)
+170. 娘 (むすめ) - Anak perempuan (saya)
+171. 娘さん (むすめさん) - Anak perempuan (orang lain)
+173. 将来 (しょうらい) - Masa depan
+
+[Bab 29]
+174. ポケット - Saku, kantong
+175. 忘れ物 (わすれもの) - Barang ketinggalan
+176. 網棚 (あみだな) - Rak bagasi atas di kereta
+177. 地震 (じしん) - Gempa bumi
+178. 壁 (かべ) - Dinding, tembok
+179. 針 (はり) - Jarum
+180. 交番 (こうばん) - Pos polisi
+182. 返事 (へんじ) - Jawaban, balasan
+
+[Bab 30]
+184. 授業 (じゅぎょう) - Pelajaran, kuliah
+185. 講義 (こうぎ) - Kuliah
+186. ミーティング - Rapat, pertemuan
+187. 予定 (よてい) - Rencana, jadwal
+188. お知らせ (おしらせ) - Pengumuman, pemberitahuan
+189. 案内書 (あんないしょ) - Buku panduan
+190. カレンダー - Kalender
+191. ポスター - Poster
+192. ゴミ箱 (ゴミばこ) - Tempat sampah
+193. 人形 (にんぎょう) - Boneka
+194. 花瓶 (かびん) - Vas bunga
+195. 鏡 (かがみ) - Cermin
+196. 引き出し (ひきだし) - Laci
+197. 玄関 (げんかん) - Pintu masuk rumah (genkan)
+198. 廊下 (ろうか) - Lorong, koridor
+200. 池 (いけ) - Kolam
+201. 元の所 (もとのところ) - Tempat semula
+202. 周り (まわり) - Sekitar, sekeliling
+203. 真ん中 (まんなか) - Tengah-tengah
+204. 隅 (すみ) - Pojok, sudut
+205. 非常袋 (ひじょうぶくろ) - Tas darurat bencana
+206. 非常時 (ひじょうじ) - Saat darurat
+207. 生活用品 (せいかつようひん) - Keperluan sehari-hari
+208. 懐中電灯 (かいちゅうでんとう) - Lampu senter
+
+[Bab 31]
+1. 連休 (れんきゅう) - Libur berturut-turut
+2. 作文 (さくぶん) - Karangan
+3. 発表 (はっぴょう) - Presentasi, pengumuman
+4. 展覧会 (てんらんかい) - Pameran
+5. 結婚式 (けっこんしき) - Upacara pernikahan
+6. お葬式 (おそうしき) - Upacara pemakaman
+7. 式 (しき) - Upacara
+8. 本社 (ほんしゃ) - Kantor pusat
+9. 支店 (してん) - Kantor cabang
+10. 教会 (きょうかい) - Gereja
+11. 大学院 (だいがくいん) - Program pascasarjana (S2/S3)
+12. 動物園 (どうぶつえん) - Kebun binatang
+13. 温泉 (おんせん) - Pemandian air panas alami
+14. お客さん (おきゃくさん) - Tamu, pelanggan
+15. だれか - Seseorang
+16. 村 (むら) - Desa
+17. 映画館 (えいがかん) - Bioskop
+19. 空 (そら) - Langit
+20. 都会 (とかい) - Kota besar
+
+[Bab 32]
+21. チーム - Tim
+22. 宝くじ (たからくじ) - Lotre, undian
+23. 健康 (けんこう) - Kesehatan
+24. 恋愛 (れんあい) - Percintaan, asmara
+25. 恋人 (こいびと) - Pacar, kekasih
+26. 金持ち (かねもち) - Orang kaya
+27. 星 (ほし) - Bintang
+28. 東 (ひがし) - Timur
+29. 西 (にし) - Barat
+30. 南 (みなみ) - Selatan
+31. 北 (きた) - Utara
+32. 国際線 (こくさいせん) - Penerbangan internasional
+33. 国内線 (こくないせん) - Penerbangan domestik
+34. 水道 (すいどう) - Air ledeng, saluran air
+35. エンジン - Mesin
+36. 今夜 (こんや) - Malam ini
+37. 夕方 (ゆうがた) - Sore hari
+40. 胃 (い) - Lambung
+41. 働きすぎ (はたらきすぎ) - Terlalu banyak bekerja
+42. ストレス - Stres
+
+[Bab 33]
+43. 席 (せき) - Tempat duduk, kursi
+44. ファイト - Semangat
+45. マーク - Tanda, simbol
+46. ボール - Bola
+47. 洗濯機 (せんたくき) - Mesin cuci
+48. 規則 (きそく) - Peraturan, tata tertib
+49. 使用禁止 (しようきんし) - Dilarang menggunakan
+50. 立入禁止 (たちいりきんし) - Dilarang masuk
+51. 入口 (いりぐち) - Pintu masuk
+52. 出口 (でぐち) - Pintu keluar
+53. 非常口 (ひじょうぐち) - Pintu darurat
+54. 無料 (むりょう) - Gratis
+55. 本日休業 (ほんじつきゅうぎょう) - Hari ini tutup
+56. 営業中 (えいぎょうちゅう) - Sedang buka / beroperasi
+57. 使用中 (しようちゅう) - Sedang digunakan
+58. 募集中 (ぼしゅうちゅう) - Sedang menerima lowongan / pendaftaran
+59. 予約席 (よやくせき) - Kursi yang sudah dipesan
+60. 警察 (けいさつ) - Polisi
+61. 罰金 (ばっきん) - Denda
+62. 電報 (でんぽう) - Telegram
+63. 人々 (ひとびと) - Orang-orang
+64. 急用 (きゅうよう) - Urusan mendadak
+
+[Bab 34]
+65. 歯ブラシ (はブラシ) - Sikat gigi
+66. 説明書 (せつめいしょ) - Buku petunjuk penggunaan
+67. 図 (ず) - Gambar, bagan, diagram
+68. 線 (せん) - Garis
+69. 矢印 (やじるし) - Tanda panah
+70. 黒 (くろ) - Warna hitam
+71. 白 (しろ) - Warna putih
+72. 赤 (あか) - Warna merah
+73. 青 (あお) - Warna biru
+74. 紺 (こん) - Warna biru tua / dongker
+75. 黄色 (きいろ) - Warna kuning
+76. 茶色 (ちゃいろ) - Warna cokelat
+77. しょうゆ - Kecap asin
+78. ソース - Saus
+79. 客 (きゃく) - Tamu, pengunjung
+80. 夕べ (ゆうべ) - Tadi malam
+81. さっき - Tadi, baru saja
+82. 茶道 (さどう) - Upacara minum teh (seni)
+85. 親子どんぶり (おやこどんぶり) - Nasi mangkuk ayam dan telur
+86. 材料 (ざいりょう) - Bahan-bahan
+88. グラム - Gram
+90. 玉ねぎ (たまねぎ) - Bawang bombai
+91. 調味料 (ちょうみりょう) - Bumbu masak
+92. 鍋 (なべ) - Panci
+93. 火 (ひ) - Api
+97. どんぶり - Mangkuk besar
+
+[Bab 35]
+98. 葉 (は) - Daun
+99. 曲 (きょく) - Lagu, melodi
+100. 楽しみ (たのしみ) - Kesenangan, hal yang dinanti
+104. 向き (むき) - Arah, hadap
+106. 島 (しま) - Pulau
+108. 港 (みなと) - Pelabuhan
+109. 近所 (きんじょ) - Tetangga, lingkungan sekitar
+110. 屋上 (おくじょう) - Atap gedung (rooftop)
+111. 海外 (かいがい) - Luar negeri
+112. 山登り (やまのぼり) - Mendaki gunung
+113. ハイキング - Lintas alam, hiking
+114. 機会 (きかい) - Kesempatan
+115. 許可 (きょか) - Izin
+116. 丸 (まる) - Lingkaran
+117. 操作 (そうさ) - Pengoperasian
+118. 方法 (ほうほう) - Cara, metode
+119. 設備 (せつび) - Fasilitas, perlengkapan
+120. カーテン - Tirai, gorden
+121. ひも - Tali
+122. ふた - Tutup
+123. 葉っぱ (はっぱ) - Dedaunan
+124. 場合 (ばあい) - Situasi, kondisi, hal
+
+[Bab 36]
+125. 習慣 (しゅうかん) - Kebiasaan, adat istiadat
+127. 選手 (せんしゅ) - Atlet, pemain
+131. 世紀 (せいき) - Abad
+132. 遠く (とおく) - Tempat yang jauh
+133. 汽車 (きしゃ) - Kereta api uap / lokomotif
+134. 汽船 (きせん) - Kapal uap
+138. 自由 (じゆう) - Kebebasan
+
+[Bab 37]
+139. 泥棒 (どろぼう) - Pencuri, maling
+140. 警官 (けいかん) - Polisi
+141. 建築家 (けんちくか) - Arsitek
+142. 科学者 (かがくしゃ) - Ilmuwan
+143. 漫画 (まんが) - Komik (manga)
+144. 世界中 (せかいじゅう) - Seluruh dunia
+146. 国連 (こくれん) - PBB (Perserikatan Bangsa-Bangsa)
+147. オリンピック - Olimpiade
+148. 博覧会 (はくらんかい) - Pameran besar / ekspo
+149. 会議 (かいぎ) - Rapat, konferensi
+150. 麦 (むぎ) - Gandum
+151. 石油 (せきゆ) - Minyak bumi
+152. 原料 (げんりょう) - Bahan baku, bahan mentah
+153. インスタントラーメン - Mi instan
+154. 工場 (こうじょう) - Pabrik
+155. 物語 (ものがたり) - Cerita, kisah
+158. 彫刻 (ちょうこく) - Patung ukiran
+161. 仲間 (なかま) - Rekan, teman sejawat
+164. ねずみ - Tikus
+
+[Bab 38]
+166. 赤ちゃん (あかちゃん) - Bayi
+167. 小学校 (しょうがっこう) - Sekolah Dasar (SD)
+168. 中学校 (ちゅうがっこう) - Sekolah Menengah Pertama (SMP)
+169. 駅前 (えきまえ) - Depan stasiun
+170. 海岸 (かいがん) - Pantai, pesisir
+171. 嘘 (うそ) - Bohong, dusta
+172. 書類 (しょるい) - Dokumen, berkas
+173. 電源 (でんげん) - Sumber listrik, tombol power
+176. 双子 (ふたご) - Anak kembar
+177. 姉妹 (しまい) - Saudara perempuan
+178. 5年生 (ごねんせい) - Kelas 5 / tingkat 5
+180. 性格 (せいかく) - Sifat, karakter
+182. 世話 (せわ) - Perawatan, pengurusan
+185. 点 (てん) - Nilai, poin
+186. クラス - Kelas
+
+[Bab 39]
+188. 火事 (かじ) - Kebakaran
+189. 事故 (じこ) - Kecelakaan
+190. お見合い (おみあい) - Perjodohan
+191. 電話代 (でんわだい) - Biaya telepon
+193. フロント - Bagian resepsionis hotel
+194. 号室 (ごうしつ) - Nomor kamar ~
+195. 汗 (あせ) - Keringat
+196. タオル - Handuk
+197. せっけん - Sabun
+198. 大勢 (おおぜい) - Banyak orang
+201. 途中 (とちゅう) - Di tengah jalan / perjalanan
+202. トラック - Truk
+205. 大人 (おとな) - Orang dewasa
+206. 洋服 (ようふく) - Pakaian gaya Barat
+208. 時代 (じだい) - Zaman, era
+
+[Bab 40]
+209. 忘年会 (ぼうねんかい) - Pesta akhir tahun
+210. 新年会 (しんねんかい) - Pesta tahun baru
+211. 二次会 (にじかい) - Pesta lanjutan (ronde kedua)
+212. 大会 (たいかい) - Turnamen, lomba besar
+213. マラソン - Maraton
+214. コンテスト - Kontes, perlombaan
+215. 表 (おもて) - Bagian depan / muka
+216. 裏 (うら) - Bagian belakang / balik
+217. 間違い (まちがい) - Kesalahan
+218. 傷 (きず) - Luka, goresan, cacat
+219. ズボン - Celana panjang
+220. 長さ (ながさ) - Panjangnya
+221. 重さ (おもさ) - Beratnya
+222. 高さ (たかさ) - Tingginya
+223. 大きさ (おおきさ) - Besarnya, ukurannya
+235. 成績 (せいせき) - Nilai, prestasi
+237. 様子 (ようす) - Keadaan, situasi, gelagat
+238. 事件 (じけん) - Kasus, peristiwa
+239. オートバイ - Sepeda motor
+240. 爆弾 (ばくだん) - Bom
+242. 運転手 (うんてんしゅ) - Sopir, pengemudi
+247. 犯人 (はんにん) - Pelaku kejahatan, penjahat
+
+[Bab 41]
+1. お祝い (おいわい) - Hadiah ucapan selamat, perayaan
+2. お年玉 (おとしだま) - Uang tahun baru (angpao Jepang)
+3. お見舞い (おみまい) - Menjenguk orang sakit, buah tangan menjenguk
+4. 興味 (きょうみ) - Minat, ketertarikan
+5. 情報 (じょうほう) - Informasi
+6. 文法 (ぶんぽう) - Tata bahasa
+7. 発音 (はつおん) - Pelafalan, pengucapan
+8. 猿 (さる) - Monyet, kera
+9. えさ - Makanan hewan, umpan
+10. おもちゃ - Mainan
+11. 絵本 (えほん) - Buku bergambar
+12. 絵はがき (えはがき) - Kartu pos bergambar
+13. ドライバー - Obeng
+14. ハンカチ - Saputangan
+15. 靴下 (くつした) - Kaus kaki
+16. 手袋 (てぶくろ) - Sarung tangan
+17. 指輪 (ゆびわ) - Cincin
+18. バッグ - Tas tangan
+19. 祖父 (そふ) - Kakek (saya)
+20. 祖母 (そぼ) - Nenek (saya)
+21. 孫 (まご) - Cucu
+22. おじ - Paman (saya)
+23. おじさん - Paman (orang lain)
+24. おば - Bibi (saya)
+25. おばさん - Bibi (orang lain)
+26. おととし - Dua tahun yang lalu
+27. 昔話 (むかしばなし) - Dongeng, cerita rakyat
+29. 男 (おとこ) - Laki-laki
+30. 子どもたち (こどもたち) - Anak-anak
+32. 亀 (かめ) - Kura-kura, penyu
+34. お城 (おしろ) - Istana, kastel
+35. お姫様 (おひめさま) - Tuan putri
+38. 陸 (りく) - Daratan
+40. 煙 (けむり) - Asap
+42. 中身 (なかみ) - Isi
+
+[Bab 42]
+44. 弁護士 (べんごし) - Pengacara
+45. 音楽家 (おんがくか) - Musisi
+47. 自然 (しぜん) - Alam
+48. 教育 (きょういく) - Pendidikan
+49. 文化 (ぶんか) - Budaya, kebudayaan
+50. 社会 (しゃかい) - Masyarakat, sosial
+52. 法律 (ほうりつ) - Hukum
+53. 戦争 (せんそう) - Perang
+54. 平和 (へいわ) - Perdamaian
+55. 目的 (もくてき) - Tujuan
+56. 安全 (あんぜん) - Keselamatan, aman
+57. 論文 (ろんぶん) - Skripsi, tesis, makalah ilmiah
+58. 関係 (かんけい) - Hubungan, kaitan
+59. ミキサー - Blender, mikser
+60. やかん - Ceret, ketel
+61. 栓抜き (せんぬき) - Pembuka tutup botol
+62. 缶切り (かんきり) - Pembuka kaleng
+63. 缶詰 (かんづめ) - Makanan kaleng
+64. ふろしき - Kain pembungkus khas Jepang
+65. そろばん - Sempoa
+66. 体温計 (たいおんけい) - Termometer badan
+72. ローン - Kredit, cicilan
+73. セット - Set, perangkat
+75. カップラーメン - Mi instan cup
+76. インスタント食品 (インスタントしょくひん) - Makanan instan
+79. 食品 (しょくひん) - Bahan pangan, makanan
+80. 調査 (ちょうさ) - Survei, penyelidikan
+
+[Bab 43]
+83. ガソリン - Bensin
+85. 暖房 (だんぼう) - Pemanas ruangan
+86. 冷房 (れいぼう) - Pendingin ruangan (AC)
+87. センス - Selera (seni/pakaian)
+90. 会員 (かいん) - Anggota
+92. 年齢 (ねんれい) - Usia, umur
+93. 収入 (しゅうにゅう) - Penghasilan, pendapatan
+97. バラ - Bunga mawar
+98. ドライブ - Jalan-jalan naik mobil
+
+[Bab 44]
+99. 空気 (くうき) - Udara
+100. 涙 (なみだ) - Air mata
+101. 和食 (わしょく) - Masakan Jepang
+102. 洋食 (ようしょく) - Masakan Barat
+103. おかず - Lauk-pauk
+104. 量 (りょう) - Jumlah, kuantitas, porsi
+105. 倍 (ばい) - Kali lipat (dua kali lipat)
+106. 半分 (はんぶん) - Setengah
+107. シングル - Kamar single (satu tempat tidur)
+108. ツイン - Kamar twin (dua tempat tidur)
+109. たんす - Lemari pakaian
+110. 洗濯物 (せんたくもの) - Cucian pakaian
+111. 理由 (りゆう) - Alasan
+113. カット - Potong rambut
+114. シャンプー - Keramas, sampo
+121. オーダーメイド - Pesanan khusus (custom-made)
+
+[Bab 45]
+123. 保証書 (ほしょうしょ) - Kartu garansi
+124. 領収書 (りょうしゅうしょ) - Kuitansi, tanda terima
+125. 贈り物 (おくりもの) - Hadiah, pemberian
+126. まちがい電話 (まちがいでんわ) - Salah sambung telepon
+127. キャンプ - Kemah, berkemah
+128. 係 (かかり) - Petugas, bagian ~
+129. 中止 (ちゅうし) - Pembatalan, penundaan
+131. レバー - Tuas, pengungkit
+132. 札 (さつ) - Uang kertas
+140. 係員 (かかりいん) - Petugas
+141. コース - Jalur, rute, kursus
+142. スタート - Mulai, start
+143. 位 (い) - Peringkat ke-~
+144. 優勝 (ゆうしょう) - Juara pertama
+145. 悩み (なやみ) - Masalah, kekhawatiran
+146. 目覚まし時計 (めざましどけい) - Jam weker
+149. 大学生 (だいがくせい) - Mahasiswa
+150. 回答 (かいとう) - Jawaban
+
+[Bab 46]
+154. 宅配便 (たくはいびん) - Jasa pengiriman paket / kurir
+155. 原因 (げんいん) - Penyebab
+156. 注射 (ちゅうしゃ) - Suntikan
+157. 食欲 (しょくよく) - Nafsu makan
+158. パンフレット - Pamflet, brosur
+159. ステレオ - Stereo, perangkat audio
+165. ガスサービスセンター - Pusat layanan gas
+166. ガスレンジ - Kompor gas
+167. 具合 (ぐあい) - Kondisi, keadaan
+171. 知識 (ちしき) - Pengetahuan
+172. 宝庫 (ほうこ) - Gudang harta karun / ilmu
+174. システム - Sistem
+176. キーワード - Kata kunci
+177. 一部分 (いちぶぶん) - Sebagian
+179. 画面 (がめん) - Layar monitor
+180. 秒 (びょう) - Detik
+
+[Bab 47]
+183. 音 (おと) - Bunyi
+185. におい - Bau, aroma
+186. 実験 (じっけん) - Percobaan, eksperimen
+187. データ - Data
+188. 人口 (じんこう) - Jumlah penduduk, populasi
+189. 科学 (かがく) - Ilmu pengetahuan, sains
+190. 医学 (いがく) - Ilmu kedokteran
+191. 文学 (ぶんがく) - Sastra
+192. パトカー - Mobil patroli polisi
+193. 救急車 (きゅうきゅうしゃ) - Ambulans
+194. 賛成 (さんせい) - Setuju
+195. 反対 (はんたい) - Tidak setuju, menentang
+196. 男性 (だんせい) - Laki-laki, pria
+197. 女性 (じょせい) - Perempuan, wanita
+201. 相手 (あいて) - Pasangan, lawan bicara
+
+[Bab 48]
+206. 塾 (じゅく) - Bimbingan belajar (bimbel)
+207. スケジュール - Jadwal
+208. 生徒 (せいと) - Murid, siswa
+209. 者 (もの) - Orang (merendah untuk keluarga/bawahan sendiri)
+210. 入管 (にゅうかん) - Kantor imigrasi
+211. 再入国ビザ (さいにゅうこくビザ) - Visa masuk kembali (re-entry)
+216. 営業 (えいぎょう) - Pemasaran, penjualan
+222. 代わり (かわり) - Pengganti
+223. スピード - Kecepatan
+225. サーカス - Sirkus
+226. 芸 (げい) - Pertunjukan seni / ketangkasan
+228. 姿 (すがた) - Sosok, penampilan, wujud
+
+[Bab 49]
+229. 旅館 (りょかん) - Penginapan tradisional Jepang (ryokan)
+230. バス停 (バスてい) - Halte bus
+231. 奥様 (おくさま) - Istri (sangat sopan)
+236. 組 (くみ) - Kelas, kelompok, rombongan
+239. 話 (はなし) - Cerita, pembicaraan
+240. 講師 (こうし) - Dosen, penceramah, instruktur
+242. 作品 (さくひん) - Karya (seni/sastra)
+245. 作家 (さっか) - Penulis, pengarang
+247. 番 (ばん) - Giliran
+248. 市長 (しちょう) - Wali kota
+
+[Bab 50]
+249. 緊張 (きんちょう) - Ketegangan, rasa gugup
+250. 賞金 (しょうきん) - Hadiah uang
+251. 麒麟 (きりん) - Jerapah
+252. 象 (ぞう) - Gajah
+256. ご協力 (ごきょうりょく) - Kerja sama (Anda)
+259. お礼 (おれい) - Ucapan terima kasih, balas budi
+260. 敬語 (けいご) - Bahasa hormat (Keigo)
+262. 関係 (かんけい) - Hubungan
+263. 場合 (ばあい) - Situasi, kondisi
+267. 表現 (ひょうげん) - Ungkapan, ekspresi
+268. 場面 (ばめん) - Adegan, situasi
+269. 感謝の気持ち (かんしゃのきもち) - Perasaan terima kasih
+270. 言葉 (ことば) - Kata-kata, bahasa
+`;
+
+    // =========================================================================
+    // 3. PARSER OTOMATIS BAB 1 - 50 & MESIN KONJUGASI KATA KERJA / KATA SIFAT
+    // =========================================================================
+    function parseRawVocabulary(rawText, posType) {
+      const lines = rawText.split('\n');
+      let currentBab = 1;
+      const items = [];
+      let counter = 0;
+
+      for (const rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line) continue;
+        const babMatch = line.match(/^\[Bab\s+(\d+)\]/i);
+        if (babMatch) {
+          currentBab = parseInt(babMatch[1], 10);
+          continue;
+        }
+        // Format: "1. 起きます (おきます) - Bangun tidur" atau "19. します - Melakukan"
+        const entryMatch = line.match(/^\d+\.\s*(.+?)\s*-\s*(.+)$/);
+        if (!entryMatch) continue;
+
+        const leftPart = entryMatch[1].trim();
+        const meaning = entryMatch[2].trim();
+        let surfaceRaw = leftPart;
+        let readingRaw = '';
+
+        const parenMatch = leftPart.match(/^(.+?)\s*\(([^)]+)\)$/);
+        if (parenMatch) {
+          surfaceRaw = parenMatch[1].trim();
+          readingRaw = parenMatch[2].trim();
+        }
+
+        const rubyHtml = buildKanjiOnlyRuby(surfaceRaw, readingRaw);
+        const surface = stripRubyToSurface(rubyHtml);
+        const kana = stripRubyToKana(rubyHtml);
+        if (!surface) continue;
+
+        counter += 1;
+        const id = `${posType.toLowerCase()}_${currentBab}_${counter}`;
+        const jlptLevel = currentBab <= 25 ? 'N5' : 'N4';
+
+        items.push({
+          id,
+          bab: currentBab,
+          level: jlptLevel,
+          pos: posType,
+          ruby: rubyHtml,
+          surface,
+          kana,
+          meaning
+        });
+      }
+      return items;
+    }
+
+    // Klasifikasi otomatis Golongan Kata Kerja (1 = Godan, 2 = Ichidan, 3 = Fukisoku)
+    const GODAN_IRU_ERU_TRAPS = new Set([
+      '帰ります', '入ります', '切ります', '知ります', '要ります',
+      '走ります', '滑ります', '参ります', '散ります', '蹴ります',
+      '喋ります', '握ります', '練ります', '減ります', '焦ります'
+    ]);
+
+    const ICHIDAN_MASU_SET = new Set([
+      '起きます', '寝ます', '食べます', '見ます', 'あげます', '借ります',
+      '教えます', 'かけます', 'います', '迎えます', '疲れます', '出ます',
+      'つけます', '開けます', '閉めます', '止めます', '見せます', '始めます',
+      '降ります', '乗り換えます', '浴びます', '入れます', 'やめます',
+      '覚えます', '忘れます', '出かけます', 'できます', '集めます',
+      '捨てます', '換えます', '調べます', '着ます', '生まれます',
+      '変えます', 'くれます', '考えます', '遅れます', '建てます',
+      '見えます', '聞こえます', '売れます', '閉まります', '壊れます',
+      '割れます', '折れます', '破れます', '汚れます', '外れます',
+      'まちがえます', '掛けます', '並べます', '植えます', 'まとめます',
+      '片づけます', '決めます', '知らせます', '続けます', '見つけます',
+      '受けます', '閉じます', '晴れます', '逃げます', 'あきらめます',
+      '上げます', '下げます', '伝えます', '組み立てます', '慣れます',
+      '褒めます', '育てます', '答えます', '倒れます', '焼けます',
+      '確かめます', '取り替えます', '混ぜます', '増えます', '切れます',
+      '取れます', '落ちます', '濡れます', '分けます', '信じます',
+      '届けます', '勤めます', 'おります'
+    ]);
+
+    const MASU_TO_DICT_ENDING = {
+      'います': 'う', 'きます': 'く', 'ぎます': 'ぐ', 'します': 'す',
+      'ちます': 'つ', 'にます': 'ぬ', 'びます': 'ぶ', 'みます': 'む',
+      'ります': 'る'
+    };
+
+    const GODAN_CONJ_TABLE = {
+      'う': { a: 'わ', i: 'い', e: 'え', o: 'お', te: 'って', ta: 'った' },
+      'く': { a: 'か', i: 'き', e: 'け', o: 'こ', te: 'いて', ta: 'いた' },
+      'ぐ': { a: 'が', i: 'ぎ', e: 'げ', o: 'ご', te: 'いで', ta: 'いだ' },
+      'す': { a: 'さ', i: 'し', e: 'せ', o: 'そ', te: 'して', ta: 'した' },
+      'つ': { a: 'た', i: 'ち', e: 'て', o: 'と', te: 'って', ta: 'った' },
+      'ぬ': { a: 'な', i: 'に', e: 'ね', o: 'の', te: 'んで', ta: 'んだ' },
+      'ぶ': { a: 'ば', i: 'び', e: 'べ', o: 'ぼ', te: 'んで', ta: 'んだ' },
+      'む': { a: 'ま', i: 'み', e: 'め', o: 'も', te: 'んで', ta: 'んだ' },
+      'る': { a: 'ら', i: 'り', e: 'れ', o: 'ろ', te: 'って', ta: 'った' }
+    };
+
+    function enrichVerbData(v) {
+      const s = v.surface;
+      const r = v.ruby;
+
+      // Penanganan khusus Kata Kerja Hormat/Merendah (Keigo Bab 15, 41, 49, 50)
+      if (s === 'いらっしゃいます' || s === 'くださいます' || s === 'おっしゃいます' || s === 'なさいます') {
+        const stemRuby = r.slice(0, -3); // buang います
+        v.group = 1;
+        v.masu = r;
+        v.dict = stemRuby + 'る';
+        v.conj = {
+          dict: v.dict, masu: r, te: stemRuby + 'って', ta: stemRuby + 'った',
+          nai: stemRuby + 'らない', nakatta: stemRuby + 'らなかった',
+          potential: stemRuby + 'れる', passive: stemRuby + 'られる',
+          causative: stemRuby + 'らせる', volitional: stemRuby + 'ろう',
+          conditional_ba: stemRuby + 'れば', imperative: stemRuby + 'い',
+          ruleNote: `Kata kerja hormat <span class="jp-text">${v.dict}</span> (${r}) termasuk <strong>Golongan 1</strong> khusus dengan bentuk perintah berakhiran <span class="jp-text">い</span>.`
+        };
+        return v;
+      }
+
+      if (s === 'ご存じです' || s === 'ございます') {
+        v.group = 1;
+        v.masu = r;
+        v.dict = s === 'ご存じです' ? '<ruby><rb>ご存</rb><rt>ごぞん</rt></ruby>じだ' : 'ござる';
+        v.conj = {
+          dict: v.dict, masu: r, te: s === 'ご存じです' ? '<ruby><rb>ご存</rb><rt>ごぞん</rt></ruby>じで' : 'ござって',
+          ta: s === 'ご存じです' ? '<ruby><rb>ご存</rb><rt>ごぞん</rt></ruby>じでした' : 'ございました',
+          nai: s === 'ご存じです' ? '<ruby><rb>ご存</rb><rt>ごぞん</rt></ruby>じない' : 'ござらない',
+          nakatta: s === 'ご存じです' ? '<ruby><rb>ご存</rb><rt>ごぞん</rt></ruby>じなかった' : 'ござらなかった',
+          potential: v.dict, passive: v.dict, causative: v.dict,
+          volitional: v.dict, conditional_ba: s === 'ご存じです' ? '<ruby><rb>ご存</rb><rt>ごぞん</rt></ruby>じなら' : 'ござれば',
+          imperative: v.dict,
+          ruleNote: `Ungkapan sopan/hormat <span class="jp-text">${r}</span> digunakan dalam situasi resmi (Keigo Bab 49–50).`
+        };
+        return v;
+      }
+
+      // Golongan 3: 来ます / 持って来ます / 連れて来ます / 帰って来ます
+      if (s.endsWith('来ます')) {
+        const prefixRuby = r.slice(0, r.lastIndexOf('<ruby><rb>来'));
+        v.group = 3;
+        v.masu = r;
+        v.dict = prefixRuby + '<ruby><rb>来</rb><rt>く</rt></ruby>る';
+        v.conj = {
+          dict: v.dict, masu: r,
+          te: prefixRuby + '<ruby><rb>来</rb><rt>き</rt></ruby>て',
+          ta: prefixRuby + '<ruby><rb>来</rb><rt>き</rt></ruby>た',
+          nai: prefixRuby + '<ruby><rb>来</rb><rt>こ</rt></ruby>ない',
+          nakatta: prefixRuby + '<ruby><rb>来</rb><rt>こ</rt></ruby>なかった',
+          potential: prefixRuby + '<ruby><rb>来</rb><rt>こ</rt></ruby>られる',
+          passive: prefixRuby + '<ruby><rb>来</rb><rt>こ</rt></ruby>られる',
+          causative: prefixRuby + '<ruby><rb>来</rb><rt>こ</rt></ruby>させる',
+          volitional: prefixRuby + '<ruby><rb>来</rb><rt>こ</rt></ruby>よう',
+          conditional_ba: prefixRuby + '<ruby><rb>来</rb><rt>く</rt></ruby>れば',
+          imperative: prefixRuby + '<ruby><rb>来</rb><rt>こ</rt></ruby>い',
+          ruleNote: 'Kata kerja tidak beraturan <strong>Golongan 3</strong> (<span class="jp-text"><ruby><rb>来</rb><rt>く</rt></ruby>る</span>): cara baca kanjinya berubah sesuai bentuk (<strong>ku</strong> / <strong>ki</strong> / <strong>ko</strong>).'
+        };
+        return v;
+      }
+
+      // Golongan 3: します atau [KB + します]
+      if (s.endsWith('します') && s !== '貸します' && s !== '出します' && s !== '消します' && s !== '話します' && s !== '押します' && s !== 'なくします' && s !== '返します' && s !== '直します' && s !== '回します' && s !== '引越します' && s !== '起こします' && s !== '壊します' && s !== '汚します' && s !== '冷やします' && s !== '沸かします' && s !== '渡します' && s !== '下ろします' && s !== 'さします' && s !== '過ごします' && s !== '申します' && s !== 'いたします') {
+        const stemRuby = r.slice(0, -3); // buang します
+        v.group = 3;
+        v.masu = r;
+        v.dict = stemRuby + 'する';
+        v.conj = {
+          dict: v.dict, masu: r,
+          te: stemRuby + 'して', ta: stemRuby + 'した',
+          nai: stemRuby + 'しない', nakatta: stemRuby + 'しなかった',
+          potential: stemRuby + 'できる', passive: stemRuby + 'される',
+          causative: stemRuby + 'させる', volitional: stemRuby + 'しよう',
+          conditional_ba: stemRuby + 'すれば', imperative: stemRuby + 'しろ',
+          ruleNote: 'Kata kerja <strong>Golongan 3</strong> berakhiran <span class="jp-text">する</span> mengubah <span class="jp-text">する</span> menjadi <span class="jp-text">して / した / しない / できる / される / させる / しよう / すれば / しろ</span>.'
+        };
+        return v;
+      }
+
+      // Golongan 2 (Ichidan)
+      if (ICHIDAN_MASU_SET.has(s)) {
+        const stemRuby = r.slice(0, -2); // buang ます
+        v.group = 2;
+        v.masu = r;
+        v.dict = stemRuby + 'る';
+        v.conj = {
+          dict: v.dict, masu: r,
+          te: stemRuby + 'て', ta: stemRuby + 'た',
+          nai: stemRuby + 'ない', nakatta: stemRuby + 'なかった',
+          potential: stemRuby + 'られる', passive: stemRuby + 'られる',
+          causative: stemRuby + 'させる', volitional: stemRuby + 'よう',
+          conditional_ba: stemRuby + 'れば', imperative: stemRuby + 'ろ',
+          ruleNote: 'Kata kerja <strong>Golongan 2 (一段動詞)</strong>: cukup buang <span class="jp-text">る</span> dari bentuk kamus lalu tambahkan akhiran bentuk target.'
+        };
+        return v;
+      }
+
+      // Golongan 1 (Godan)
+      v.group = 1;
+      v.masu = r;
+      if (GODAN_IRU_ERU_TRAPS.has(s)) {
+        v.trap = true;
+      }
+
+      // Kasus khusus ある
+      if (s === 'あります') {
+        v.dict = 'ある';
+        v.conj = {
+          dict: 'ある', masu: 'あります', te: 'あって', ta: 'あった',
+          nai: 'ない', nakatta: 'なかった', potential: 'ありえる',
+          passive: 'あられる', causative: 'あらせる', volitional: 'あろう',
+          conditional_ba: 'あれば', imperative: 'あれ',
+          ruleNote: 'Kata kerja <span class="jp-text">ある</span> (Golongan 1) memiliki bentuk negatif khusus yaitu <span class="jp-text">ない</span>.'
+        };
+        return v;
+      }
+
+      // Kasus khusus 行く (pergi)
+      if (s.endsWith('行きます')) {
+        const prefixRuby = r.slice(0, r.lastIndexOf('<ruby><rb>行'));
+        v.dict = prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>く';
+        v.conj = {
+          dict: v.dict, masu: r,
+          te: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>って',
+          ta: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>った',
+          nai: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>かない',
+          nakatta: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>かなかった',
+          potential: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>ける',
+          passive: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>かれる',
+          causative: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>かせる',
+          volitional: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>こう',
+          conditional_ba: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>けば',
+          imperative: prefixRuby + '<ruby><rb>行</rb><rt>い</rt></ruby>け',
+          ruleNote: 'Pengecualian <strong>Golongan 1</strong>: <span class="jp-text"><ruby><rb>行</rb><rt>い</rt></ruby>く</span> menjadi <span class="jp-text"><ruby><rb>行</rb><rt>い</rt></ruby>って / <ruby><rb>行</rb><rt>い</rt></ruby>った</span> pada bentuk て/た.'
+        };
+        return v;
+      }
+
+      const ending3 = s.slice(-3); // misal きます, みます, ります
+      const dictEnd = MASU_TO_DICT_ENDING[ending3] || 'う';
+      const stemRuby = r.slice(0, -3);
+      const row = GODAN_CONJ_TABLE[dictEnd];
+      v.dict = stemRuby + dictEnd;
+      v.conj = {
+        dict: v.dict,
+        masu: r,
+        te: stemRuby + row.te,
+        ta: stemRuby + row.ta,
+        nai: stemRuby + row.a + 'ない',
+        nakatta: stemRuby + row.a + 'なかった',
+        potential: stemRuby + row.e + 'る',
+        passive: stemRuby + row.a + 'れる',
+        causative: stemRuby + row.a + 'せる',
+        volitional: stemRuby + row.o + 'う',
+        conditional_ba: stemRuby + row.e + 'ば',
+        imperative: stemRuby + row.e,
+        ruleNote: `Kata kerja <strong>Golongan 1</strong> berakhiran <span class="jp-text">${dictEnd}</span>: bentuk て memakai <span class="jp-text">${row.te}</span>, bentuk ない/pasif/kausatif memakai deret あ (<span class="jp-text">${row.a}</span>), potensial &amp; syarat ば memakai deret え (<span class="jp-text">${row.e}</span>), dan ajakan memakai deret お (<span class="jp-text">${row.o}う</span>).`
+      };
+      return v;
+    }
+
+    function enrichAdjectiveData(adj) {
+      const isNa = adj.surface.endsWith('な') || adj.ruby.includes('［な］') || adj.pos === 'ADJ_NA';
+      // Cek dari raw text apakah mengandung ［な］
+      const cleanRuby = adj.ruby.replace(/［な］/g, '');
+      const cleanSurf = stripRubyToSurface(cleanRuby);
+      adj.ruby = cleanRuby;
+      adj.surface = cleanSurf;
+
+      // Tentukan ADJ_NA vs ADJ_I
+      const naList = new Set([
+        'ハンサム', 'きれい', '静か', 'にぎやか', '有名', '親切', '元気', '暇', '便利', 'すてき',
+        '好き', '嫌い', '上手', '下手', '簡単', '大変', '大切', '大丈夫', 'むだ', '不便',
+        '無理', '心配', '十分', 'だめ', '楽', '豪華', '大好き', '複雑', '邪魔', '必要',
+        '丈夫', '変', '幸せ', '適当', '安心', '留守', '自由', '失礼'
+      ]);
+
+      if (naList.has(cleanSurf)) {
+        adj.pos = 'ADJ_NA';
+        adj.posLabel = 'Kata Sifat-な';
+        adj.conj = {
+          dict: cleanRuby + 'だ',
+          negative: cleanRuby + 'じゃない',
+          past: cleanRuby + 'だった',
+          past_neg: cleanRuby + 'じゃなかった',
+          te: cleanRuby + 'で',
+          adverb: cleanRuby + 'に',
+          ruleNote: 'Pada <strong>Kata Sifat-な</strong>, tambahkan <span class="jp-text">じゃない</span> (negatif), <span class="jp-text">だった</span> (lampau), <span class="jp-text">じゃなかった</span> (lampau negatif), <span class="jp-text">で</span> (bentuk て), dan <span class="jp-text">に</span> (keterangan).'
+        };
+      } else {
+        adj.pos = 'ADJ_I';
+        adj.posLabel = 'Kata Sifat-い';
+        if (cleanSurf === 'いい' || cleanSurf === 'よろしい') {
+          const base = cleanSurf === 'いい' ? 'よ' : 'よろし';
+          adj.conj = {
+            dict: cleanRuby,
+            negative: base + 'くない',
+            past: base + 'かった',
+            past_neg: base + 'くなかった',
+            te: base + 'くて',
+            adverb: base + 'く',
+            ruleNote: `Kata sifat-い <span class="jp-text">${cleanRuby}</span> berkonjugasi memakai akar <span class="jp-text">${base}</span> (<span class="jp-text">${base}くない / ${base}かった / ${base}くて / ${base}く</span>).`
+          };
+        } else {
+          const stem = cleanRuby.slice(0, -1); // buang い
+          adj.conj = {
+            dict: cleanRuby,
+            negative: stem + 'くない',
+            past: stem + 'かった',
+            past_neg: stem + 'くなかった',
+            te: stem + 'くて',
+            adverb: stem + 'く',
+            ruleNote: 'Pada <strong>Kata Sifat-い</strong>, buang huruf akhir <span class="jp-text">い</span> lalu tambahkan <span class="jp-text">くない</span> (negatif), <span class="jp-text">かった</span> (lampau), <span class="jp-text">くなかった</span> (lampau negatif), <span class="jp-text">くて</span> (bentuk て), atau <span class="jp-text">く</span> (keterangan).'
+          };
+        }
+      }
+      return adj;
+    }
+
+    const VERBS_DATA = parseRawVocabulary(RAW_VERBS_1_50, 'VERB').map(enrichVerbData);
+    const ADJECTIVES_DATA = parseRawVocabulary(RAW_ADJECTIVES_1_50, 'ADJ').map(enrichAdjectiveData);
+    const NOUNS_DATA = parseRawVocabulary(RAW_NOUNS_1_50, 'NOUN').map(n => ({ ...n, posLabel: 'Kata Benda' }));
+
+    const ALL_VOCAB_DATA = [
+      ...VERBS_DATA.map(v => ({ ...v, posLabel: `Kata Kerja (Gol. ${v.group})` })),
+      ...ADJECTIVES_DATA,
+      ...NOUNS_DATA
+    ];
+
+    // =========================================================================
+    // 4. MODUL 3: 40 KALIMAT ACAK MINNA NO NIHONGO BAB 1 - 50 (JLPT N5 & N4)
+    // =========================================================================
+    const MOD3_SENTENCES = [
+      { id: 's01', bab: 6, level: 'N5', pattern: 'Partikel を & で (Bab 6)', translation: 'Saya makan roti dan minum kopi di kantin.', chunks: [{ id: 'c1', ruby: '<ruby><rb>私</rb><rt>わたし</rt></ruby>は' }, { id: 'c2', ruby: '<ruby><rb>食堂</rb><rt>しょくどう</rt></ruby>で' }, { id: 'c3', ruby: 'パンを<ruby><rb>食</rb><rt>た</rt></ruby>べて、' }, { id: 'c4', ruby: 'コーヒーを<ruby><rb>飲</rb><rt>の</rt></ruby>みます。' }], explanation: 'Partikel <span class="jp-text">で</span> menandai tempat aktivitas berlangsung, dan <span class="jp-text">を</span> menandai objek langsung.' },
+      { id: 's02', bab: 7, level: 'N5', pattern: 'Alat & Memberi/Menerima (Bab 7)', translation: 'Saya menulis surat dalam bahasa Jepang dengan bolpoin.', chunks: [{ id: 'c1', ruby: '<ruby><rb>私</rb><rt>わたし</rt></ruby>は' }, { id: 'c2', ruby: 'ボールペンで' }, { id: 'c3', ruby: '<ruby><rb>日本語</rb><rt>にほんご</rt></ruby>の<ruby><rb>手紙</rb><rt>てがみ</rt></ruby>を' }, { id: 'c4', ruby: '<ruby><rb>書</rb><rt>か</rt></ruby>きます。' }], explanation: 'Alat atau sarana bahasa yang digunakan ditandai oleh partikel <span class="jp-text">で</span> (<span class="jp-text">ボールペンで</span>).' },
+      { id: 's03', bab: 10, level: 'N5', pattern: 'Keberadaan います / あります (Bab 10)', translation: 'Di bawah meja ada seekor kucing putih.', chunks: [{ id: 'c1', ruby: '<ruby><rb>机</rb><rt>つくえ</rt></ruby>の' }, { id: 'c2', ruby: '<ruby><rb>下</rb><rt>した</rt></ruby>に' }, { id: 'c3', ruby: '<ruby><rb>白</rb><rt>しろ</rt></ruby>い<ruby><rb>猫</rb><rt>ねこ</rt></ruby>が' }, { id: 'c4', ruby: 'います。' }], explanation: 'Makhluk hidup (hewan/orang) menggunakan kata kerja keberadaan <span class="jp-text">います</span> dengan subjek berpartikel <span class="jp-text">が</span>.' },
+      { id: 's04', bab: 14, level: 'N5', pattern: '〜て ください (Bab 14)', translation: 'Tolong tulis nama dan alamat Anda di sini.', chunks: [{ id: 'c1', ruby: 'ここに' }, { id: 'c2', ruby: '<ruby><rb>名前</rb><rt>なまえ</rt></ruby>と<ruby><rb>住所</rb><rt>じゅうしょ</rt></ruby>を' }, { id: 'c3', ruby: '<ruby><rb>書</rb><rt>か</rt></ruby>いて' }, { id: 'c4', ruby: 'ください。' }], explanation: 'Bentuk て (<span class="jp-text"><ruby><rb>書</rb><rt>か</rt></ruby>いて</span>) + <span class="jp-text">ください</span> menyatakan permintaan sopan.' },
+      { id: 's05', bab: 15, level: 'N5', pattern: '〜ても いいです / 〜ては いけません (Bab 15)', translation: 'Bolehkah saya memotret di dalam gedung kesenian ini?', chunks: [{ id: 'c1', ruby: 'この<ruby><rb>美術館</rb><rt>びじゅつかん</rt></ruby>で' }, { id: 'c2', ruby: '<ruby><rb>写真</rb><rt>しゃしん</rt></ruby>を' }, { id: 'c3', ruby: '<ruby><rb>撮</rb><rt>と</rt></ruby>っても' }, { id: 'c4', ruby: 'いいですか。' }], explanation: 'Bentuk て + <span class="jp-text">もいいですか</span> digunakan untuk meminta izin.' },
+      { id: 's06', bab: 16, level: 'N5', pattern: 'Urutan Kegiatan Bentuk て (Bab 16)', translation: 'Saya turun dari kereta di Stasiun Shinjuku lalu ganti kereta bawah tanah.', chunks: [{ id: 'c1', ruby: '<ruby><rb>新宿駅</rb><rt>しんじゅくえき</rt></ruby>で' }, { id: 'c2', ruby: '<ruby><rb>電車</rb><rt>でんしゃ</rt></ruby>を<ruby><rb>降</rb><rt>お</rt></ruby>りて、' }, { id: 'c3', ruby: '<ruby><rb>地下鉄</rb><rt>ちかてつ</rt></ruby>に' }, { id: 'c4', ruby: '<ruby><rb>乗</rb><rt>の</rt></ruby>り<ruby><rb>換</rb><rt>か</rt></ruby>えます。' }], explanation: 'Turun dari kendaraan memakai partikel <span class="jp-text">を</span> (<span class="jp-text"><ruby><rb>電車</rb><rt>でんしゃ</rt></ruby>を<ruby><rb>降</rb><rt>お</rt></ruby>りる</span>), sedangkan naik memakai <span class="jp-text">に</span>.' },
+      { id: 's07', bab: 17, level: 'N5', pattern: '〜なければ なりません (Bab 17)', translation: 'Besok saya harus mengembalikan buku ini ke perpustakaan.', chunks: [{ id: 'c1', ruby: '<ruby><rb>明日</rb><rt>あした</rt></ruby>' }, { id: 'c2', ruby: '<ruby><rb>図書館</rb><rt>としょかん</rt></ruby>に' }, { id: 'c3', ruby: 'この<ruby><rb>本</rb><rt>ほん</rt></ruby>を' }, { id: 'c4', ruby: '<ruby><rb>返</rb><rt>かえ</rt></ruby>さなければなりません。' }], explanation: 'Bentuk ない (buang い) + <span class="jp-text">ければなりません</span> menyatakan kewajiban.' },
+      { id: 's08', bab: 18, level: 'N5', pattern: '〜ことが できます (Bab 18)', translation: 'Saya bisa menyetir mobil dan bermain piano.', chunks: [{ id: 'c1', ruby: '<ruby><rb>私</rb><rt>わたし</rt></ruby>は' }, { id: 'c2', ruby: '<ruby><rb>車</rb><rt>くるま</rt></ruby>を<ruby><rb>運転</rb><rt>うんてん</rt></ruby>する' }, { id: 'c3', ruby: 'ことが' }, { id: 'c4', ruby: 'できます。' }], explanation: 'Bentuk Kamus (<span class="jp-text"><ruby><rb>運転</rb><rt>うんてん</rt></ruby>する</span>) + <span class="jp-text">ことができます</span> menyatakan kemampuan.' },
+      { id: 's09', bab: 19, level: 'N5', pattern: '〜た ことが あります (Bab 19)', translation: 'Saya pernah mendaki Gunung Fuji satu kali.', chunks: [{ id: 'c1', ruby: '<ruby><rb>一度</rb><rt>いちど</rt></ruby>' }, { id: 'c2', ruby: '<ruby><rb>富士山</rb><rt>ふじさん</rt></ruby>に' }, { id: 'c3', ruby: '<ruby><rb>登</rb><rt>のぼ</rt></ruby>った' }, { id: 'c4', ruby: 'ことがあります。' }], explanation: 'Bentuk た (<span class="jp-text"><ruby><rb>登</rb><rt>のぼ</rt></ruby>った</span>) + <span class="jp-text">ことがあります</span> menyatakan pengalaman di masa lampau.' },
+      { id: 's10', bab: 22, level: 'N5', pattern: 'Anak Kalimat Penerang KB (Bab 22)', translation: 'Ini adalah kue yang dibuat oleh ibu kemarin.', chunks: [{ id: 'c1', ruby: 'これは' }, { id: 'c2', ruby: '<ruby><rb>昨日</rb><rt>きのう</rt></ruby><ruby><rb>母</rb><rt>はは</rt></ruby>が' }, { id: 'c3', ruby: '<ruby><rb>作</rb><rt>つく</rt></ruby>った' }, { id: 'c4', ruby: 'ケーキです。' }], explanation: 'Subjek di dalam anak kalimat penerang kata benda ditandai partikel <span class="jp-text">が</span> (<span class="jp-text"><ruby><rb>母</rb><rt>はは</rt></ruby>が</span>).' },
+      { id: 's11', bab: 23, level: 'N5', pattern: '〜とき & 〜と (Bab 23)', translation: 'Jika menekan tombol ini, uang kembalian akan keluar.', chunks: [{ id: 'c1', ruby: 'このボタンを' }, { id: 'c2', ruby: '<ruby><rb>押</rb><rt>お</rt></ruby>すと、' }, { id: 'c3', ruby: 'お<ruby><rb>釣</rb><rt>つ</rt></ruby>りが' }, { id: 'c4', ruby: '<ruby><rb>出</rb><rt>で</rt></ruby>ます。' }], explanation: 'Bentuk Kamus + <span class="jp-text">と</span> menyatakan akibat otomatis atau cara kerja mesin.' },
+      { id: 's12', bab: 24, level: 'N5', pattern: '〜て くれました (Bab 24)', translation: 'Senior mengantar saya sampai stasiun.', chunks: [{ id: 'c1', ruby: '<ruby><rb>先輩</rb><rt>せんぱい</rt></ruby>が' }, { id: 'c2', ruby: '<ruby><rb>駅</rb><rt>えき</rt></ruby>まで' }, { id: 'c3', ruby: '<ruby><rb>送</rb><rt>おく</rt></ruby>って' }, { id: 'c4', ruby: 'くれました。' }], explanation: 'Kebaikan yang dilakukan orang lain untuk pembicara memakai <span class="jp-text">〜てくれました</span>.' },
+      { id: 's13', bab: 25, level: 'N5', pattern: '〜たら & 〜ても (Bab 25)', translation: 'Kalau sudah tiba di stasiun, tolong menelepon.', chunks: [{ id: 'c1', ruby: '<ruby><rb>駅</rb><rt>えき</rt></ruby>に' }, { id: 'c2', ruby: '<ruby><rb>着</rb><rt>つ</rt></ruby>いたら、' }, { id: 'c3', ruby: '<ruby><rb>電話</rb><rt>でんわ</rt></ruby>を' }, { id: 'c4', ruby: 'かけてください。' }], explanation: 'Bentuk た + <span class="jp-text">ら</span> (<span class="jp-text"><ruby><rb>着</rb><rt>つ</rt></ruby>いたら</span>) menyatakan kondisi setelah peristiwa pertama selesai.' },
+      { id: 's14', bab: 26, level: 'N4', pattern: '〜んです (Penjelasan Alasan, Bab 26)', translation: 'Karena kondisi badan tidak enak, saya pulang lebih awal.', chunks: [{ id: 'c1', ruby: '<ruby><rb>気分</rb><rt>きぶん</rt></ruby>が' }, { id: 'c2', ruby: '<ruby><rb>悪</rb><rt>わる</rt></ruby>いんです。' }, { id: 'c3', ruby: 'お<ruby><rb>先</rb><rt>さき</rt></ruby>に' }, { id: 'c4', ruby: '<ruby><rb>失礼<rt>しつれい</rt></ruby>します。' }], explanation: 'Bentuk biasa + <span class="jp-text">んです</span> menekankan penjelasan keadaan atau alasan.' },
+      { id: 's15', bab: 27, level: 'N4', pattern: 'Bentuk Potensial & 見えます (Bab 27)', translation: 'Dari jendela kamar ini Gunung Fuji terlihat dengan indah.', chunks: [{ id: 'c1', ruby: 'この<ruby><rb>部屋</rb><rt>へや</rt></ruby>の<ruby><rb>窓</rb><rt>まど</rt></ruby>から' }, { id: 'c2', ruby: '<ruby><rb>富士山</rb><rt>ふじさん</rt></ruby>が' }, { id: 'c3', ruby: 'きれいに' }, { id: 'c4', ruby: '<ruby><rb>見</rb><rt>み</rt></ruby>えます。' }], explanation: '<span class="jp-text"><ruby><rb>見</rb><rt>み</rt></ruby>えます</span> menyatakan objek yang tampak secara alami di depan mata dengan partikel <span class="jp-text">が</span>.' },
+      { id: 's16', bab: 28, level: 'N4', pattern: '〜ながら (Sambil, Bab 28)', translation: 'Setiap pagi saya minum kopi sambil membaca koran.', chunks: [{ id: 'c1', ruby: '<ruby><rb>毎朝</rb><rt>まいあさ</rt></ruby>' }, { id: 'c2', ruby: '<ruby><rb>新聞</rb><rt>しんぶん</rt></ruby>を<ruby><rb>読</rb><rt>よ</rt></ruby>みながら、' }, { id: 'c3', ruby: 'コーヒーを' }, { id: 'c4', ruby: '<ruby><rb>飲</rb><rt>の</rt></ruby>みます。' }], explanation: 'Akar <span class="jp-text">ます</span> + <span class="jp-text">ながら</span> menyatakan dua aksi bersamaan oleh pelaku yang sama.' },
+      { id: 's17', bab: 29, level: 'N4', pattern: 'Intransitif 〜て います (Bab 29)', translation: 'Jendela ruang rapat tertutup, tetapi lampunya masih menyala.', chunks: [{ id: 'c1', ruby: '<ruby><rb>窓</rb><rt>まど</rt></ruby>は<ruby><rb>閉</rb><rt>し</rt></ruby>まって' }, { id: 'c2', ruby: 'いますが、' }, { id: 'c3', ruby: '<ruby><rb>電気</rb><rt>でんき</rt></ruby>が' }, { id: 'c4', ruby: 'ついています。' }], explanation: 'Kata kerja intransitif (<span class="jp-text"><ruby><rb>閉</rb><rt>し</rt></ruby>まる・つく</span>) + <span class="jp-text">ています</span> menggambarkan keadaan hasil yang tampak.' },
+      { id: 's18', bab: 30, level: 'N4', pattern: '〜て あります & 〜て おきます (Bab 30)', translation: 'Di kalender sudah tertulis jadwal perjalanan dinas bulan depan.', chunks: [{ id: 'c1', ruby: 'カレンダーに' }, { id: 'c2', ruby: '<ruby><rb>来月</rb><rt>らいげつ</rt></ruby>の<ruby><rb>出張</rb><rt>しゅっちょう</rt></ruby>の<ruby><rb>予定</rb><rt>よてい</rt></ruby>が' }, { id: 'c3', ruby: '<ruby><rb>書</rb><rt>か</rt></ruby>いて' }, { id: 'c4', ruby: 'あります。' }], explanation: 'Pola <span class="jp-text">〜てあります</span> menggunakan kata kerja transitif (<span class="jp-text"><ruby><rb>書</rb><rt>か</rt></ruby>く</span>) dengan partikel <span class="jp-text">が</span>.' },
+      { id: 's19', bab: 31, level: 'N4', pattern: 'Bentuk Ajakan + と 思っています (Bab 31)', translation: 'Setelah lulus universitas, saya berencana melanjutkan penelitian di pascasarjana.', chunks: [{ id: 'c1', ruby: '<ruby><rb>大学</rb><rt>だいがく</rt></ruby>を<ruby><rb>卒業</rb><rt>そつぎょう</rt></ruby>したら、' }, { id: 'c2', ruby: '<ruby><rb>大学院</rb><rt>だいがくいん</rt></ruby>で' }, { id: 'c3', ruby: '<ruby><rb>研究</rb><rt>けんきゅう</rt></ruby>しようと' }, { id: 'c4', ruby: '<ruby><rb>思</rb><rt>おも</rt></ruby>っています。' }], explanation: 'Bentuk ajakan (<span class="jp-text"><ruby><rb>研究</rb><rt>けんきゅう</rt></ruby>しよう</span>) + <span class="jp-text">と思っています</span> menyatakan rencana yang sudah dipikirkan.' },
+      { id: 's20', bab: 32, level: 'N4', pattern: '〜ほうが いいです & 〜でしょう (Bab 32)', translation: 'Karena demamnya berlanjut, sebaiknya beristirahat di rumah.', chunks: [{ id: 'c1', ruby: '<ruby><rb>熱</rb><rt>ねつ</rt></ruby>が<ruby><rb>続</rb><rt>つづ</rt></ruby>いていますから、' }, { id: 'c2', ruby: 'うちで' }, { id: 'c3', ruby: '<ruby><rb>休</rb><rt>やす</rt></ruby>んだ' }, { id: 'c4', ruby: 'ほうがいいです。' }], explanation: 'Saran positif menggunakan bentuk lampau biasa (<span class="jp-text"><ruby><rb>休</rb><rt>やす</rt></ruby>んだ</span>) + <span class="jp-text">ほうがいいです</span>.' },
+      { id: 's21', bab: 33, level: 'N4', pattern: 'Bentuk Perintah & Larangan (Bab 33)', translation: 'Tanda ini berarti "Dilarang Masuk".', chunks: [{ id: 'c1', ruby: 'このマークは' }, { id: 'c2', ruby: '「ここに' }, { id: 'c3', ruby: '<ruby><rb>入</rb><rt>はい</rt></ruby>るな」という' }, { id: 'c4', ruby: '<ruby><rb>意味</rb><rt>いみ</rt></ruby>です。' }], explanation: 'Bentuk Kamus + <span class="jp-text">な</span> adalah bentuk larangan keras (<span class="jp-text"><ruby><rb>入</rb><rt>はい</rt></ruby>るな</span> = jangan masuk).' },
+      { id: 's22', bab: 34, level: 'N4', pattern: '〜とおりに (Sesuai Dengan, Bab 34)', translation: 'Tolong rakit meja ini sesuai dengan buku petunjuk.', chunks: [{ id: 'c1', ruby: '<ruby><rb>説明書</rb><rt>せつめいしょ</rt></ruby>の' }, { id: 'c2', ruby: 'とおりに、' }, { id: 'c3', ruby: 'この<ruby><rb>机</rb><rt>つくえ</rt></ruby>を' }, { id: 'c4', ruby: '<ruby><rb>組</rb><rt>く</rt></ruby>み<ruby><rb>立</rb><rt>た</rt></ruby>てください。' }], explanation: 'Kata Benda + <span class="jp-text">のとおりに</span> atau KK Bentuk Kamus/た + <span class="jp-text">とおりに</span> bermakna "sesuai dengan".' },
+      { id: 's23', bab: 35, level: 'N4', pattern: 'Bentuk Syarat 〜ば (Bab 35)', translation: 'Jika membaca buku petunjuk dengan teliti, cara pengoperasiannya akan dipahami.', chunks: [{ id: 'c1', ruby: '<ruby><rb>説明書</rb><rt>せつめいしょ</rt></ruby>をよく' }, { id: 'c2', ruby: '<ruby><rb>読</rb><rt>よ</rt></ruby>めば、' }, { id: 'c3', ruby: '<ruby><rb>操作</rb><rt>そうさ</rt></ruby>の<ruby><rb>方法</rb><rt>ほうほう</rt></ruby>が' }, { id: 'c4', ruby: '<ruby><rb>分</rb><rt>わ</rt></ruby>かります。' }], explanation: '<span class="jp-text"><ruby><rb>読</rb><rt>よ</rt></ruby>む</span> (Gol. 1) diubah ke deret え + <span class="jp-text">ば</span> menjadi <span class="jp-text"><ruby><rb>読</rb><rt>よ</rt></ruby>めば</span>.' },
+      { id: 's24', bab: 36, level: 'N4', pattern: '〜ように なります / 〜ように します (Bab 36)', translation: 'Saya sudah menjadi bisa berenang 100 meter.', chunks: [{ id: 'c1', ruby: '<ruby><rb>百</rb><rt>ひゃく</rt></ruby>メートル' }, { id: 'c2', ruby: '<ruby><rb>泳</rb><rt>およ</rt></ruby>げる' }, { id: 'c3', ruby: 'ように' }, { id: 'c4', ruby: 'なりました。' }], explanation: 'Bentuk potensial (<span class="jp-text"><ruby><rb>泳</rb><rt>およ</rt></ruby>げる</span>) + <span class="jp-text">ようになりました</span> menyatakan perubahan kemampuan.' },
+      { id: 's25', bab: 37, level: 'N4', pattern: 'Kalimat Pasif 受身形 (Bab 37)', translation: 'Saya dipuji oleh kepala departemen di kantor.', chunks: [{ id: 'c1', ruby: '<ruby><rb>私</rb><rt>わたし</rt></ruby>は' }, { id: 'c2', ruby: '<ruby><rb>会社</rb><rt>かいしゃ</rt></ruby>で<ruby><rb>部長</rb><rt>ぶちょう</rt></ruby>に' }, { id: 'c3', ruby: '<ruby><rb>褒</rb><rt>ほ</rt></ruby>め' }, { id: 'c4', ruby: 'られました。' }], explanation: 'Pelaku tindakan pada kalimat pasif ditandai dengan partikel <span class="jp-text">に</span> (<span class="jp-text"><ruby><rb>部長</rb><rt>ぶちょう</rt></ruby>に</span>).' },
+      { id: 's26', bab: 38, level: 'N4', pattern: 'Nominalisasi 〜のは / 〜のが (Bab 38)', translation: 'Merawat bunga dan hewan sangat menyenangkan.', chunks: [{ id: 'c1', ruby: '<ruby><rb>花</rb><rt>はな</rt></ruby>や<ruby><rb>動物</rb><rt>どうぶつ</rt></ruby>を' }, { id: 'c2', ruby: '<ruby><rb>育</rb><rt>そだ</rt></ruby>てる' }, { id: 'c3', ruby: 'のは' }, { id: 'c4', ruby: 'とても<ruby><rb>楽</rb><rt>たの</rt></ruby>しいです。' }], explanation: 'Partikel <span class="jp-text">の</span> membendakan kata kerja bentuk biasa (<span class="jp-text"><ruby><rb>育</rb><rt>そだ</rt></ruby>てるの</span>) agar dapat menjadi topik kalimat.' },
+      { id: 's27', bab: 39, level: 'N4', pattern: 'Penyebab Perasaan 〜て (Bab 39)', translation: 'Saya sangat senang mendengar kabar kelulusan ujian.', chunks: [{ id: 'c1', ruby: '<ruby><rb>試験</rb><rt>しけん</rt></ruby>に<ruby><rb>合格</rb><rt>ごうかく</rt></ruby>した' }, { id: 'c2', ruby: 'ニュースを' }, { id: 'c3', ruby: '<ruby><rb>聞</rb><rt>き</rt></ruby>いて、' }, { id: 'c4', ruby: 'とてもうれしいです。' }], explanation: 'Bentuk て (<span class="jp-text"><ruby><rb>聞</rb><rt>き</rt></ruby>いて</span>) menyatakan penyebab langsung munculnya perasaan.' },
+      { id: 's28', bab: 40, level: 'N4', pattern: 'Pertanyaan Tersisip 〜かどうか (Bab 40)', translation: 'Tolong periksa apakah jumlah barangnya sudah pas atau belum.', chunks: [{ id: 'c1', ruby: '<ruby><rb>荷物</rb><rt>にもつ</rt></ruby>の<ruby><rb>数</rb><rt>かず</rt></ruby>が' }, { id: 'c2', ruby: '<ruby><rb>合</rb><rt>あ</rt></ruby>っている' }, { id: 'c3', ruby: 'かどうか、' }, { id: 'c4', ruby: '<ruby><rb>確</rb><rt>たし</rt></ruby>かめてください。' }], explanation: 'Anak kalimat tanya tanpa kata tanya menggunakan bentuk biasa + <span class="jp-text">かどうか</span>.' },
+      { id: 's29', bab: 42, level: 'N4', pattern: '〜ために (Tujuan, Bab 42)', translation: 'Demi membeli rumah sendiri, saya menabung setiap bulan.', chunks: [{ id: 'c1', ruby: '<ruby><rb>自分</rb><rt>じぶん</rt></ruby>の<ruby><rb>家</rb><rt>いえ</rt></ruby>を' }, { id: 'c2', ruby: '<ruby><rb>買</rb><rt>か</rt></ruby>うために、' }, { id: 'c3', ruby: '<ruby><rb>毎月</rb><rt>まいつき</rt></ruby>' }, { id: 'c4', ruby: '<ruby><rb>貯金</rb><rt>ちょきん</rt></ruby>しています。' }], explanation: 'Bentuk Kamus + <span class="jp-text">ために</span> menyatakan tujuan yang dikehendaki.' },
+      { id: 's30', bab: 43, level: 'N4', pattern: '〜そうです (Penampakan Visual, Bab 43)', translation: 'Kelihatannya tali tas ini sebentar lagi akan putus.', chunks: [{ id: 'c1', ruby: 'このかばんのひもは' }, { id: 'c2', ruby: '<ruby><rb>今</rb><rt>いま</rt></ruby>にも' }, { id: 'c3', ruby: '<ruby><rb>切</rb><rt>き</rt></ruby>れ' }, { id: 'c4', ruby: 'そうです。' }], explanation: 'Akar <span class="jp-text">ます</span> (<span class="jp-text"><ruby><rb>切</rb><rt>き</rt></ruby>れ</span>) + <span class="jp-text">そうです</span> menyatakan dugaan berdasarkan pengamatan mata.' },
+      { id: 's31', bab: 44, level: 'N4', pattern: '〜すぎます (Terlalu, Bab 44)', translation: 'Kemarin karena terlalu banyak minum kopi, saya tidak bisa tidur.', chunks: [{ id: 'c1', ruby: '<ruby><rb>昨日</rb><rt>きのう</rt></ruby>コーヒーを' }, { id: 'c2', ruby: '<ruby><rb>飲</rb><rt>の</rt></ruby>みすぎたので、' }, { id: 'c3', ruby: 'よく' }, { id: 'c4', ruby: '<ruby><rb>寝</rb><rt>ね</rt></ruby>られませんでした。' }], explanation: 'Akar <span class="jp-text">ます</span> (<span class="jp-text"><ruby><rb>飲</rb><rt>の</rt></ruby>み</span>) + <span class="jp-text">すぎる</span> menyatakan tindakan yang melampaui batas.' },
+      { id: 's32', bab: 45, level: 'N4', pattern: '〜のに (Padahal / Kontras, Bab 45)', translation: 'Padahal sudah menyetel jam weker, saya tidak terbangun.', chunks: [{ id: 'c1', ruby: '<ruby><rb>目覚</rb><rt>めざ</rt></ruby>まし<ruby><rb>時計</rb><rt>どけい</rt></ruby>を' }, { id: 'c2', ruby: 'セットしたのに、' }, { id: 'c3', ruby: '<ruby><rb>目</rb><rt>め</rt></ruby>が' }, { id: 'c4', ruby: '<ruby><rb>覚</rb><rt>さ</rt></ruby>めませんでした。' }], explanation: 'Bentuk biasa + <span class="jp-text">のに</span> mengungkapkan hasil yang bertolak belakang dengan harapan.' },
+      { id: 's33', bab: 46, level: 'N4', pattern: '〜ところです & 〜ばかりです (Bab 46)', translation: 'Saya baru saja datang ke Jepang bulan lalu.', chunks: [{ id: 'c1', ruby: '<ruby><rb>私</rb><rt>わたし</rt></ruby>は' }, { id: 'c2', ruby: '<ruby><rb>先月</rb><rt>せんげつ</rt></ruby><ruby><rb>日本</rb><rt>にほん</rt></ruby>へ' }, { id: 'c3', ruby: '<ruby><rb>来</rb><rt>き</rt></ruby>た' }, { id: 'c4', ruby: 'ばかりです。' }], explanation: 'Bentuk た + <span class="jp-text">ばかりです</span> menekankan perasaan bahwa suatu peristiwa baru saja terjadi.' },
+      { id: 's34', bab: 47, level: 'N4', pattern: '〜そうです (Kabar Berita) & 〜ようです (Bab 47)', translation: 'Menurut ramalan cuaca, besok katanya akan turun salju.', chunks: [{ id: 'c1', ruby: '<ruby><rb>天気予報</rb><rt>てんきよほう</rt></ruby>によると、' }, { id: 'c2', ruby: '<ruby><rb>明日</rb><rt>あした</rt></ruby>は' }, { id: 'c3', ruby: '<ruby><rb>雪</rb><rt>ゆき</rt></ruby>が<ruby><rb>降</rb><rt>ふ</rt></ruby>る' }, { id: 'c4', ruby: 'そうです。' }], explanation: 'Sumber informasi ditandai <span class="jp-text">によると</span>, diikuti bentuk biasa + <span class="jp-text">そうです</span> ("katanya").' },
+      { id: 's35', bab: 48, level: 'N4', pattern: 'Kalimat Kausatif 使役形 (Bab 48)', translation: 'Kepala bagian menyuruh bawahannya pergi dinas ke Osaka.', chunks: [{ id: 'c1', ruby: '<ruby><rb>部長</rb><rt>ぶちょう</rt></ruby>は' }, { id: 'c2', ruby: '<ruby><rb>社員</rb><rt>しゃいん</rt></ruby>を' }, { id: 'c3', ruby: '<ruby><rb>大阪</rb><rt>おおさか</rt></ruby>へ' }, { id: 'c4', ruby: '<ruby><rb>出張</rb><rt>しゅっちょう</rt></ruby>させました。' }], explanation: 'Pada kata kerja intransitif kausatif (<span class="jp-text"><ruby><rb>出張</rb><rt>しゅっちょう</rt></ruby>させる</span>), orang yang disuruh ditandai partikel <span class="jp-text">を</span>.' },
+      { id: 's36', bab: 49, level: 'N4', pattern: 'Sonkeigo 尊敬語 (Bab 49)', translation: 'Direktur utama sudah pulang ke rumah.', chunks: [{ id: 'c1', ruby: '<ruby><rb>社長</rb><rt>しゃちょう</rt></ruby>は' }, { id: 'c2', ruby: 'もう' }, { id: 'c3', ruby: 'お<ruby><rb>帰</rb><rt>かえ</rt></ruby>りに' }, { id: 'c4', ruby: 'なりました。' }], explanation: 'Pola hormat umum <span class="jp-text">お + [Akar ます] + になります</span> (<span class="jp-text">お<ruby><rb>帰</rb><rt>かえ</rt></ruby>りになりました</span>) meninggikan tindakan atasan.' },
+      { id: 's37', bab: 50, level: 'N4', pattern: 'Kenjougo 謙譲語 (Bab 50)', translation: 'Besok saya akan berkunjung ke kantor pusat Anda.', chunks: [{ id: 'c1', ruby: '<ruby><rb>明日</rb><rt>あした</rt></ruby>' }, { id: 'c2', ruby: 'お<ruby><rb>宅</rb><rt>たく</rt></ruby>の<ruby><rb>本社</rb><rt>ほんしゃ</rt></ruby>へ' }, { id: 'c3', ruby: '<ruby><rb>伺<rt>うかが</rt></ruby>い' }, { id: 'c4', ruby: 'ます。' }], explanation: '<span class="jp-text"><ruby><rb>伺<rt>うかが</rt></ruby>います</span> adalah bentuk merendah (Kenjougo) dari <span class="jp-text"><ruby><rb>行</rb><rt>い</rt></ruby>きます</span> untuk menghormati pihak tujuan.' },
+      { id: 's38', bab: 50, level: 'N4', pattern: 'Kenjougo お〜します (Bab 50)', translation: 'Saya akan membawakan barang bawaan Anda.', chunks: [{ id: 'c1', ruby: 'お<ruby><rb>荷物</rb><rt>にもつ</rt></ruby>を' }, { id: 'c2', ruby: 'お<ruby><rb>持</rb><rt>も</rt></ruby>ち' }, { id: 'c3', ruby: 'いたし' }, { id: 'c4', ruby: 'ましょうか。' }], explanation: 'Pola merendah sopan <span class="jp-text">お + [Akar ます] + いたします</span> digunakan saat menawarkan bantuan.' }
+    ];
+
+    // =========================================================================
+    // 5. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+    // =========================================================================
+    const STORAGE_KEY = 'onkei_nihongolab_progress_v1';
+
+    const DEFAULT_STATE = {
+      settings: { furigana: true, darkMode: false, babRange: 'ALL' },
+      stats: { totalXP: 0, currentStreak: 0, bestStreak: 0 },
+      progress: {
+        mod1: { masteredIds: [], attempts: 0, correctCount: 0, streak: 0 },
+        mod2: { masteredIds: [], attempts: 0, correctCount: 0, streak: 0 },
+        mod3: { masteredIds: [], attempts: 0, correctCount: 0, streak: 0 },
+        mod4: { masteredIds: [], attempts: 0, correctCount: 0, streak: 0 }
+      }
+    };
+
+    let appState = loadState();
+    let currentView = 'dashboard';
+    let currentMod = 'mod1';
+    let currentPool = [];
+    let currentIndex = 0;
+
+    // Modul 1 Filters
+    let mod1Mode = 'VERB_GROUP'; // VERB_GROUP | POS_CLASS
+    let mod1BabRange = appState.settings.babRange || 'ALL';
+
+    // Modul 2 Filters
+    let mod2Cat = 'ALL';         // ALL | VERB | ADJ
+    let mod2BabRange = appState.settings.babRange || 'ALL';
+    let mod2Target = 'ALL';
+
+    // Modul 3 Filters
+    let mod3Level = 'ALL';       // ALL | N5 | N4
+    let mod3ShuffledChunks = [];
+
+    // Modul 4 State
+    let mod4SubMode = 'BROWSE';  // BROWSE | QUIZ
+    let mod4Page = 1;
+    const MOD4_PAGE_SIZE = 24;
+    let mod4QuizItem = null;
+    let mod4QuizOptions = [];
+    let mod4QuizAnswered = false;
+
+    let selectedOption = null;
+    let orderedChunkIds = [];
+    let hasSubmitted = false;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('onkei_nihongolab_bab1_50_v1');
+        if (raw) {
+          const p = JSON.parse(raw);
+          return {
+            settings: { ...DEFAULT_STATE.settings, ...(p.settings || {}) },
+            stats: { ...DEFAULT_STATE.stats, ...(p.stats || {}) },
+            progress: {
+              mod1: { ...DEFAULT_STATE.progress.mod1, ...(p.progress?.mod1 || {}) },
+              mod2: { ...DEFAULT_STATE.progress.mod2, ...(p.progress?.mod2 || {}) },
+              mod3: { ...DEFAULT_STATE.progress.mod3, ...(p.progress?.mod3 || {}) },
+              mod4: { ...DEFAULT_STATE.progress.mod4, ...(p.progress?.mod4 || {}) }
+            }
+          };
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        updateGlobalProgressBar();
+        flashAutosaveIndicator();
+      } catch (e) {}
+    }
+
+    function flashAutosaveIndicator() {
+      const el = document.getElementById('autosave-indicator');
+      if (!el) return;
+      el.textContent = '✓ Tersimpan otomatis';
+      el.style.opacity = '1';
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notification');
+      const text = document.getElementById('toast-message');
+      if (!toast || !text) return;
+      text.textContent = msg;
+      toast.classList.remove('hidden');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2800);
+    }
+
+    function updateGlobalProgressBar() {
+      const p1 = appState.progress.mod1;
+      const p2 = appState.progress.mod2;
+      const p3 = appState.progress.mod3;
+      const p4 = appState.progress.mod4;
+
+      const totalAttempts = p1.attempts + p2.attempts + p3.attempts + p4.attempts;
+      const totalCorrect = p1.correctCount + p2.correctCount + p3.correctCount + p4.correctCount;
+      const accuracy = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+
+      const uniqueLearnedSet = new Set([
+        ...p1.masteredIds,
+        ...p2.masteredIds,
+        ...p4.masteredIds
+      ]);
+      const learnedCount = uniqueLearnedSet.size;
+      const masteryPct = ALL_VOCAB_DATA.length > 0
+        ? Math.min(100, Math.round((learnedCount / ALL_VOCAB_DATA.length) * 100))
+        : 0;
+
+      const elMastery = document.getElementById('hdr-mastery');
+      const elXp = document.getElementById('hdr-xp');
+      const elAcc = document.getElementById('hdr-acc');
+      const elStreak = document.getElementById('hdr-best-streak');
+      const elLearned = document.getElementById('hdr-learned');
+
+      if (elMastery) elMastery.textContent = `Penguasaan: ${masteryPct}%`;
+      if (elXp) elXp.textContent = `${appState.stats.totalXP || 0} XP`;
+      if (elAcc) elAcc.textContent = `${accuracy}%`;
+      if (elStreak) elStreak.textContent = `${appState.stats.bestStreak || 0}x`;
+      if (elLearned) elLearned.textContent = `${learnedCount}/${ALL_VOCAB_DATA.length}`;
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function matchBabRange(bab, range) {
+      if (range === '1-15') return bab >= 1 && bab <= 15;
+      if (range === '16-30') return bab >= 16 && bab <= 30;
+      if (range === '31-40') return bab >= 31 && bab <= 40;
+      if (range === '41-50') return bab >= 41 && bab <= 50;
+      return true;
+    }
+
+    // =========================================================================
+    // 6. SETTINGS & VIEW SWITCHING
+    // =========================================================================
+    function applyDisplaySettings() {
+      document.body.classList.toggle('hide-furigana', !appState.settings.furigana);
+      document.documentElement.classList.toggle('dark', Boolean(appState.settings.darkMode));
+
+      const furiBadge = document.getElementById('status-furigana');
+      if (furiBadge) {
+        furiBadge.textContent = appState.settings.furigana ? 'ON' : 'OFF';
+        furiBadge.className = appState.settings.furigana
+          ? 'px-1.5 py-0.5 rounded-md bg-brand-600 text-white text-[10px]'
+          : 'px-1.5 py-0.5 rounded-md bg-slate-900 text-white text-[10px]';
+      }
+
+      const darkBadge = document.getElementById('status-dark');
+      const darkLabel = document.getElementById('label-dark');
+      if (darkBadge && darkLabel) {
+        darkLabel.textContent = appState.settings.darkMode ? 'Mode Terang' : 'Mode Gelap';
+        darkBadge.textContent = appState.settings.darkMode ? 'ON' : 'OFF';
+        darkBadge.className = appState.settings.darkMode
+          ? 'px-1.5 py-0.5 rounded-md bg-brand-600 text-white text-[10px]'
+          : 'px-1.5 py-0.5 rounded-md bg-slate-900 text-white text-[10px]';
+      }
+    }
+
+    function toggleSetting(key) {
+      appState.settings[key] = !appState.settings[key];
+      saveState();
+      applyDisplaySettings();
+    }
+
+    function switchView(viewName) {
+      currentView = viewName;
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.className = 'nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition pill-btn';
+      });
+      const activeTab = document.getElementById('nav-' + viewName);
+      if (activeTab) {
+        activeTab.className = 'nav-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition pill-btn active-dark';
+      }
+
+      document.getElementById('view-dashboard').classList.add('hidden');
+      document.getElementById('view-practice').classList.add('hidden');
+      document.getElementById('view-mod4').classList.add('hidden');
+
+      if (viewName === 'dashboard') {
+        document.getElementById('view-dashboard').classList.remove('hidden');
+        renderDashboard();
+      } else if (viewName === 'mod4') {
+        document.getElementById('view-mod4').classList.remove('hidden');
+        renderMod4();
+      } else {
+        document.getElementById('view-practice').classList.remove('hidden');
+        startModule(viewName);
+      }
+    }
+
+    // =========================================================================
+    // 7. DASHBOARD RENDERING
+    // =========================================================================
+    function renderDashboard() {
+      const dbBadge = document.getElementById('total-db-counter');
+      if (dbBadge) {
+        dbBadge.textContent = `${VERBS_DATA.length} KK • ${ADJECTIVES_DATA.length} KS • ${NOUNS_DATA.length} KB (${ALL_VOCAB_DATA.length} Total)`;
+      }
+
+      const container = document.getElementById('dashboard-cards');
+      const cards = [
+        {
+          key: 'mod1',
+          num: 'MODUL 1',
+          title: 'Golongan KK & Kelas Kata',
+          subtitle: `Klasifikasi ${VERBS_DATA.length} KK (Gol. 1/2/3) & Identifikasi ${ALL_VOCAB_DATA.length} Kelas Kata Bab 1–50`,
+          total: ALL_VOCAB_DATA.length
+        },
+        {
+          key: 'mod2',
+          num: 'MODUL 2',
+          title: 'Lab Konjugasi KK & KS',
+          subtitle: `Konjugasi ${VERBS_DATA.length} Kata Kerja (11 Bentuk) & ${ADJECTIVES_DATA.length} Kata Sifat (6 Bentuk)`,
+          total: VERBS_DATA.length + ADJECTIVES_DATA.length
+        },
+        {
+          key: 'mod3',
+          num: 'MODUL 3',
+          title: 'Susun Kalimat Acak',
+          subtitle: `${MOD3_SENTENCES.length} Pola Tata Bahasa Terstruktur Minna no Nihongo Bab 1–50`,
+          total: MOD3_SENTENCES.length
+        },
+        {
+          key: 'mod4',
+          num: 'MODUL 4',
+          title: 'Kamus & Kuis Bab 1–50',
+          subtitle: `Eksplorasi & Kuis Cepat ${ALL_VOCAB_DATA.length} Kosakata Lengkap Bab 1–50`,
+          total: ALL_VOCAB_DATA.length
+        }
+      ];
+
+      container.innerHTML = cards.map(m => {
+        const stat = appState.progress[m.key];
+        const mastered = stat.masteredIds.length;
+        const pct = Math.min(100, Math.round((mastered / m.total) * 100));
+        const accuracy = stat.attempts > 0 ? Math.round((stat.correctCount / stat.attempts) * 100) : 0;
+
+        return `
+          <div class="surface-card rounded-2xl p-5 shadow-xs flex flex-col justify-between transition">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-brand-600 text-white">${m.num}</span>
+                <span class="text-xs font-bold text-mut">${pct}% Tuntas</span>
+              </div>
+              <h3 class="text-base font-extrabold text-main">${m.title}</h3>
+              <p class="text-xs text-mut mt-1">${m.subtitle}</p>
+
+              <div class="w-full surface-subtle h-2 rounded-full overflow-hidden mt-3">
+                <div class="bg-brand-600 h-full transition-all duration-300" style="width: ${pct}%"></div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-1.5 mt-3 pt-3 border-t text-center">
+                <div class="surface-subtle rounded-xl p-1.5">
+                  <span class="block text-[10px] text-mut">Dikuasai</span>
+                  <span class="font-extrabold text-main text-xs">${mastered}/${m.total}</span>
+                </div>
+                <div class="surface-subtle rounded-xl p-1.5">
+                  <span class="block text-[10px] text-mut">Streak</span>
+                  <span class="font-extrabold text-amber-600 text-xs">${stat.streak || 0}x</span>
+                </div>
+                <div class="surface-subtle rounded-xl p-1.5">
+                  <span class="block text-[10px] text-mut">Akurasi</span>
+                  <span class="font-extrabold text-emerald-600 text-xs">${accuracy}%</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="switchView('${m.key}')"
+              class="mt-4 w-full py-2.5 px-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition shadow-xs">
+              Buka ${m.num} →
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // 8. MODUL 1, 2, 3 ENGINE
+    // =========================================================================
+    const VERB_FORM_LABELS = {
+      dict: 'Bentuk Kamus (辞書形)',
+      masu: 'Bentuk Sopan (ます形)',
+      te: 'Bentuk て (て形)',
+      ta: 'Bentuk た (た形 / Lampau Biasa)',
+      nai: 'Bentuk ない (ない形 / Negatif Biasa)',
+      nakatta: 'Bentuk なかった (Lampau Negatif)',
+      potential: 'Bentuk Potensial (可能形)',
+      passive: 'Bentuk Pasif (受身形)',
+      causative: 'Bentuk Kausatif (使役形)',
+      volitional: 'Bentuk Ajakan (意向形)',
+      conditional_ba: 'Bentuk Syarat 〜ば (ば形)',
+      imperative: 'Bentuk Perintah (命令形)'
+    };
+
+    const ADJ_FORM_LABELS = {
+      dict: 'Bentuk Kamus / Positif Biasa',
+      negative: 'Bentuk Negatif Biasa (〜くない / 〜じゃない)',
+      past: 'Bentuk Lampau Biasa (〜かった / 〜だった)',
+      past_neg: 'Bentuk Lampau Negatif (〜くなかった / 〜じゃなかった)',
+      te: 'Bentuk て (〜くて / 〜で)',
+      adverb: 'Bentuk Keterangan (〜く / 〜に)'
+    };
+
+    function startModule(modKey) {
+      currentMod = modKey;
+      rebuildQuestionPool();
+      renderModuleHeader();
+      renderQuestion();
+    }
+
+    function rebuildQuestionPool() {
+      if (currentMod === 'mod1') {
+        if (mod1Mode === 'VERB_GROUP') {
+          let list = VERBS_DATA.filter(v => {
+            if (mod1BabRange === 'TRAP') return Boolean(v.trap);
+            return matchBabRange(v.bab, mod1BabRange);
+          });
+          if (list.length === 0) list = [...VERBS_DATA];
+          currentPool = shuffleArray(list);
+        } else {
+          let list = ALL_VOCAB_DATA.filter(item => matchBabRange(item.bab, mod1BabRange === 'TRAP' ? 'ALL' : mod1BabRange));
+          if (list.length === 0) list = [...ALL_VOCAB_DATA];
+          currentPool = shuffleArray(list);
+        }
+      } else if (currentMod === 'mod2') {
+        const items = [];
+        const vForms = ['dict', 'masu', 'te', 'ta', 'nai', 'nakatta', 'potential', 'passive', 'causative', 'volitional', 'conditional_ba', 'imperative'];
+        const aForms = ['negative', 'past', 'past_neg', 'te', 'adverb'];
+
+        if (mod2Cat === 'ALL' || mod2Cat === 'VERB') {
+          VERBS_DATA.filter(v => matchBabRange(v.bab, mod2BabRange)).forEach(v => {
+            const chosen = (mod2Target !== 'ALL' && vForms.includes(mod2Target))
+              ? mod2Target
+              : vForms[Math.floor(Math.random() * vForms.length)];
+            items.push({ kind: 'VERB', entry: v, targetForm: chosen });
+          });
+        }
+        if (mod2Cat === 'ALL' || mod2Cat === 'ADJ') {
+          ADJECTIVES_DATA.filter(a => matchBabRange(a.bab, mod2BabRange)).forEach(a => {
+            const chosen = (mod2Target !== 'ALL' && aForms.includes(mod2Target))
+              ? mod2Target
+              : aForms[Math.floor(Math.random() * aForms.length)];
+            items.push({ kind: 'ADJ', entry: a, targetForm: chosen });
+          });
+        }
+        currentPool = shuffleArray(items.length > 0 ? items : VERBS_DATA.map(v => ({ kind: 'VERB', entry: v, targetForm: 'te' })));
+      } else if (currentMod === 'mod3') {
+        let list = MOD3_SENTENCES.filter(s => mod3Level === 'ALL' || s.level === mod3Level);
+        if (list.length === 0) list = [...MOD3_SENTENCES];
+        currentPool = shuffleArray(list);
+      }
+      currentIndex = 0;
+    }
+
+    function renderModuleHeader() {
+      const badgeEl = document.getElementById('mod-badge');
+      const titleEl = document.getElementById('mod-title');
+      const filtersEl = document.getElementById('mod-filters');
+
+      if (currentMod === 'mod1') {
+        badgeEl.textContent = 'MODUL 1 • BAB 1–50';
+        titleEl.textContent = 'Klasifikasi Golongan Kata Kerja & Identifikasi Kelas Kata';
+        filtersEl.innerHTML = `
+          <div class="flex flex-wrap items-center gap-1.5 mr-2">
+            <span class="text-xs font-semibold text-mut">Mode Latihan:</span>
+            <button onclick="setMod1Mode('VERB_GROUP')" class="px-2.5 py-1 rounded-lg text-xs font-bold pill-btn ${mod1Mode === 'VERB_GROUP' ? 'active-dark' : ''}">
+              Golongan KK (1, 2, 3)
+            </button>
+            <button onclick="setMod1Mode('POS_CLASS')" class="px-2.5 py-1 rounded-lg text-xs font-bold pill-btn ${mod1Mode === 'POS_CLASS' ? 'active-dark' : ''}">
+              Kelas Kata (KK / KS-い / KS-な / KB)
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-xs font-semibold text-mut">Rentang Bab:</span>
+            ${[
+              { val: 'ALL', label: 'Semua (1–50)' },
+              { val: '1-15', label: 'Bab 1–15' },
+              { val: '16-30', label: 'Bab 16–30' },
+              { val: '31-40', label: 'Bab 31–40' },
+              { val: '41-50', label: 'Bab 41–50' },
+              { val: 'TRAP', label: 'Kata Jebakan' }
+            ].map(b => `
+              <button onclick="setMod1Bab('${b.val}')" class="px-2.5 py-1 rounded-lg text-xs font-semibold pill-btn ${mod1BabRange === b.val ? 'active' : ''}">
+                ${b.label}
+              </button>
+            `).join('')}
+          </div>
+        `;
+      } else if (currentMod === 'mod2') {
+        badgeEl.textContent = 'MODUL 2 • LAB KONJUGASI BAB 4–50';
+        titleEl.textContent = 'Konjugasi Kata Kerja & Kata Sifat';
+        filtersEl.innerHTML = `
+          <div class="flex flex-wrap items-center gap-1.5 mr-2">
+            <span class="text-xs font-semibold text-mut">Jenis:</span>
+            <button onclick="setMod2Cat('ALL')" class="px-2.5 py-1 rounded-lg text-xs font-bold pill-btn ${mod2Cat === 'ALL' ? 'active-dark' : ''}">Campuran</button>
+            <button onclick="setMod2Cat('VERB')" class="px-2.5 py-1 rounded-lg text-xs font-bold pill-btn ${mod2Cat === 'VERB' ? 'active-dark' : ''}">Kata Kerja (${VERBS_DATA.length})</button>
+            <button onclick="setMod2Cat('ADJ')" class="px-2.5 py-1 rounded-lg text-xs font-bold pill-btn ${mod2Cat === 'ADJ' ? 'active-dark' : ''}">Kata Sifat (${ADJECTIVES_DATA.length})</button>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 mr-2">
+            <span class="text-xs font-semibold text-mut">Bab:</span>
+            ${['ALL', '1-15', '16-30', '31-40', '41-50'].map(b => `
+              <button onclick="setMod2Bab('${b}')" class="px-2 py-1 rounded-lg text-xs font-semibold pill-btn ${mod2BabRange === b ? 'active' : ''}">
+                ${b === 'ALL' ? 'Semua' : b}
+              </button>
+            `).join('')}
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-semibold text-mut">Bentuk:</span>
+            <select onchange="setMod2Target(this.value)" class="px-2.5 py-1 rounded-lg text-xs font-semibold surface-subtle">
+              <option value="ALL" ${mod2Target === 'ALL' ? 'selected' : ''}>Semua Bentuk (Acak)</option>
+              <optgroup label="Bentuk Kata Kerja">
+                ${Object.entries(VERB_FORM_LABELS).map(([k, lbl]) => `<option value="${k}" ${mod2Target === k ? 'selected' : ''}>${lbl}</option>`).join('')}
+              </optgroup>
+              <optgroup label="Bentuk Kata Sifat">
+                ${Object.entries(ADJ_FORM_LABELS).map(([k, lbl]) => `<option value="${k}" ${mod2Target === k ? 'selected' : ''}>${lbl}</option>`).join('')}
+              </optgroup>
+            </select>
+          </div>
+        `;
+      } else if (currentMod === 'mod3') {
+        badgeEl.textContent = 'MODUL 3 • SUSUN KALIMAT BAB 1–50';
+        titleEl.textContent = 'Susun Kalimat Acak (JLPT N5 & N4)';
+        filtersEl.innerHTML = `
+          <span class="text-xs font-semibold text-mut mr-1">Filter Level:</span>
+          <button onclick="setMod3Level('ALL')" class="px-3 py-1 rounded-lg text-xs font-semibold pill-btn ${mod3Level === 'ALL' ? 'active-dark' : ''}">Semua Level (${MOD3_SENTENCES.length})</button>
+          <button onclick="setMod3Level('N5')" class="px-3 py-1 rounded-lg text-xs font-semibold pill-btn ${mod3Level === 'N5' ? 'active' : ''}">JLPT N5 (Bab 1–25)</button>
+          <button onclick="setMod3Level('N4')" class="px-3 py-1 rounded-lg text-xs font-semibold pill-btn ${mod3Level === 'N4' ? 'active' : ''}">JLPT N4 (Bab 26–50)</button>
+        `;
+      }
+
+      updateModuleStatsUI();
+    }
+
+    function setMod1Mode(m) { mod1Mode = m; rebuildQuestionPool(); renderModuleHeader(); renderQuestion(); }
+    function setMod1Bab(b) {
+      mod1BabRange = b;
+      if (b !== 'TRAP') { appState.settings.babRange = b; saveState(); }
+      rebuildQuestionPool(); renderModuleHeader(); renderQuestion();
+    }
+    function setMod2Cat(c) { mod2Cat = c; rebuildQuestionPool(); renderModuleHeader(); renderQuestion(); }
+    function setMod2Bab(b) {
+      mod2BabRange = b;
+      appState.settings.babRange = b;
+      saveState();
+      rebuildQuestionPool(); renderModuleHeader(); renderQuestion();
+    }
+    function setMod2Target(t) { mod2Target = t; rebuildQuestionPool(); renderModuleHeader(); renderQuestion(); }
+    function setMod3Level(l) { mod3Level = l; rebuildQuestionPool(); renderModuleHeader(); renderQuestion(); }
+
+    function updateModuleStatsUI() {
+      const total = currentMod === 'mod1' ? ALL_VOCAB_DATA.length
+        : currentMod === 'mod2' ? (VERBS_DATA.length + ADJECTIVES_DATA.length)
+        : MOD3_SENTENCES.length;
+      const stat = appState.progress[currentMod];
+      const mastered = stat.masteredIds.length;
+      const accuracy = stat.attempts > 0 ? Math.round((stat.correctCount / stat.attempts) * 100) : 0;
+      const pct = total > 0 ? Math.min(100, Math.round((mastered / total) * 100)) : 0;
+
+      document.getElementById('mod-stat-mastered').textContent = `${mastered} / ${total}`;
+      document.getElementById('mod-stat-accuracy').textContent = `${accuracy}%`;
+      document.getElementById('mod-progress-bar').style.width = `${pct}%`;
+      document.getElementById('mod-streak-badge').textContent = `Streak: ${stat.streak || 0}`;
+    }
+
+    function generateConjugationOptions(item) {
+      const { kind, entry, targetForm } = item;
+      const correctHtml = entry.conj[targetForm];
+      const correctSurface = stripRubyToSurface(correctHtml);
+      const pool = new Map();
+      pool.set(correctSurface, correctHtml);
+
+      Object.keys(entry.conj).forEach(k => {
+        if (k === 'ruleNote') return;
+        const cand = entry.conj[k];
+        const surf = stripRubyToSurface(cand);
+        if (!pool.has(surf)) pool.set(surf, cand);
+      });
+
+      const baseStem = (entry.dict || entry.ruby).slice(0, -1);
+      const extras = kind === 'VERB'
+        ? [baseStem + 'て', baseStem + 'ない', baseStem + 'られる', baseStem + 'ます', (entry.dict || entry.ruby) + 'た']
+        : [baseStem + 'くない', baseStem + 'かった', entry.ruby + 'で', entry.ruby + 'に'];
+
+      extras.forEach(d => {
+        const s = stripRubyToSurface(d);
+        if (pool.size < 4 && !pool.has(s)) pool.set(s, d);
+      });
+
+      return shuffleArray(Array.from(pool.values()).slice(0, 4));
+    }
+
+    function renderQuestion() {
+      hasSubmitted = false;
+      selectedOption = null;
+      orderedChunkIds = [];
+
+      const promptArea = document.getElementById('question-prompt-area');
+      const inputArea = document.getElementById('question-input-area');
+      const feedbackArea = document.getElementById('feedback-area');
+      const btnSubmit = document.getElementById('btn-submit-answer');
+      const btnNext = document.getElementById('btn-next-question');
+
+      feedbackArea.classList.add('hidden');
+      feedbackArea.innerHTML = '';
+      btnSubmit.classList.remove('hidden');
+      btnNext.classList.add('hidden');
+
+      if (currentMod === 'mod1') {
+        const item = currentPool[currentIndex];
+        const isMastered = appState.progress.mod1.masteredIds.includes(item.id);
+
+        if (mod1Mode === 'VERB_GROUP') {
+          const showDict = currentIndex % 2 === 0;
+          const displayWord = showDict ? item.dict : item.masu;
+          promptArea.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="px-2.5 py-1 rounded-lg surface-subtle text-xs font-bold">Soal ${currentIndex + 1}/${currentPool.length} • Bab ${item.bab} (${item.level})</span>
+                <span class="px-2.5 py-1 rounded-lg bg-brand-600 text-white text-xs font-bold jp-text">${showDict ? '辞書形 (Bentuk Kamus)' : 'ます形 (Bentuk Sopan)'}</span>
+                ${item.trap ? '<span class="px-2.5 py-1 rounded-lg bg-rose-600 text-white text-xs font-bold">Kata Jebakan</span>' : ''}
+              </div>
+              <div class="flex items-center gap-2">
+                ${isMastered ? '<span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">✓ Dikuasai</span>' : ''}
+                ${audioButtonHtml(displayWord)}
+              </div>
+            </div>
+            <p class="text-sm text-sec mt-1">Termasuk golongan kata kerja manakah kosakata berikut ini?</p>
+            <div class="my-3 p-5 rounded-2xl surface-subtle text-center">
+              <div class="jp-text text-3xl sm:text-4xl font-bold text-main">${displayWord}</div>
+              <div class="text-xs sm:text-sm text-sec mt-2">Arti: <strong>${item.meaning}</strong></div>
+            </div>
+          `;
+
+          const groups = [
+            { val: 1, title: 'Golongan 1 (五段動詞 / Godan)', desc: 'Akhiran deret vokal -u pada bentuk kamus / vokal -i sebelum ます' },
+            { val: 2, title: 'Golongan 2 (一段動詞 / Ichidan)', desc: 'Akhiran -iru / -eru teratur (cukup buang る saat konjugasi)' },
+            { val: 3, title: 'Golongan 3 (不規則動詞 / Fukisoku)', desc: 'Kata kerja tidak beraturan (する, 来る, atau Kata Benda + する)' }
+          ];
+          inputArea.innerHTML = `
+            <div class="grid grid-cols-1 gap-2.5">
+              ${groups.map((g, idx) => `
+                <button type="button" onclick="selectMcqOption(${g.val}, ${idx})" id="opt-btn-${idx}" class="opt-choice p-4 rounded-xl transition text-left">
+                  <div class="text-sm sm:text-base font-extrabold text-main jp-text">${g.title}</div>
+                  <div class="text-xs text-mut mt-0.5">${g.desc}</div>
+                </button>
+              `).join('')}
+            </div>
+          `;
+        } else {
+          // Mode Identifikasi Kelas Kata (VERB, ADJ_I, ADJ_NA, NOUN)
+          promptArea.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="px-2.5 py-1 rounded-lg surface-subtle text-xs font-bold">Soal ${currentIndex + 1}/${currentPool.length} • Bab ${item.bab} (${item.level})</span>
+                <span class="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-xs font-bold">Identifikasi Kelas Kata</span>
+              </div>
+              <div class="flex items-center gap-2">
+                ${isMastered ? '<span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">✓ Dikuasai</span>' : ''}
+                ${audioButtonHtml(item.ruby)}
+              </div>
+            </div>
+            <p class="text-sm text-sec mt-1">Termasuk kelas kata apakah kosakata bahasa Jepang berikut ini?</p>
+            <div class="my-3 p-5 rounded-2xl surface-subtle text-center">
+              <div class="jp-text text-3xl sm:text-4xl font-bold text-main">${item.ruby}</div>
+              <div class="text-xs sm:text-sm text-sec mt-2">Arti: <strong>${item.meaning}</strong></div>
+            </div>
+          `;
+
+          const posChoices = [
+            { val: 'VERB', title: 'Kata Kerja (動詞)', desc: 'Menyatakan tindakan, aktivitas, atau keadaan' },
+            { val: 'ADJ_I', title: 'Kata Sifat-い (い形容詞)', desc: 'Kata sifat berakhiran vokal い (tinggi, panas, baru, dll.)' },
+            { val: 'ADJ_NA', title: 'Kata Sifat-な (な形容詞)', desc: 'Kata sifat yang memakai な saat menerangkan kata benda' },
+            { val: 'NOUN', title: 'Kata Benda (名詞)', desc: 'Menyatakan benda, orang, tempat, waktu, atau konsep' }
+          ];
+          inputArea.innerHTML = `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              ${posChoices.map((p, idx) => `
+                <button type="button" onclick="selectMcqOption('${p.val}', ${idx})" id="opt-btn-${idx}" class="opt-choice p-4 rounded-xl transition text-left">
+                  <div class="text-sm sm:text-base font-extrabold text-main jp-text">${p.title}</div>
+                  <div class="text-xs text-mut mt-0.5">${p.desc}</div>
+                </button>
+              `).join('')}
+            </div>
+          `;
+        }
+      } else if (currentMod === 'mod2') {
+        const item = currentPool[currentIndex];
+        const { kind, entry, targetForm } = item;
+        const isMastered = appState.progress.mod2.masteredIds.includes(entry.id);
+        const formLabel = kind === 'VERB' ? VERB_FORM_LABELS[targetForm] : ADJ_FORM_LABELS[targetForm];
+        const promptWord = kind === 'VERB'
+          ? (targetForm === 'dict' ? entry.masu : entry.dict)
+          : entry.ruby;
+        const metaText = kind === 'VERB'
+          ? `Bab ${entry.bab} • Golongan ${entry.group} • ${targetForm === 'dict' ? 'Dari Bentuk ます' : 'Dari Bentuk Kamus'}`
+          : `Bab ${entry.bab} • ${entry.posLabel}`;
+
+        const options = generateConjugationOptions(item);
+        item._options = options;
+
+        promptArea.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="px-2.5 py-1 rounded-lg bg-amber-600 text-white text-xs font-bold">Target: ${formLabel}</span>
+              <span class="px-2.5 py-1 rounded-lg surface-subtle text-xs font-semibold">${metaText}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              ${isMastered ? '<span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">✓ Dikuasai</span>' : ''}
+              ${audioButtonHtml(promptWord, 'Kata Dasar')}
+            </div>
+          </div>
+          <p class="text-sm text-sec mt-1">Pilih hasil konjugasi yang tepat untuk kosakata berikut:</p>
+          <div class="my-3 p-5 rounded-2xl surface-subtle text-center">
+            <div class="jp-text text-3xl sm:text-4xl font-bold text-main">${promptWord}</div>
+            <div class="text-xs sm:text-sm text-sec mt-2">Arti: <strong>${entry.meaning}</strong></div>
+          </div>
+        `;
+
+        inputArea.innerHTML = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            ${options.map((optHtml, idx) => `
+              <button type="button" onclick="selectMcqOption(${idx}, ${idx})" id="opt-btn-${idx}"
+                class="opt-choice p-4 rounded-xl transition text-center jp-text text-lg sm:text-xl font-bold text-main">
+                ${optHtml}
+              </button>
+            `).join('')}
+          </div>
+        `;
+      } else if (currentMod === 'mod3') {
+        const s = currentPool[currentIndex];
+        const isMastered = appState.progress.mod3.masteredIds.includes(s.id);
+        mod3ShuffledChunks = shuffleArray(s.chunks);
+
+        promptArea.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-xs font-bold">Soal ${currentIndex + 1}/${currentPool.length} • Bab ${s.bab} (${s.level})</span>
+              <span class="px-2.5 py-1 rounded-lg surface-subtle text-xs font-semibold jp-text">${s.pattern}</span>
+            </div>
+            ${isMastered ? '<span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold">✓ Dikuasai</span>' : ''}
+          </div>
+          <div class="my-3 p-4 rounded-2xl surface-subtle space-y-1.5">
+            <p class="text-xs text-mut">Klik blok kata acak di bawah secara berurutan sesuai terjemahan berikut:</p>
+            <p class="text-sm sm:text-base font-extrabold text-main">&#34;${s.translation}&#34;</p>
+          </div>
+        `;
+
+        inputArea.innerHTML = `
+          <div class="space-y-3">
+            <div class="min-h-[74px] p-3.5 rounded-2xl surface-subtle border-2 border-dashed flex flex-wrap items-center gap-2" id="order-dropzone">
+              <span class="text-xs text-mut italic">Klik blok kata di bawah secara berurutan untuk menyusun kalimat...</span>
+            </div>
+
+            <div class="flex flex-wrap gap-2" id="order-wordbank">
+              ${mod3ShuffledChunks.map(ch => `
+                <button type="button" onclick="toggleOrderChunk('${ch.id}')" id="chunk-btn-${ch.id}"
+                  class="px-3.5 py-2.5 rounded-xl opt-choice jp-text text-sm sm:text-base font-bold transition">
+                  ${ch.ruby}
+                </button>
+              `).join('')}
+            </div>
+
+            <div class="flex justify-end">
+              <button type="button" onclick="reshuffleOrderChunks()" class="px-3 py-1.5 rounded-xl text-xs font-semibold pill-btn">
+                Acak Ulang Blok Kata
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function selectMcqOption(val, idx) {
+      if (hasSubmitted) return;
+      selectedOption = val;
+      document.querySelectorAll('.opt-choice').forEach(btn => btn.classList.remove('selected'));
+      const activeBtn = document.getElementById('opt-btn-' + idx);
+      if (activeBtn) activeBtn.classList.add('selected');
+    }
+
+    function toggleOrderChunk(chunkId) {
+      if (hasSubmitted) return;
+      const pos = orderedChunkIds.indexOf(chunkId);
+      if (pos >= 0) orderedChunkIds.splice(pos, 1);
+      else orderedChunkIds.push(chunkId);
+      renderOrderDropzone();
+    }
+
+    function reshuffleOrderChunks() {
+      if (hasSubmitted) return;
+      orderedChunkIds = [];
+      const s = currentPool[currentIndex];
+      mod3ShuffledChunks = shuffleArray(s.chunks);
+      const bank = document.getElementById('order-wordbank');
+      if (bank) {
+        bank.innerHTML = mod3ShuffledChunks.map(ch => `
+          <button type="button" onclick="toggleOrderChunk('${ch.id}')" id="chunk-btn-${ch.id}"
+            class="px-3.5 py-2.5 rounded-xl opt-choice jp-text text-sm sm:text-base font-bold transition">
+            ${ch.ruby}
+          </button>
+        `).join('');
+      }
+      renderOrderDropzone();
+    }
+
+    function renderOrderDropzone() {
+      const s = currentPool[currentIndex];
+      const dropzone = document.getElementById('order-dropzone');
+      if (!dropzone || !s) return;
+
+      s.chunks.forEach(ch => {
+        const bankBtn = document.getElementById('chunk-btn-' + ch.id);
+        if (!bankBtn) return;
+        bankBtn.classList.toggle('opacity-40', orderedChunkIds.includes(ch.id));
+      });
+
+      if (orderedChunkIds.length === 0) {
+        dropzone.innerHTML = `<span class="text-xs text-mut italic">Klik blok kata di bawah secara berurutan untuk menyusun kalimat...</span>`;
+        return;
+      }
+
+      dropzone.innerHTML = orderedChunkIds.map(id => {
+        const chunk = s.chunks.find(c => c.id === id);
+        return `
+          <button type="button" onclick="toggleOrderChunk('${id}')"
+            class="px-3 py-1.5 rounded-xl bg-brand-600 text-white jp-text text-sm sm:text-base font-bold hover:bg-brand-700 transition">
+            ${chunk ? chunk.ruby : ''}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function submitCurrentAnswer() {
+      if (hasSubmitted) return;
+      let isCorrect = false;
+      let detailHtml = '';
+      let itemId = '';
+
+      if (currentMod === 'mod1') {
+        if (selectedOption === null) return;
+        const item = currentPool[currentIndex];
+        itemId = item.id;
+
+        if (mod1Mode === 'VERB_GROUP') {
+          isCorrect = selectedOption === item.group;
+          detailHtml = `
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <p class="font-extrabold text-sm sm:text-base">
+                ${isCorrect ? `✓ Benar! Kata kerja ini termasuk Golongan ${item.group}.` : `✗ Kurang tepat. Jawaban yang benar adalah Golongan ${item.group}.`}
+              </p>
+              ${audioButtonHtml(item.dict + '、' + item.masu, 'Lafalkan')}
+            </div>
+            <p class="text-xs sm:text-sm mt-2 leading-relaxed">${item.conj.ruleNote}</p>
+            <div class="mt-2 pt-2 border-t text-xs flex flex-wrap gap-3">
+              <span><strong>Kamus:</strong> <span class="jp-text">${item.dict}</span></span>
+              <span><strong>ます:</strong> <span class="jp-text">${item.masu}</span></span>
+              <span><strong>て:</strong> <span class="jp-text">${item.conj.te}</span></span>
+              <span><strong>ない:</strong> <span class="jp-text">${item.conj.nai}</span></span>
+            </div>
+          `;
+        } else {
+          isCorrect = selectedOption === item.pos;
+          detailHtml = `
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <p class="font-extrabold text-sm sm:text-base">
+                ${isCorrect ? `✓ Tepat! Kelas katanya adalah ${item.posLabel}.` : `✗ Belum tepat. Kelas kata yang benar adalah ${item.posLabel}.`}
+              </p>
+              ${audioButtonHtml(item.ruby, 'Lafalkan')}
+            </div>
+            <p class="text-xs sm:text-sm mt-2">Kosakata <span class="jp-text font-bold">${item.ruby}</span> (Bab ${item.bab}) berarti <strong>"${item.meaning}"</strong> dan diklasifikasikan sebagai <strong>${item.posLabel}</strong>.</p>
+          `;
+        }
+      } else if (currentMod === 'mod2') {
+        if (selectedOption === null) return;
+        const item = currentPool[currentIndex];
+        const { entry, targetForm } = item;
+        itemId = entry.id;
+        const chosenHtml = item._options[selectedOption];
+        const correctHtml = entry.conj[targetForm];
+        isCorrect = stripRubyToSurface(chosenHtml) === stripRubyToSurface(correctHtml);
+
+        detailHtml = `
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <p class="font-extrabold text-sm sm:text-base">
+              ${isCorrect ? '✓ Konjugasi tepat!' : `✗ Belum tepat. Jawaban benar adalah <span class="jp-text">${correctHtml}</span>.`}
+            </p>
+            ${audioButtonHtml(correctHtml, 'Lafalkan Jawaban')}
+          </div>
+          <p class="text-xs sm:text-sm mt-2 leading-relaxed">${entry.conj.ruleNote}</p>
+        `;
+      } else if (currentMod === 'mod3') {
+        const s = currentPool[currentIndex];
+        if (orderedChunkIds.length < s.chunks.length) return;
+        itemId = s.id;
+        const correctOrder = s.chunks.map(c => c.id);
+        isCorrect = orderedChunkIds.every((id, i) => id === correctOrder[i]);
+        const fullSentenceHtml = s.chunks.map(c => c.ruby).join(' ');
+
+        detailHtml = `
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <p class="font-extrabold text-sm sm:text-base">
+              ${isCorrect ? '✓ Susunan kalimat sudah tepat!' : '✗ Urutan blok kata masih belum tepat.'}
+            </p>
+            ${audioButtonHtml(fullSentenceHtml, 'Dengarkan Kalimat')}
+          </div>
+          <div class="mt-2 p-3 rounded-xl surface-card text-xs sm:text-sm">
+            <span class="font-bold text-mut">Kalimat Benar:</span>
+            <span class="jp-text font-bold text-main ml-1">${fullSentenceHtml}</span>
+          </div>
+          <p class="text-xs sm:text-sm mt-2 leading-relaxed">${s.explanation}</p>
+        `;
+      }
+
+      hasSubmitted = true;
+      const modStat = appState.progress[currentMod];
+      modStat.attempts += 1;
+      if (isCorrect) {
+        modStat.correctCount += 1;
+        modStat.streak = (modStat.streak || 0) + 1;
+        appState.stats.totalXP = (appState.stats.totalXP || 0) + 10;
+        appState.stats.currentStreak = (appState.stats.currentStreak || 0) + 1;
+        if (appState.stats.currentStreak > (appState.stats.bestStreak || 0)) {
+          appState.stats.bestStreak = appState.stats.currentStreak;
+        }
+        if (itemId && !modStat.masteredIds.includes(itemId)) {
+          modStat.masteredIds.push(itemId);
+        }
+      } else {
+        modStat.streak = 0;
+        appState.stats.currentStreak = 0;
+      }
+      saveState();
+      updateModuleStatsUI();
+
+      const feedbackArea = document.getElementById('feedback-area');
+      feedbackArea.className = isCorrect
+        ? 'rounded-2xl p-4 sm:p-5 feedback-correct transition-all'
+        : 'rounded-2xl p-4 sm:p-5 feedback-wrong transition-all';
+      feedbackArea.innerHTML = detailHtml;
+      feedbackArea.classList.remove('hidden');
+
+      document.getElementById('btn-submit-answer').classList.add('hidden');
+      document.getElementById('btn-next-question').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentIndex = (currentIndex + 1) % currentPool.length;
+      if (currentIndex === 0) currentPool = shuffleArray(currentPool);
+      renderQuestion();
+    }
+
+    // =========================================================================
+    // 9. MODUL 4: KAMUS LENGKAP BAB 1-50 & KUIS CEPAT KOSAKATA
+    // =========================================================================
+    function getMod4FilteredList() {
+      const kw = (document.getElementById('mod4-search')?.value || '').trim().toLowerCase();
+      const babRange = document.getElementById('mod4-bab-select')?.value || 'ALL';
+      const posFilter = document.getElementById('mod4-pos-select')?.value || 'ALL';
+
+      return ALL_VOCAB_DATA.filter(item => {
+        if (!matchBabRange(item.bab, babRange)) return false;
+        if (posFilter !== 'ALL' && item.pos !== posFilter) return false;
+        if (kw) {
+          const babTag = `bab ${item.bab}`;
+          const hay = `${item.surface} ${item.kana} ${item.meaning.toLowerCase()} ${babTag} ${item.posLabel.toLowerCase()}`;
+          if (!hay.includes(kw)) return false;
+        }
+        return true;
+      });
+    }
+
+    function setMod4SubMode(mode) {
+      mod4SubMode = mode;
+      document.getElementById('m4-mode-BROWSE').className = mode === 'BROWSE'
+        ? 'px-3.5 py-2 rounded-xl text-xs font-bold pill-btn active-dark'
+        : 'px-3.5 py-2 rounded-xl text-xs font-bold pill-btn';
+      document.getElementById('m4-mode-QUIZ').className = mode === 'QUIZ'
+        ? 'px-3.5 py-2 rounded-xl text-xs font-bold pill-btn active-dark'
+        : 'px-3.5 py-2 rounded-xl text-xs font-bold pill-btn';
+
+      if (mode === 'BROWSE') {
+        document.getElementById('mod4-browse-panel').classList.remove('hidden');
+        document.getElementById('mod4-quiz-panel').classList.add('hidden');
+        renderMod4Browse();
+      } else {
+        document.getElementById('mod4-browse-panel').classList.add('hidden');
+        document.getElementById('mod4-quiz-panel').classList.remove('hidden');
+        renderMod4QuizQuestion();
+      }
+    }
+
+    function onMod4FilterChange() {
+      mod4Page = 1;
+      const babSel = document.getElementById('mod4-bab-select');
+      if (babSel) {
+        appState.settings.babRange = babSel.value;
+        saveState();
+      }
+      if (mod4SubMode === 'BROWSE') renderMod4Browse();
+      else renderMod4QuizQuestion();
+    }
+
+    function toggleMasteredVocab(vocabId) {
+      const list = appState.progress.mod4.masteredIds;
+      const idx = list.indexOf(vocabId);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+      } else {
+        list.push(vocabId);
+        appState.stats.totalXP = (appState.stats.totalXP || 0) + 5;
+      }
+      saveState();
+      renderMod4Browse();
+    }
+
+    function renderMod4() {
+      const babSel = document.getElementById('mod4-bab-select');
+      if (babSel && appState.settings.babRange) {
+        babSel.value = appState.settings.babRange;
+      }
+      if (mod4SubMode === 'BROWSE') renderMod4Browse();
+      else renderMod4QuizQuestion();
+    }
+
+    function renderMod4Browse() {
+      const list = getMod4FilteredList();
+      document.getElementById('mod4-count-badge').textContent = `${list.length} Kosakata Ditemukan`;
+
+      const totalPages = Math.max(1, Math.ceil(list.length / MOD4_PAGE_SIZE));
+      if (mod4Page > totalPages) mod4Page = totalPages;
+      const start = (mod4Page - 1) * MOD4_PAGE_SIZE;
+      const slice = list.slice(start, start + MOD4_PAGE_SIZE);
+
+      const grid = document.getElementById('mod4-cards-grid');
+      if (slice.length === 0) {
+        grid.innerHTML = `<div class="col-span-full surface-card rounded-2xl p-6 text-center text-mut">Tidak ada kosakata yang cocok dengan kata kunci atau filter Bab tersebut.</div>`;
+      } else {
+        grid.innerHTML = slice.map(item => {
+          const isMastered = appState.progress.mod4.masteredIds.includes(item.id);
+          const badgeColor = item.pos === 'VERB' ? 'bg-brand-600'
+            : item.pos === 'ADJ_I' ? 'bg-amber-600'
+            : item.pos === 'ADJ_NA' ? 'bg-purple-600'
+            : 'bg-emerald-600';
+
+          const extraInfo = item.pos === 'VERB'
+            ? `<div class="mt-2 pt-2 border-t text-[11px] text-mut flex flex-wrap gap-2">
+                 <span>Kamus: <strong class="jp-text text-main">${item.dict}</strong></span>
+                 <span>• て: <strong class="jp-text text-main">${item.conj.te}</strong></span>
+                 <span>• ない: <strong class="jp-text text-main">${item.conj.nai}</strong></span>
+               </div>`
+            : (item.pos === 'ADJ_I' || item.pos === 'ADJ_NA')
+            ? `<div class="mt-2 pt-2 border-t text-[11px] text-mut flex flex-wrap gap-2">
+                 <span>Negatif: <strong class="jp-text text-main">${item.conj.negative}</strong></span>
+                 <span>• Lampau: <strong class="jp-text text-main">${item.conj.past}</strong></span>
+               </div>`
+            : '';
+
+          return `
+            <div class="surface-card rounded-2xl p-4 shadow-xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-1.5">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-md ${badgeColor} text-white text-[10px] font-bold">${item.posLabel}</span>
+                    <span class="px-2 py-0.5 rounded-md surface-subtle text-[10px] font-bold">Bab ${item.bab} (${item.level})</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button type="button" onclick="toggleMasteredVocab('${item.id}')"
+                      class="px-2 py-1 rounded-lg text-[10px] font-bold border transition ${isMastered ? 'bg-emerald-600 text-white border-transparent' : 'pill-btn'}"
+                      title="Tandai kosakata ini sebagai sudah dihafal">
+                      ${isMastered ? '✓ Hafal' : '+ Tandai Hafal'}
+                    </button>
+                    ${audioButtonHtml(item.ruby, 'Suara')}
+                  </div>
+                </div>
+                <div class="jp-text text-xl sm:text-2xl font-bold text-main mt-1">${item.ruby}</div>
+                <p class="text-xs sm:text-sm text-sec mt-1 font-medium">${item.meaning}</p>
+              </div>
+              ${extraInfo}
+            </div>
+          `;
+        }).join('');
+      }
+
+      const pag = document.getElementById('mod4-pagination');
+      pag.innerHTML = `
+        <span class="text-xs text-mut font-semibold">Halaman ${mod4Page} dari ${totalPages} (Menampilkan ${slice.length} dari ${list.length} kosakata)</span>
+        <div class="flex items-center gap-2">
+          <button onclick="changeMod4Page(-1)" ${mod4Page <= 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl text-xs font-bold pill-btn ${mod4Page <= 1 ? 'opacity-40' : ''}">← Sebelumnya</button>
+          <button onclick="changeMod4Page(1)" ${mod4Page >= totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl text-xs font-bold pill-btn ${mod4Page >= totalPages ? 'opacity-40' : ''}">Berikutnya →</button>
+        </div>
+      `;
+    }
+
+    function changeMod4Page(delta) {
+      mod4Page += delta;
+      renderMod4Browse();
+    }
+
+    function renderMod4QuizQuestion() {
+      mod4QuizAnswered = false;
+      const list = getMod4FilteredList();
+      const pool = list.length >= 4 ? list : ALL_VOCAB_DATA;
+      document.getElementById('mod4-count-badge').textContent = `${pool.length} Kosakata Aktif`;
+
+      const shuffled = shuffleArray(pool);
+      mod4QuizItem = shuffled[0];
+      const distractors = [];
+      for (let i = 1; i < shuffled.length && distractors.length < 3; i++) {
+        if (shuffled[i].meaning !== mod4QuizItem.meaning) {
+          distractors.push(shuffled[i]);
+        }
+      }
+      mod4QuizOptions = shuffleArray([mod4QuizItem, ...distractors]);
+
+      const promptEl = document.getElementById('mod4-quiz-prompt');
+      promptEl.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-xs font-bold">Kuis Kosakata • Bab ${mod4QuizItem.bab} (${mod4QuizItem.level})</span>
+            <span class="px-2.5 py-1 rounded-lg surface-subtle text-xs font-semibold">${mod4QuizItem.posLabel}</span>
+          </div>
+          ${audioButtonHtml(mod4QuizItem.ruby, 'Dengarkan Kata')}
+        </div>
+        <p class="text-sm text-sec mt-1">Pilih arti bahasa Indonesia yang tepat untuk kosakata berikut:</p>
+        <div class="my-3 p-5 rounded-2xl surface-subtle text-center">
+          <div class="jp-text text-3xl sm:text-4xl font-bold text-main">${mod4QuizItem.ruby}</div>
+        </div>
+      `;
+
+      const optsEl = document.getElementById('mod4-quiz-options');
+      optsEl.innerHTML = mod4QuizOptions.map((opt, idx) => `
+        <button type="button" onclick="answerMod4Quiz(${idx})" id="m4q-btn-${idx}"
+          class="opt-choice p-4 rounded-xl text-left text-xs sm:text-sm font-bold transition">
+          ${opt.meaning}
+        </button>
+      `).join('');
+
+      const fbEl = document.getElementById('mod4-quiz-feedback');
+      fbEl.classList.add('hidden');
+      fbEl.innerHTML = '';
+
+      const st = appState.progress.mod4;
+      document.getElementById('mod4-quiz-score').textContent = `Skor Kuis: ${st.correctCount} Benar / ${st.attempts} Soal (${st.masteredIds.length} Dikuasai)`;
+    }
+
+    function answerMod4Quiz(idx) {
+      if (mod4QuizAnswered) return;
+      mod4QuizAnswered = true;
+      const chosen = mod4QuizOptions[idx];
+      const isCorrect = chosen.id === mod4QuizItem.id;
+
+      const st = appState.progress.mod4;
+      st.attempts += 1;
+      if (isCorrect) {
+        st.correctCount += 1;
+        st.streak = (st.streak || 0) + 1;
+        appState.stats.totalXP = (appState.stats.totalXP || 0) + 10;
+        appState.stats.currentStreak = (appState.stats.currentStreak || 0) + 1;
+        if (appState.stats.currentStreak > (appState.stats.bestStreak || 0)) {
+          appState.stats.bestStreak = appState.stats.currentStreak;
+        }
+        if (!st.masteredIds.includes(mod4QuizItem.id)) {
+          st.masteredIds.push(mod4QuizItem.id);
+        }
+      } else {
+        st.streak = 0;
+        appState.stats.currentStreak = 0;
+      }
+      saveState();
+
+      const btn = document.getElementById('m4q-btn-' + idx);
+      if (btn) btn.classList.add('selected');
+
+      const fbEl = document.getElementById('mod4-quiz-feedback');
+      fbEl.className = isCorrect
+        ? 'rounded-2xl p-4 sm:p-5 feedback-correct'
+        : 'rounded-2xl p-4 sm:p-5 feedback-wrong';
+      fbEl.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <p class="font-extrabold text-sm sm:text-base">
+            ${isCorrect ? '✓ Jawaban tepat!' : `✗ Kurang tepat. Arti yang benar adalah "${mod4QuizItem.meaning}".`}
+          </p>
+          ${audioButtonHtml(mod4QuizItem.ruby, 'Lafalkan')}
+        </div>
+        <p class="text-xs sm:text-sm mt-1">Sumber: <strong>Minna no Nihongo Bab ${mod4QuizItem.bab}</strong> • Kelas Kata: <strong>${mod4QuizItem.posLabel}</strong>.</p>
+      `;
+      fbEl.classList.remove('hidden');
+
+      document.getElementById('mod4-quiz-score').textContent = `Skor Kuis: ${st.correctCount} Benar / ${st.attempts} Soal (${st.masteredIds.length} Dikuasai)`;
+    }
+
+    // =========================================================================
+    // 10. RESET & MODAL CONTROLLERS
+    // =========================================================================
+    function openResetModal() {
+      document.getElementById('modal-confirm').classList.remove('hidden');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('modal-confirm').classList.add('hidden');
+    }
+
+    function executeModuleReset(modKey) {
+      appState.progress[modKey] = { masteredIds: [], attempts: 0, correctCount: 0, streak: 0 };
+      saveState();
+      closeConfirmModal();
+      if (currentView === 'dashboard') {
+        renderDashboard();
+      } else if (currentView === 'mod4' && modKey === 'mod4') {
+        renderMod4();
+      } else if (currentView === modKey) {
+        updateModuleStatsUI();
+        rebuildQuestionPool();
+        renderQuestion();
+      }
+      showToast(`Progres ${modKey.toUpperCase()} berhasil direset!`);
+    }
+
+    function executeFullReset() {
+      const savedSettings = { ...appState.settings };
+      appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      appState.settings = savedSettings;
+      saveState();
+      closeConfirmModal();
+
+      if (currentView === 'dashboard') {
+        renderDashboard();
+      } else if (currentView === 'mod4') {
+        renderMod4();
+      } else {
+        updateModuleStatsUI();
+        rebuildQuestionPool();
+        renderQuestion();
+      }
+      showToast('Progres berhasil direset ke awal!');
+    }
+
+    function resetCurrentModule() {
+      openResetModal();
+    }
+
+    function confirmResetProgress() {
+      openResetModal();
+    }
+
+    function openCheatSheet() { document.getElementById('modal-cheatsheet').classList.remove('hidden'); }
+    function closeCheatSheet() { document.getElementById('modal-cheatsheet').classList.add('hidden'); }
+
+    function switchCheatTab(tabId) {
+      document.querySelectorAll('.cs-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+      document.querySelectorAll('.cs-tab').forEach(btn => {
+        btn.className = 'cs-tab px-3 py-2 text-xs font-bold border-b-2 border-transparent text-mut whitespace-nowrap';
+      });
+      const activeBtn = document.getElementById('tab-' + tabId);
+      if (activeBtn) {
+        activeBtn.className = 'cs-tab px-3 py-2 text-xs font-bold border-b-2 border-brand-600 text-brand-600 whitespace-nowrap';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      applyDisplaySettings();
+      updateGlobalProgressBar();
+      renderDashboard();
+      if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+    });
+  </script>
+</body>
+</html>
